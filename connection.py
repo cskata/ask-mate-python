@@ -9,8 +9,8 @@ ANSWER_FILE_PATH = os.getenv('DATA_FILE_PATH') if 'DATA_FILE_PATH' in os.environ
 ANSWER_HEADERS = ['id', 'submission_time', 'view_number', 'vote_number', 'question_id', 'message', 'image']
 
 
-def import_database(which_databate):
-    if which_databate == "question":
+def import_database(which_database):
+    if which_database == "question":
         filepath = QUESTION_FILE_PATH
     else:
         filepath = ANSWER_FILE_PATH
