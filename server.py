@@ -15,6 +15,7 @@ def index():
 def route_list():
     questions = connection.import_database("question")
     data_manager.convert_unix_timestamp(questions)
+    data_manager.sort_data(questions, "submission_time", 'desc')
     return render_template('list.html', questions=questions)
 
 
