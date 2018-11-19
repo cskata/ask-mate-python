@@ -13,7 +13,8 @@ def index():
 
 @app.route('/list')
 def route_list():
-    questions = connection.import_database("quesion")
+    questions = connection.import_database("question")
+    data_manager.convert_unix_timestamp(questions)
     return render_template('list.html', questions=questions)
 
 
