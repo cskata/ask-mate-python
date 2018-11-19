@@ -1,9 +1,11 @@
 import csv
 import os
 
-QUESTION_FILE_PATH = os.getenv('DATA_FILE_PATH') if 'DATA_FILE_PATH' in os.environ else '/sample/question.csv'
-QUESTION_HEADERS = ['id', 'submission_time', 'vote_number', 'question_id', 'message', 'image']
-ANSWER_FILE_PATH = os.getenv('DATA_FILE_PATH') if 'DATA_FILE_PATH' in os.environ else '/sample/answer.csv'
+QUESTION_FILE_PATH = os.getenv('DATA_FILE_PATH') if 'DATA_FILE_PATH' in os.environ else 'sample_data/question.csv'
+QUESTION_HEADERS = ['id', 'submission_time',
+                    'view_number', 'vote_number', 'title',
+                    'question_id', 'message', 'image']
+ANSWER_FILE_PATH = os.getenv('DATA_FILE_PATH') if 'DATA_FILE_PATH' in os.environ else 'sample_data/answer.csv'
 ANSWER_HEADERS = ['id', 'submission_time', 'view_number', 'vote_number', 'question_id', 'message', 'image']
 
 

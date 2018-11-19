@@ -2,9 +2,27 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>AskMate</title>
 </head>
 <body>
+<header>
+    <h1>AskMate (Sprint 1)</h1>
+</header>
+    <table>
+        <th>Submission Time</th>
+        <th>Title</th>
 
+        {% for question in questions %}
+            <tr>
+                {% for header in question %}
+                    {% if header == "title" %}
+                        <td><a href="/story/{{ question['id'] }}">{{ question['title'] }}</a></td>
+                    {% elif header == "submission_time" %}
+                        <td> {{ question['submission_time'] }} </td>
+                    {% endif %}
+                {% endfor %}
+            </tr>
+        {% endfor %}
+    </table>
 </body>
 </html>
