@@ -29,3 +29,10 @@ def get_answers_for_question(question_id, every_answer):
             answers.append(answer)
     sort_data(answers, "submission_time", 'asc')
     return answers
+
+
+def get_question_by_id(question_id, every_question):
+    for question_data in every_question:
+        if question_data['id'] == question_id:
+            current_question = question_data
+    return current_question
