@@ -10,7 +10,7 @@ def convert_unix_timestamp_to_date(database):
 
 def convert_date_to_unix_timestamp(database):
     for data in database:
-        data["submission_time"] = pandas.to_datetime(data["submission_time"]).value // 10**6
+        data["submission_time"] = pandas.to_datetime(data["submission_time"]).value // 10**9
     return database
 
 

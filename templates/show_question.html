@@ -43,10 +43,21 @@
         <tr>
             <p><td>{{ answer.message }}</td></p>
         </tr>
+
         <tr>
             <p><td>{{ answer.submission_time }}</td></p>
+
         </tr>
+        <tr>
+            <td><form action="/answer/{{ answer.id }}/delete" method="POST">
+                    <input type="submit" value="Delete" />
+                    <input type="text" name="question_id" value="{{ question.id }}" hidden>
+                </form>
+            </td>
+        </tr>
+
     {% endfor %}
+
 </table>
 
 

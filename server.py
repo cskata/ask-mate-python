@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for
 
 import data_manager
-from connection import import_database, export_new_data_to_database
+from connection import import_database, export_new_data_to_database, export_all_data
 
 app = Flask(__name__)
 
@@ -64,6 +64,19 @@ def route_question(question_id):
         }
         export_new_data_to_database(new_answer, "answer")
         return redirect('/question/'+question_id)
+
+
+@app.route('/answer/<answer_id>/delete', methods=['POST'])
+def route_delete_answer(answer_id):
+    answers = import_database("answers")
+    print(answers)
+    for answer in answers:
+        if answer['id'] == answer_id:
+            answers.remove(answer)
+    export_all_data("answers", answers)
+    print(answer_id)
+    return redirect('/question/'+request.form['question_id'])
+
 
 if __name__ == '__main__':
     app.static_folder = 'static'
