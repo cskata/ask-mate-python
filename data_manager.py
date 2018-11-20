@@ -1,7 +1,6 @@
 import operator
 import pandas
 
-
 def convert_unix_timestamp_to_date(database):
     for data in database:
         data["submission_time"] = pandas.to_datetime(data["submission_time"], unit='s')
@@ -20,3 +19,11 @@ def sort_data(data, key, order):
     else:
         result = data.sort(key=operator.itemgetter(key), reverse=True)
     return result
+
+
+def get_answers_for_question(question_id, every_answer):
+    answers = []
+    for answer in every_answer:
+        if answer['question_id'] == str(question_id):
+            answers.append(answer)
+    return answers
