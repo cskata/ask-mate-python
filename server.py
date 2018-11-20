@@ -17,6 +17,16 @@ def route_list():
     data_manager.sort_data(questions, "submission_time", 'desc')
     return render_template('list.html', questions=questions)
 
+@app.route('form')
+def route_form():
+    return render_template('form.html')
+
+
+@app.route('/list' , method=['POST'])
+def route_save_question():
+    return redirect('/')
+
+
 
 if __name__ == '__main__':
     app.run(
