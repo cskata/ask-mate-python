@@ -38,7 +38,7 @@ def get_question_by_id(question_id, every_question):
     return current_question
 
 
-def remove_data_by_id(database, data_id):
+def remove_data_by_id(database, data_id, key):
     for data in database:
-        if data['id'] == data_id:
+        if data[key] == data_id:
             database.remove(data)
