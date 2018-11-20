@@ -83,7 +83,7 @@ def route_edit_question(question_id):
             'image': request.form['image']
         }
 
-        data_manager.remove_data_by_id(every_question, question_id)
+        data_manager.remove_data_by_id(every_question, question_id, 'id')
         every_question.append(edited_question)
         export_all_data("question", every_question)
         return redirect('/question/'+question_id)
@@ -91,13 +91,22 @@ def route_edit_question(question_id):
 
 @app.route('/question/<question_id>/delete')
 def route_delete_question(question_id):
-    pass
+    every_question = import_database("question")
+    every_answer = import_database("answer")
+
+    data_manager.remove_data_by_id(every_question, question_id, 'id')
+    data_manager.remove_data_by_id(every_answer, question_id, 'question_id')
+
+    export_all_data("question", every_question)
+    export_all_data("answer", every_answer)
+
+    return redirect('/list')
 
 
 @app.route('/answer/<answer_id>/delete', methods=['POST'])
 def route_delete_answer(answer_id):
     every_answer = import_database("answers")
-    data_manager.remove_data_by_id(every_answer, answer_id)
+    data_manager.remove_data_by_id(every_answer, answer_id, 'id')
     export_all_data("answers", every_answer)
     return redirect('/question/'+request.form['question_id'])
 
