@@ -32,9 +32,11 @@
     </tr>
 </table>
 <br>
-<a href="/question/{{ question.id }}/new-answer">
-    <input type="button" id="new_answer" value="Add new answer"></a>
-<br>
+<div>
+    <a href="/question/{{ question.id }}/new-answer"><input type="button" class="button" value="Add new answer"/></a>
+    <a href="/question/{{ question.id }}/edit"><input type="button" class="button" value="Edit question"/></a>
+    <a href="/question/{{ question.id }}/delete"><input type="button" class="button" value="Delete question"/></a>
+</div>
 <br>
 <table id="answer">
     <th colspan="2">
