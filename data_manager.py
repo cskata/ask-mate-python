@@ -2,10 +2,16 @@ import operator
 import pandas
 
 
-def convert_unix_timestamp(data):
-    for line in data:
-        line["submission_time"] = pandas.to_datetime(line["submission_time"], unit='s')
-    return data
+def convert_unix_timestamp_to_date(database):
+    for data in database:
+        data["submission_time"] = pandas.to_datetime(data["submission_time"], unit='s')
+    return database
+
+
+def convert_date_to_unix_timestamp(database):
+    for data in database:
+        data["submission_time"] = pandas.to_datetime(data["submission_time"]).value // 10**6
+    return database
 
 
 def sort_data(data, key, order):
