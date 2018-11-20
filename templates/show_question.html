@@ -3,59 +3,97 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css?family=Noto+Sans" rel="stylesheet">
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <title>{{ question.title }}</title>
 </head>
+<header class="mainhead">
+    <h1>AskMate (Sprint 1)</h1>
+</header>
+
 <body>
 
 <table id="question">
-    <tr>
-        <th colspan="3">
-            <p>Question</p>
-        </th>
-    </tr>
-    <tr>
-        <td class="title" colspan="3">
-            <h1>{{ question.title }}</h1>
-            <p style="text-align: justify">{{ question.message }}</p>
-        </td>
-    </tr>
-    <tr>
-        <td class="smol">
-            <p>Posted: {{ question.submission_time }}</p>
-        </td>
-        <td class="smol">
-            <p>Seen by: {{ question.view_number}}</p>
-        </td>
-        <td class="smol">
-            <p>Votes: {{ question.vote_number }}</p>
-        </td>
-    </tr>
+  <tr>
+    <th colspan="3">
+        <p style="text-align: center">Question</p>
+    </th>
+  </tr>
+  <tr>
+    <td width="4%" style="text-align: center">
+        <p>
+            <a href="/question/{{ question.id }}/vote-up">
+                <i class="fa fa-arrow-up" style="font-size: 16px"></i></a>
+        </p>
+        <p>{{ question.vote_number}}</p>
+        <p>
+            <a href="/question/{{ question.id }}/vote-up">
+                <i class="fa fa-arrow-down" style="font-size: 16px; text-align: center"></i></a>
+        </p>
+    </td>
+    <td colspan="2" class="title">
+        <h1>{{ question.title }}</h1>
+        <p style="text-align: justify; padding: 4px">{{ question.message }}</p>
+    </td>
+  </tr>
+  <tr>
+    <td class="smol">
+        <p>Seen by: {{ question.view_number}}</p>
+    </td>
+      <td class="smol">
+          <p>Posted: {{ question.submission_time }}</p>
+    </td>
+    <td class="opts" style="width: 9%">
+        <a href="/question/{{ question.id }}/new-answer">
+                <i class="fa fa-lg fa-plus-circle" title="Add new answer"></i></a> |
+        <a href="/question/{{ question.id }}/edit">
+                <i class="fa fa-lg fa-pencil" title="Edit question"></i></a> |
+        <a href="/question/{{ question.id }}/delete">
+                <i class="fa fa-lg fa-trash-o" title="Delete question"></i></a>
+    </td>
+  </tr>
 </table>
+
 <br>
-<div>
-    <a href="/question/{{ question.id }}/new-answer"><input type="button" class="button" value="Add new answer"/></a>
-    <a href="/question/{{ question.id }}/edit"><input type="button" class="button" value="Edit question"/></a>
-    <a href="/question/{{ question.id }}/delete"><input type="button" class="button" value="Delete question"/></a>
-</div>
 <br>
+<br>
+
 <table id="answer">
+  <tr>
     <th colspan="2">
         <p>Answers</p>
     </th>
+  </tr>
     {% for answer in answers %}
-        <tr>
-            <td>
-                <p>{{ answer.message }}</p>
-                <p class="smol">{{ answer.submission_time }}</p>
-                <form action="/answer/{{ answer.id }}/delete" method="POST">
-                    <input type="submit" class="sbutton" value="Delete" />
-                    <input type="text" name="question_id" value="{{ question.id }}" hidden>
-                </form>
-            </td>
-        </tr>
+      <tr>
+        <td width="4%" style="text-align: center">
+            <p>
+                <a href="/answer/{{ answer.id }}/vote-up">
+                    <i class="fa fa-arrow-up" style="font-size: 16px"></i></a>
+            </p>
+            <p>{{ answer.vote_number}}</p>
+            <p>
+                <a href="/answer/{{ answer.id }}/vote-up">
+                    <i class="fa fa-arrow-down" style="font-size: 16px; text-align: center"></i></a>
+            </p>
+        </td>
+        <td>
+            <p style="padding: 4px; text-align: justify">{{ answer.message }}</p>
+        </td>
+      </tr>
+
+      <tr>
+        <td style="text-align: center">
+            <a href="/answer/{{ answer.id }}/delete">
+                <i class="fa fa-lg fa-trash-o" title="Delete answer"></i></a>
+        </td>
+        <td>
+            <p class="smol" >Posted: {{ answer.submission_time }}</p>
+        </td>
+      </tr>
     {% endfor %}
 </table>
-<br>
+
 <br>
 <a href="/list">
     <input type="button" id="back" class="bigger_button" value="Back to the Main Page"></a>
