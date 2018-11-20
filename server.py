@@ -42,7 +42,7 @@ def route_new_answer(question_id):
     return render_template('new_answer.html', question_id=question_id)
 
 
-@app.route("/question/<question_id>", methods=['GET' , 'POST'])
+@app.route("/question/<question_id>", methods=['GET', 'POST'])
 def route_question(question_id):
     if request.method == 'GET':
         every_question = import_database("question")
@@ -66,6 +66,16 @@ def route_question(question_id):
         return redirect('/question/'+question_id)
 
 
+@app.route('/question/<question_id>/edit')
+def route_edit_question(question_id):
+    pass
+
+
+@app.route('/question/<question_id>/delete')
+def route_delete_question(question_id):
+    pass
+
+
 @app.route('/answer/<answer_id>/delete', methods=['POST'])
 def route_delete_answer(answer_id):
     answers = import_database("answers")
@@ -76,7 +86,6 @@ def route_delete_answer(answer_id):
     export_all_data("answers", answers)
     print(answer_id)
     return redirect('/question/'+request.form['question_id'])
-
 
 
 if __name__ == '__main__':
