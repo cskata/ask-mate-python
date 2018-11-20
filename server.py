@@ -22,7 +22,7 @@ def route_form():
     return render_template('form.html')
 
 
-@app.route('/list' , method=['POST'])
+@app.route('/list', methods=['POST'])
 def route_save_question():
     return redirect('/')
 
