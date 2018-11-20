@@ -2,9 +2,19 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>$Title$</title>
+    <title>Title</title>
 </head>
 <body>
-$END$
+    <form action="/question/{{ question_id }}" method="POST">
+        <p>
+            <textarea id="message" name="message" cols="50" rows="20"  placeholder="Write your answer here! " required></textarea>
+        </p>
+        <p>
+            <label for='image'>Upload an image</label><br>
+            <input id="image" name="image" type="file">
+        </p>
+        <br>
+        <button type="submit">Post answer</button>
+    </form>
 </body>
 </html>
