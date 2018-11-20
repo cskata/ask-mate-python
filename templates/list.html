@@ -14,8 +14,8 @@
 
         {% for question in questions %}
             <tr>
-                <td><a href="/story/{{ question['id'] }}">{{ question['title'] }}</a></td>
-                <td> {{ question['submission_time'] }} </td>
+                <td><a href="/question/{{ question.id }}">{{ question.title }}</a></td>
+                <td> {{ question.submission_time }} </td>
             </tr>
         {% endfor %}
     </table>
