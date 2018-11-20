@@ -34,13 +34,13 @@ def route_new_answer(question_id):
     return render_template('new_answer.html', question_id=question_id)
 
 
-@app.route("/question/<int:question_id>")
+@app.route("/question/<question_id>")
 def route_question(question_id):
     every_question = import_database("question")
     every_answer = import_database("answer")
 
     current_answers = data_manager.get_answers_for_question(question_id, every_answer)
-    current_question = every_question[question_id]
+    current_question = data_manager.get_question_by_id(question_id, every_question)
 
     return render_template('show_question.html', question_id=question_id,
                            question=current_question, answers=current_answers)
