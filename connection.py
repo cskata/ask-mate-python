@@ -21,7 +21,7 @@ def import_database(which_database):
     for line in reader:
         database.append(line)
 
-    data_manager.convert_unix_timestamp_to_date(database)   # ide kéne a dátum konvertáló
+    data_manager.convert_unix_timestamp_to_date(database)
 
     return database     # list of dicts
 
