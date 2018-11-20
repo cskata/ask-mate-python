@@ -2,6 +2,7 @@ import csv
 import os
 import data_manager
 import uuid
+import time
 
 QUESTION_FILE_PATH = os.getenv('DATA_FILE_PATH') if 'DATA_FILE_PATH' in os.environ else 'sample_data/question.csv'
 QUESTION_HEADERS = ['id', 'submission_time',
@@ -28,7 +29,7 @@ def import_database(which_database):
 
 
 def generate_id():
-    return uuid.uuid4()
+    return str(uuid.uuid4())[:8]
 
 
 def export_new_data_to_database(new_data, which_database):
@@ -41,7 +42,9 @@ def export_new_data_to_database(new_data, which_database):
 
     next_id = generate_id()
     new_data.insert(0, next_id)
+    new_data.insert(1, int(time.time()))
     new_data_to_save = dict(zip(header, new_data))
     with open(filepath, 'a', newline='') as f:
         w = csv.DictWriter(f, new_data_to_save.keys())
         w.writerow(new_data_to_save)
+
