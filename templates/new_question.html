@@ -12,10 +12,12 @@
 <body>
     <form action="/add-question" method="POST">
         <p><label>Title</label></p>
-        <input id="title" name="title" type="text" required>
+        <input id="title" name="title" type="text" placeholder="Add title to your question" required>
+
         <p><label>Question</label></p>
         <textarea id="message" name="message" cols="50" rows="20"
-                  placeholder="Write here your question!" required></textarea>
+                  placeholder="Write your question here" required></textarea>
+
         <p><label>Upload an image:</label></p>
         <input id="image" name="image" type="file">
         <br>
