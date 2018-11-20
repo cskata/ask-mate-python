@@ -1,6 +1,7 @@
 import csv
 import os
 import data_manager
+import uuid
 
 QUESTION_FILE_PATH = os.getenv('DATA_FILE_PATH') if 'DATA_FILE_PATH' in os.environ else 'sample_data/question.csv'
 QUESTION_HEADERS = ['id', 'submission_time',
@@ -26,5 +27,21 @@ def import_database(which_database):
     return database     # list of dicts
 
 
-def export_database(which_database):
-    pass
+def generate_id():
+    return uuid.uuid4()
+
+
+def export_new_data_to_database(new_data, which_database):
+    if which_database == "question":
+        filepath = QUESTION_FILE_PATH
+        header = QUESTION_HEADERS
+    else:
+        header = ANSWER_HEADERS
+        filepath = ANSWER_FILE_PATH
+
+    next_id = generate_id()
+    new_data.insert(0, next_id)
+    new_data_to_save = dict(zip(header, new_data))
+    with open(filepath, 'a', newline='') as f:
+        w = csv.DictWriter(f, new_data_to_save.keys())
+        w.writerow(new_data_to_save)
