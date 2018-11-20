@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+    <title>Edit Question</title>
+</head>
+<body>
+    <form action="/question/{{ question.id }}/edit" method="POST">
+        <p><label>Title</label></p>
+        <input id="title" name="title" type="text" value="{{ question.title }}" required>
+        <p><label>Question</label></p>
+        <textarea id="message" name="message" cols="50" rows="20"
+                  placeholder="Write here your question!" required>{{ question.message }}</textarea>
+        <p><label>Upload a new image:</label></p>
+        <input id="image" name="image" type="file">
+        <br>
+        <br>
+        <br>
+        <button type="submit" class="bigger_button">Edit Question</button>
+    </form>
+    <br>
+    <a href="/list">
+    <input type="button" id="back" class="bigger_button" value="Back to the Main Page"></a>
+    <br>
+</body>
+</html>

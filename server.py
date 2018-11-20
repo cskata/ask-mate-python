@@ -66,9 +66,27 @@ def route_question(question_id):
         return redirect('/question/'+question_id)
 
 
-@app.route('/question/<question_id>/edit')
+@app.route('/question/<question_id>/edit', methods=['GET', 'POST'])
 def route_edit_question(question_id):
-    pass
+    every_question = import_database("question")
+    current_question = data_manager.get_question_by_id(question_id, every_question)
+    if request.method == 'GET':
+        return render_template('edit_question.html', question=current_question)
+    else:
+        edited_question = {
+            'id': question_id,
+            'submission_time': current_question['submission_time'],
+            'view_number': current_question['view_number'],
+            'vote_number': current_question['vote_number'],
+            'title': request.form['title'],
+            'message': request.form['message'],
+            'image': request.form['image']
+        }
+
+        data_manager.remove_data_by_id(every_question, question_id)
+        every_question.append(edited_question)
+        export_all_data("question", every_question)
+        return redirect('/question/'+question_id)
 
 
 @app.route('/question/<question_id>/delete')
@@ -78,13 +96,9 @@ def route_delete_question(question_id):
 
 @app.route('/answer/<answer_id>/delete', methods=['POST'])
 def route_delete_answer(answer_id):
-    answers = import_database("answers")
-    print(answers)
-    for answer in answers:
-        if answer['id'] == answer_id:
-            answers.remove(answer)
-    export_all_data("answers", answers)
-    print(answer_id)
+    every_answer = import_database("answers")
+    data_manager.remove_data_by_id(every_answer, answer_id)
+    export_all_data("answers", every_answer)
     return redirect('/question/'+request.form['question_id'])
 
 
