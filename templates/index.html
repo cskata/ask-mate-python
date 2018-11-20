@@ -3,13 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css?family=Noto+Sans" rel="stylesheet">
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <title>AskMate</title>
 </head>
 <body>
-<header>
+<header class="mainhead">
     <h1>AskMate (Sprint 1)</h1>
 </header>
-    <table>
+    <table id="maintable">
         <th>Title</th>
         <th>Submission Time</th>
 
@@ -24,6 +26,5 @@
     <br>
     <a href="/add-question">
         <input type="button" id="new_question" class="bigger_button" value="Ask a new question"></a>
-
 </body>
 </html>

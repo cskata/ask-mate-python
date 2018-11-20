@@ -3,12 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css?family=Noto+Sans" rel="stylesheet">
     <title>Title</title>
 </head>
+<header class="mainhead">
+    <h1>AskMate (Sprint 1)</h1>
+</header>
 <body>
     <form action="/question/{{ question_id }}" method="POST">
         <p>
-            <textarea id="message" name="message" cols="50" rows="20"  placeholder="Write your answer here! " required></textarea>
+            <textarea id="message" name="message" cols="50" rows="20" placeholder="Write your answer here! "
+                      required></textarea>
         </p>
         <p>
             <label for='image'>Upload an image</label><br>
