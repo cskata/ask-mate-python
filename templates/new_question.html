@@ -5,13 +5,13 @@
     <title>Title</title>
 </head>
 <body>
-    <form action="/form" method="POST">
+    <form action="/add-question" method="POST">
         <p><label>Title</label></p>
-        <input id="title" type="text" required>
+        <input id="title" name="title" type="text" required>
         <p><label>Question</label></p>
-        <textarea id="question" cols="50" rows="20"  placeholder="Write here your question! " required></textarea>
+        <textarea id="message" name="message" cols="50" rows="20"  placeholder="Write here your question! " required></textarea>
         <p><label>Image/Picture</label></p>
-        <input id="image" type="file" >Upload an image
+        <input id="image" name="image" type="file" >Upload an image
         <br>
         <br>
         <button type="submit">SAVE</button>
