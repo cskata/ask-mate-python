@@ -24,14 +24,25 @@
     </table>
     <br>
     <br>
+    <a href="/question/{{ question.id }}/new-answer">
+        <input type="button" id="new_answer" value="Add new answer">
+    </a>
+    <br>
+    <br>
     <table class="answer">
         <tr>Answers</tr>
         {% for answer in answers %}
-        <p><tr>
-            <td>{{ answer.message }}</td></tr></p>
+        <p>
+            <tr>
+                <td>{{ answer.message }}</td>
+            </tr>
+            <tr>
+                <td>{{ answer.submission_time }}</td>
+            </tr>
+        </p>
+
         {% endfor %}
     </table>
-
 </table>
 
 
