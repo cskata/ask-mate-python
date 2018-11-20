@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for
 
 import data_manager
-from connection import import_database
+from connection import import_database, export_new_data_to_database
 
 app = Flask(__name__)
 
@@ -19,22 +19,30 @@ def route_list():
     return render_template('index.html', questions=questions)
 
 
-@app.route('/add-question')
-def route_form():
-    return render_template('new_question.html')
+@app.route('/add-question', methods=['GET', 'POST'])
+def route_add_question():
+    if request.method == 'GET':
+        return render_template('new_question.html')
+    else:
+        new_question = {
+            'id': "",
+            'submission_time': "",
+            'view_number': 0,
+            'vote_number': 0,
+            'title': request.form['title'],
+            'message': request.form['message'],
+            'image': request.form['image']
+        }
+        export_new_data_to_database(new_question, 'question')
+        return redirect('/')
 
 
-@app.route('/list', methods=['POST'])
-def route_save_question():
-    return redirect('/')
-
-
-@app.route('/question/<int:question_id>/new-answer')
+@app.route('/question/<question_id>/new-answer')
 def route_new_answer(question_id):
     return render_template('new_answer.html', question_id=question_id)
 
 
-@app.route("/question/<int:question_id>")
+@app.route("/question/<question_id>")
 def route_question(question_id):
     every_question = import_database("question")
     every_answer = import_database("answer")

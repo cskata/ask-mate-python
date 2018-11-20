@@ -33,18 +33,18 @@ def generate_id():
 
 
 def export_new_data_to_database(new_data, which_database):
+    next_id = generate_id()
+
+    new_data['id'] = next_id
+    new_data['submission_time'] = int(time.time())
+
     if which_database == "question":
         filepath = QUESTION_FILE_PATH
-        header = QUESTION_HEADERS
     else:
-        header = ANSWER_HEADERS
         filepath = ANSWER_FILE_PATH
 
-    next_id = generate_id()
-    new_data.insert(0, next_id)
-    new_data.insert(1, int(time.time()))
-    new_data_to_save = dict(zip(header, new_data))
+
     with open(filepath, 'a', newline='') as f:
-        w = csv.DictWriter(f, new_data_to_save.keys())
-        w.writerow(new_data_to_save)
+        w = csv.DictWriter(f, new_data.keys())
+        w.writerow(new_data)
 
