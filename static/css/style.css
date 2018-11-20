@@ -23,6 +23,9 @@ body {
 #maintable {
     width: 100%;
     padding: 10px;
+    border:1px solid #579bd1;
+    border-collapse: collapse;
+    border-radius: 5px 5px 5px 5px;
 }
 
 #question, #answer {
@@ -34,7 +37,6 @@ body {
 
 #maintable th {
     text-align: left;
-    border:1px solid #579bd1;
     border-collapse: collapse;
     background-color: #98d0f7;
     height: 30px;
@@ -120,6 +122,10 @@ body {
     padding-bottom: 4px;
     padding-top: 4px;
     border: solid 1px #579bd1;
+}
+
+.headtitle {
+    font-size: 30px;
 }
 
 .opts {

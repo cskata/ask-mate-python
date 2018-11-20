@@ -12,12 +12,12 @@
     <h1>AskMate (Sprint 1)</h1>
 </header>
     <table id="maintable">
-        <th>Title</th>
-        <th>Submission Time</th>
+        <th style="padding: 4px; border-bottom: 1px solid #579bd1">Title</th>
+        <th style="padding: 4px; border-bottom: 1px solid #579bd1">Submission Time</th>
 
         {% for question in questions %}
             <tr>
-                <td><a href="/question/{{ question.id }}">{{ question.title }}</a></td>
+                <td style="padding: 4px"><a href="/question/{{ question.id }}">{{ question.title }}</a></td>
                 <td> {{ question.submission_time }} </td>
             </tr>
         {% endfor %}
