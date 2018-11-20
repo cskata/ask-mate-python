@@ -21,7 +21,7 @@ def route_list():
     data_manager.sort_data(questions, "submission_time", 'desc')
     return render_template('list.html', questions=questions)
 
-@app.route('form')
+@app.route('/form')
 def route_form():
     return render_template('form.html')
 
