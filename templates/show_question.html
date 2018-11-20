@@ -83,11 +83,11 @@
       </tr>
 
       <tr>
-          <td></td>
-          <td>
+          <td class="answerbottoms"></td>
+          <td class="answerbottoms">
               <p class="smol" >Posted: {{ answer.submission_time }}</p>
           </td>
-          <td width="4%" style="text-align: center">
+          <td width="4%" class="answerdelete">
               <a href="/answer/{{ answer.id }}/delete">
                 <i class="fa fa-lg fa-trash-o" title="Delete answer"></i></a>
           </td>
@@ -98,6 +98,11 @@
 <br>
 <a href="/list">
     <input type="button" id="back" class="bigger_button" value="Back to the Main Page"></a>
-
+<br>
+<br>
 </body>
+
+<footer>
+    <p>Codecool BP - 2018 - Bence Árvay, Balázs Bertalan, Katalin Csortos</p>
+</footer>
 </html>
