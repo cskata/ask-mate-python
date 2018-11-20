@@ -103,12 +103,14 @@ def route_delete_question(question_id):
     return redirect('/list')
 
 
-@app.route('/answer/<answer_id>/delete', methods=['POST'])
+@app.route('/answer/<answer_id>/delete')
 def route_delete_answer(answer_id):
     every_answer = import_database("answers")
+    question_id = data_manager.get_question_id_by_answer_id(answer_id, every_answer)
     data_manager.remove_data_by_id(every_answer, answer_id, 'id')
+
     export_all_data("answers", every_answer)
-    return redirect('/question/'+request.form['question_id'])
+    return redirect('/question/'+question_id)
 
 
 @app.route('/question/<question_id>/vote-up')
