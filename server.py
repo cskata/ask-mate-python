@@ -111,6 +111,26 @@ def route_delete_answer(answer_id):
     return redirect('/question/'+request.form['question_id'])
 
 
+@app.route('/question/<question_id>/vote-up')
+def route_vote_question_up(question_id):
+    pass
+
+
+@app.route('/question/<question_id>/vote-down')
+def route_vote_question_down(question_id):
+    pass
+
+
+@app.route('/question/<answern_id>/vote-up')
+def route_vote_answer_up(answer_id):
+    pass
+
+
+@app.route('/question/<question_id>/vote-down')
+def route_vote_answer_down(question_id):
+    pass
+
+
 if __name__ == '__main__':
     app.static_folder = 'static'
     app.run(
