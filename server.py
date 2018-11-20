@@ -19,9 +19,9 @@ def route_list():
     return render_template('index.html', questions=questions)
 
 
-@app.route('/form')
+@app.route('/add-question')
 def route_form():
-    return render_template('new_question.html.html')
+    return render_template('new_question.html')
 
 
 @app.route('/list', methods=['POST'])
