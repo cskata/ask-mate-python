@@ -38,6 +38,14 @@ def get_question_by_id(question_id, every_question):
     return current_question
 
 
+def get_question_id_by_answer_id(answer_id, every_answer):
+    question_id = ""
+    for answer_data in every_answer:
+        if answer_data['id'] == answer_id:
+            question_id = answer_data['question_id']
+    return question_id
+
+
 def remove_data_by_id(database, data_id, key):
     for data in database:
         if data[key] == data_id:
