@@ -37,20 +37,20 @@
     </td>
   </tr>
   <tr>
-    <td class="smol">
-        <p>Seen by: {{ question.view_number}}</p>
-    </td>
+      <td class="smol">
+          <p>Seen by: {{ question.view_number}}</p>
+      </td>
       <td class="smol">
           <p>Posted: {{ question.submission_time }}</p>
-    </td>
-    <td class="opts" style="width: 9%">
-        <a href="/question/{{ question.id }}/new-answer">
-                <i class="fa fa-lg fa-plus-circle" title="Add new answer"></i></a> |
-        <a href="/question/{{ question.id }}/edit">
-                <i class="fa fa-lg fa-pencil" title="Edit question"></i></a> |
-        <a href="/question/{{ question.id }}/delete">
-                <i class="fa fa-lg fa-trash-o" title="Delete question"></i></a>
-    </td>
+      </td>
+      <td class="opts" style="width: 9%">
+          <a href="/question/{{ question.id }}/new-answer">
+              <i class="fa fa-lg fa-plus-circle" title="Add new answer"></i></a> |
+          <a href="/question/{{ question.id }}/edit">
+              <i class="fa fa-lg fa-pencil" title="Edit question"></i></a> |
+          <a href="/question/{{ question.id }}/delete">
+              <i class="fa fa-lg fa-trash-o" title="Delete question"></i></a>
+      </td>
   </tr>
 </table>
 
@@ -87,7 +87,7 @@
           <td class="answerbottoms">
               <p class="smol" >Posted: {{ answer.submission_time }}</p>
           </td>
-          <td width="4%" class="answerdelete">
+          <td width="9%" class="answerdelete">
               <a href="/answer/{{ answer.id }}/delete">
                 <i class="fa fa-lg fa-trash-o" title="Delete answer"></i></a>
           </td>
