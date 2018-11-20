@@ -1,17 +1,35 @@
 html {
-    height:100%;
-    font-family: sans-serif;
+    height: 100%;
     scroll-behavior: smooth;
+    padding: 5px;
+    font-family: 'Noto Sans', sans-serif;
 }
+
+#maintable {
+    width: 100%;
+}
+
 #question, #answer {
     width: 100%;
     border:1px solid black;
     border-collapse: collapse;
+    border-radius: 5px 5px 5px 5px;
  }
+
+#maintable th {
+    text-align: left;
+    border:1px solid black;
+    border-collapse: collapse;
+    background-color: #98d0f7;
+    height: 30px;
+}
+
+#maintable tr {
+    height: 30px;
+}
 
 #question th, #answer th {
     font-size: 10px;
-    text-align: left;
     border:1px solid black;
     border-collapse: collapse;
     background-color: #98d0f7;
@@ -32,6 +50,7 @@ html {
 .smol {
     font-size: 11px;
     font-weight: bold;
+    text-align: center;
 }
 
 .title {
@@ -72,4 +91,26 @@ html {
     background-color: #86CDD1;
     color: black;
     cursor: pointer;
+}
+
+.mainhead {
+    width: 100%;
+    text-align: center;
+    background-color: #86CDD1;
+    margin-bottom: 20px;
+    padding-bottom: 4px;
+    padding-top: 4px;
+}
+
+.opts {
+    text-align: center;
+    width: 3%;
+}
+
+.fa-pencil, .fa-trash-o, .fa-plus-circle {
+    font-size: 150%
+}
+
+.fa-pencil:hover, .fa-trash-o:hover, .fa-plus-circle:hover {
+    color: red;
 }
