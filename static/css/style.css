@@ -89,11 +89,6 @@ body {
     border-bottom: 1px solid #579bd1;
 }
 
-.answerdelete {
-    border-right: 1px solid #579bd1;
-    text-align: center;
-}
-
 .sbutton, .button, .bigger_button {
     border: solid 2px #579bd1;
     border-radius: 180px;
@@ -140,8 +135,14 @@ body {
 }
 
 .opts {
-    text-align: center;
-    width: 3%;
+    text-align: right;
+    padding-right: 10px;
+}
+
+.answerdelete {
+    border-right: 1px solid #579bd1;
+    text-align: right;
+    padding-right: 8px;
 }
 
 .fa-pencil, .fa-trash-o, .fa-plus-circle {
