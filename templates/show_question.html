@@ -16,7 +16,7 @@
     <tr>
         <td class="title" colspan="3">
             <h1>{{ question.title }}</h1>
-            <p>{{ question.message }}</p>
+            <p style="text-align: justify">{{ question.message }}</p>
         </td>
     </tr>
     <tr>
@@ -48,7 +48,7 @@
                 <p>{{ answer.message }}</p>
                 <p class="smol">{{ answer.submission_time }}</p>
                 <form action="/answer/{{ answer.id }}/delete" method="POST">
-                    <input type="submit" value="Delete" />
+                    <input type="submit" class="sbutton" value="Delete" />
                     <input type="text" name="question_id" value="{{ question.id }}" hidden>
                 </form>
             </td>
@@ -59,7 +59,6 @@
 <br>
 <a href="/list">
     <input type="button" id="back" class="bigger_button" value="Back to the Main Page"></a>
-<br>
 
 </body>
 </html>

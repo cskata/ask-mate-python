@@ -43,7 +43,7 @@ html {
     border-collapse: collapse;
 }
 
-.button, .bigger_button {
+.sbutton, .button, .bigger_button {
     border: solid 2px #579bd1;
     border-radius: 180px;
     background-color: white;
@@ -62,6 +62,10 @@ html {
 
 .button {
     width: 120px;
+}
+
+.sbutton {
+    width: 80px;
 }
 
 .button:hover, .bigger_button:hover {

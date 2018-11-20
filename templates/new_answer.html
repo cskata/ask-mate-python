@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
     <title>Title</title>
 </head>
 <body>
@@ -14,7 +15,10 @@
             <input id="image" name="image" type="file">
         </p>
         <br>
-        <button type="submit">Post answer</button>
+        <button type="submit" class="button">Post answer</button>
     </form>
+    <br>
+<a href="/list">
+    <input type="button" id="back" class="bigger_button" value="Back to the Main Page"></a>
 </body>
 </html>
