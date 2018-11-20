@@ -11,10 +11,6 @@ def index():
     return redirect('/list')
 
 
-@app.route('/test')
-def test():
-    return redirect('/')
-
 @app.route('/list')
 def route_list():
     questions = connection.import_database("question")
