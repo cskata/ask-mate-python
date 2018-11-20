@@ -5,20 +5,36 @@ html {
     font-family: 'Noto Sans', sans-serif;
 }
 
+footer {
+    text-align: center;
+    font-weight: bold;
+    font-size: 10px;
+    bottom: 0;
+    width: 100%;
+}
+
+body {
+    position: relative;
+    margin:0;
+    padding:0;
+    min-height:100%;
+}
+
 #maintable {
     width: 100%;
+    padding: 10px;
 }
 
 #question, #answer {
     width: 100%;
-    border:1px solid black;
+    border:1px solid #579bd1;
     border-collapse: collapse;
     border-radius: 5px 5px 5px 5px;
  }
 
 #maintable th {
     text-align: left;
-    border:1px solid black;
+    border:1px solid #579bd1;
     border-collapse: collapse;
     background-color: #98d0f7;
     height: 30px;
@@ -30,15 +46,10 @@ html {
 
 #question th, #answer th {
     font-size: 10px;
-    border:1px solid black;
+    border:1px solid #579bd1;
     border-collapse: collapse;
     background-color: #98d0f7;
     height: 20px;
-}
-
-#question td {
-    border:1px solid black;
-    border-collapse: collapse;
 }
 
 #question h1 {
@@ -58,8 +69,16 @@ html {
 }
 
 #answer td {
-    border:1px solid black;
     border-collapse: collapse;
+}
+
+.answerbottoms, .answerdelete {
+    border-bottom: 1px solid #579bd1;
+}
+
+.answerdelete {
+    border-right: 1px solid #579bd1;
+    text-align: center;
 }
 
 .sbutton, .button, .bigger_button {
@@ -100,6 +119,7 @@ html {
     margin-bottom: 20px;
     padding-bottom: 4px;
     padding-top: 4px;
+    border: solid 1px #579bd1;
 }
 
 .opts {
