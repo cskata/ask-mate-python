@@ -29,6 +29,11 @@ def route_save_question():
     return redirect('/')
 
 
+@app.route('/question/<int:question_id>/new-answer')
+def route_new_answer(question_id):
+    return render_template('new_answer.html', question_id=question_id)
+
+
 @app.route("/question/<int:question_id>")
 def route_question(question_id):
     every_question = import_database("question")
