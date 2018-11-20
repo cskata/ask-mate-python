@@ -16,17 +16,17 @@ def index():
 def route_list():
     questions = import_database("question")
     data_manager.sort_data(questions, "submission_time", 'desc')
-    return render_template('list.html', questions=questions)
+    return render_template('index.html', questions=questions)
+
 
 @app.route('/form')
 def route_form():
-    return render_template('form.html')
+    return render_template('new_question.html.html')
 
 
 @app.route('/list', methods=['POST'])
 def route_save_question():
     return redirect('/')
-
 
 
 @app.route("/question/<int:question_id>")
@@ -37,7 +37,7 @@ def route_question(question_id):
     current_answers = data_manager.get_answers_for_question(question_id, every_answer)
     current_question = every_question[question_id]
 
-    return render_template('question.html', question_id=question_id,
+    return render_template('show_question.html', question_id=question_id,
                            question=current_question, answers=current_answers)
 
 
