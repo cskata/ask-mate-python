@@ -14,9 +14,20 @@ def index():
 
 @app.route('/list')
 def route_list():
-    questions = import_database("question")
+    questions = connection.import_database("question")
+    data_manager.convert_unix_timestamp(questions)
     data_manager.sort_data(questions, "submission_time", 'desc')
     return render_template('list.html', questions=questions)
+
+@app.route('/form')
+def route_form():
+    return render_template('form.html')
+
+
+@app.route('/list', methods=['POST'])
+def route_save_question():
+    return redirect('/')
+
 
 
 @app.route("/question/<int:question_id>")
