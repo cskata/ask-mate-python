@@ -5,7 +5,7 @@ from connection import import_database, export_new_data_to_database, export_all_
 import os
 
 
-UPLOAD_FOLDER = "/home/kata/codecool/Webpython/TwWeek1/static/image/"
+UPLOAD_FOLDER = "../TwWeek1/static/image/"
 
 app = Flask(__name__)
 
@@ -54,7 +54,6 @@ def route_add_question():
 
         filename = ""
         export_new_data_to_database(new_question, 'question')
-
         return redirect(url_for('index', filename=filename))
 
 
@@ -99,7 +98,6 @@ def route_show_question(question_id):
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 
         export_new_data_to_database(new_answer, "answer")
-
         return redirect('/question/'+question_id)
 
 
@@ -112,8 +110,10 @@ def route_open_image(image_filename):
 def route_edit_question(question_id):
     every_question = import_database("question")
     current_question = data_manager.get_question_by_id(question_id, every_question)
+
     if request.method == 'GET':
         return render_template('edit_question.html', question=current_question)
+
     else:
         edited_question = {
             'id': question_id,
@@ -133,6 +133,7 @@ def route_edit_question(question_id):
 
         data_manager.remove_data_by_id(every_question, question_id, 'id')
         every_question.append(edited_question)
+
         export_all_data("question", every_question)
         return redirect('/question/'+question_id)
 
@@ -147,7 +148,6 @@ def route_delete_question(question_id):
 
     export_all_data("question", every_question)
     export_all_data("answer", every_answer)
-
     return redirect('/list')
 
 
@@ -165,8 +165,8 @@ def route_delete_answer(answer_id):
 def route_vote_question_up(question_id):
     every_question = import_database("question")
     every_question = data_manager.vote_counter(question_id, every_question, 'up')
-    export_all_data('question', every_question)
 
+    export_all_data('question', every_question)
     data_manager.view_counter(question_id, -1)
     return redirect('/question/'+question_id)
 
@@ -175,8 +175,8 @@ def route_vote_question_up(question_id):
 def route_vote_question_down(question_id):
     every_question = import_database("question")
     every_question = data_manager.vote_counter(question_id, every_question, 'down')
-    export_all_data('question', every_question)
 
+    export_all_data('question', every_question)
     data_manager.view_counter(question_id, -1)
     return redirect('/question/' + question_id)
 
