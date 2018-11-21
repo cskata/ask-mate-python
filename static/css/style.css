@@ -148,3 +148,12 @@ body {
 .fa-pencil:hover, .fa-trash-o:hover, .fa-plus-circle:hover {
     color: red;
 }
+
+.image-upload > input {
+    display: none;
+}
+
+.image-upload img {
+    width: 80px;
+    cursor: pointer;
+}

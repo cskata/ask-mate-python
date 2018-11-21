@@ -14,14 +14,17 @@
         <p><label>Title</label></p>
         <input id="title" name="title" type="text" placeholder="Add title to your question" required>
 
-        <p><label>Question</label></p>
+        <p><label style="font-weight: bold">Question</label></p>
         <textarea id="message" name="message" cols="50" rows="20"
                   placeholder="Write your question here" required></textarea>
+        <p>
+            <div class="image-upload">
+                <label for="image"><img src="/static/image/imgupl.png"/></label>
+                <input id="image" type="file">
+            </div>
+        </p>
+        <p>Click the icon to upload an image</p>
 
-        <p><label>Upload an image:</label></p>
-        <input id="image" name="image" type="file">
-        <br>
-        <br>
         <br>
         <button type="submit" class="bigger_button">Save new question</button>
     </form>
