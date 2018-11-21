@@ -44,7 +44,7 @@ def route_new_answer(question_id):
 
 
 @app.route("/question/<question_id>", methods=['GET', 'POST'])
-def route_question(question_id):
+def route_show_question(question_id):
     data_manager.view_counter(question_id, 1)
 
     if request.method == 'GET':
