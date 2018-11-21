@@ -37,7 +37,7 @@
 
         {% if question.image %}
         <p>
-            <a href="/image/{{ image }}" target="_blank"> See the attached image</a>
+            <a href="/image/{{ q_image }}" target="_blank"> See the attached image</a>
         </p>
         {% endif %}
     </td>
@@ -85,6 +85,11 @@
         </td>
         <td colspan="3">
             <p style="padding: 4px; text-align: justify">{{ answer.message }}</p>
+            {% if answer.image %}
+            <p>
+                <a href="/image/{{ answer.image }}" target="_blank"> See the attached image</a>
+            </p>
+            {% endif %}
         </td>
       </tr>
 

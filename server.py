@@ -68,15 +68,14 @@ def route_show_question(question_id):
 
         current_answers = data_manager.get_answers_for_question(question_id, every_answer)
         current_question = data_manager.get_question_by_id(question_id, every_question)
-        if current_question['image']:
-            image = current_question['image']
-            image = image.split()
-            image = image[1].replace("'", '')
-        else:
-            image = ""
+        q_image = data_manager.get_back_image_name(current_question)
+
+        for answer in current_answers:
+            answer['image'] = data_manager.get_back_image_name(answer)
 
         return render_template('show_question.html', question_id=question_id,
-                               question=current_question, answers=current_answers, image=image)
+                               question=current_question, answers=current_answers,
+                               q_image=q_image)
     else:
         new_answer = {
             'id': "",
