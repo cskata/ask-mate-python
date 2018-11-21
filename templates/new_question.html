@@ -11,7 +11,7 @@
 </header>
 <body>
     <form action="/add-question" method="POST" enctype=multipart/form-data>
-        <p><label>Title</label></p>
+        <p><label style="font-weight: bold">Title</label></p>
         <input id="title" name="title" type="text" placeholder="Add title to your question" required>
 
         <p><label style="font-weight: bold">Question</label></p>
@@ -20,11 +20,10 @@
         <p>
             <div class="image-upload">
                 <label for="image"><img src="/static/image/imgupl.png"/></label>
-                <input id="image" type="file">
+                <input id="image" type="file" name="image">
             </div>
         </p>
         <p>Click the icon to upload an image</p>
-
         <br>
         <button type="submit" class="bigger_button">Save new question</button>
     </form>

@@ -11,16 +11,18 @@
 </header>
 <body>
     <form action="/question/{{ question.id }}/edit" method="POST">
-        <p><label>Title</label></p>
+        <p><label style="font-weight: bold">Title</label></p>
         <input id="title" name="title" type="text" value="{{ question.title }}"
                placeholder="Add title to your question" required>
 
-        <p><label>Question</label></p>
+        <p><label style="font-weight: bold">Question</label></p>
         <textarea id="message" name="message" cols="50" rows="20"
                   placeholder="Write your question here" required>{{ question.message }}</textarea>
-
-        <p><label>Upload a new image:</label></p>
-        <input id="image" name="image" type="file">
+        <p><div class="image-upload">
+                <label for="image"><img src="/static/image/imgupl.png"/></label>
+                <input id="image" type="file" name="image">
+            </div></p>
+        <p>Click the icon to upload a new image</p>
         <br>
         <br>
         <br>
