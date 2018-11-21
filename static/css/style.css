@@ -25,7 +25,7 @@ body {
     padding-bottom: 60px;
 }
 
-#maintable {
+#index_table {
     width: 100%;
     padding: 10px;
     border:1px solid #579bd1;
@@ -33,24 +33,26 @@ body {
     border-radius: 5px 5px 5px 5px;
 }
 
+#index_table th {
+    text-align: left;
+    border-collapse: collapse;
+    background-color: #98d0f7;
+    height: 30px;
+    padding: 4px;
+    border-bottom: 1px solid #579bd1
+}
+
+#index_table tr {
+    height: 30px;
+
+}
+
 #question, #answer {
     width: 100%;
     border:1px solid #579bd1;
     border-collapse: collapse;
     border-radius: 5px 5px 5px 5px;
- }
-
-#maintable th {
-    text-align: left;
-    border-collapse: collapse;
-    background-color: #98d0f7;
-    height: 30px;
 }
-
-#maintable tr {
-    height: 30px;
-}
-
 #question th, #answer th {
     font-size: 10px;
     border:1px solid #579bd1;
