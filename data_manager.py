@@ -77,12 +77,3 @@ def vote_counter(id, database, updown):
             else:
                 data['vote_number'] -= 1
     return database
-
-
-def get_question_id(answer_id):
-    all_answers = import_database("answer")
-    result = ""
-    for answer in all_answers:
-        if answer['id'] == answer_id:
-            result = answer['question_id']
-    return result
