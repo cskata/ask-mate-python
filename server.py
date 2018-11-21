@@ -39,11 +39,14 @@ def route_add_question():
 
 @app.route('/question/<question_id>/new-answer')
 def route_new_answer(question_id):
+    data_manager.view_counter(question_id, -1)
     return render_template('new_answer.html', question_id=question_id)
 
 
 @app.route("/question/<question_id>", methods=['GET', 'POST'])
 def route_question(question_id):
+    data_manager.view_counter(question_id, 1)
+
     if request.method == 'GET':
         every_question = import_database("question")
         every_answer = import_database("answer")
