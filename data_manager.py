@@ -78,3 +78,13 @@ def vote_counter(id, database, updown):
             else:
                 data['vote_number'] -= 1
     return database
+
+
+def get_back_image_name(data):
+    if data['image'] != '':
+        image = data['image']
+        image = image.split()
+        image = image[1].replace("'", '')
+    else:
+        image = ""
+    return image
