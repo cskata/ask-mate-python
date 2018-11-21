@@ -33,14 +33,24 @@
     <p><a href="/add-question">
         <input type="button" id="new_question" class="bigger_button" value="Ask a new question"></a></p>
 
-    <p><form action="/list?order_by={{ key }}&order_direction=desc'" method="post">
-        <select id="header" name="header">
+    <p>
+        <form action="/list" method="get">
+        <p>Sort by: </p>
+        <select id="order_by" name="order_by">
         {% for key in questions[0] %}
             <option value="{{ key }}" {{ 'selected' if key == header }}>{{ ' '.join(key.split('_')).title() }}</option>
         {% endfor %}
         </select>
-        <p></p><button type="submit" id="choose_data">Get data</button></p>
-    </form></p>
+        <select id="order_direction" name="order_direction">
+            <option value="asc">Ascending</option>
+            <option value="desc">Descending</option>
+        </select>
+        <p>
+            <button type="submit">Sort</button>
+        </p>
+    </p>
+
+</form></p>
 </body>
 <br>
 <br>

@@ -15,17 +15,14 @@ def index():
 @app.route('/list')
 def route_list():
     questions = import_database("question")
-    data_manager.sort_data(questions)
+    data_manager.sort_data(questions, 'submission_time', 'desc')
+    #data_manager.sort_data(questions, "submission_time", "desc")
+    if 'order_by' in request.args:
+        key = request.args.get('order_by')
+        direction = request.args.get('order_direction')
+        data_manager.sort_data(questions, key, direction)
+
     return render_template('index.html', questions=questions, header="submission_time")
-
-
-@app.route('/list?order_by=<key>&order_direction=desc', methods=['GET', 'POST'])
-def route_order_list():
-    questions = import_database("question")
-    key = request.form['header']
-    if request.method == 'POST':
-        data_manager.sort_data(questions, key)
-        return render_template('index.html', questions=questions, header=key)
 
 
 @app.route('/add-question', methods=['GET', 'POST'])
