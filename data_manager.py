@@ -1,5 +1,6 @@
 import operator
 import pandas
+from connection import import_database, export_all_data
 
 
 def convert_unix_timestamp_to_date(database):
@@ -50,3 +51,18 @@ def remove_data_by_id(database, data_id, key):
     for data in database:
         if data[key] == data_id:
             database.remove(data)
+
+
+def convert_counter_to_int(database, key):
+    for data in database:
+        data[key] = int(data[key])
+
+
+def view_counter(question_id, count):
+    every_question = import_database("question")
+    current_question = get_question_by_id(question_id, every_question)
+    remove_data_by_id(every_question, question_id, 'id')
+
+    current_question['view_number'] += count
+    every_question.append(current_question)
+    export_all_data("question", every_question)
