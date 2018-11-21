@@ -33,6 +33,7 @@ def get_answers_for_question(question_id, every_answer):
 
 
 def get_question_by_id(question_id, every_question):
+    current_question = {}
     for question_data in every_question:
         if question_data['id'] == question_id:
             current_question = question_data
@@ -52,6 +53,7 @@ def remove_data_by_id(database, data_id, key):
         if data[key] == data_id:
             database.remove(data)
 
+
 def convert_counter_to_int(database, key):
     for data in database:
         data[key] = int(data[key])
@@ -66,17 +68,20 @@ def view_counter(question_id, count):
     every_question.append(current_question)
     export_all_data("question", every_question)
 
-def vote_counter(id, dict_list, updown):
-    for dict in dict_list:
-        if dict['id'] == id:
+
+def vote_counter(id, database, updown):
+    for data in database:
+        if data['id'] == id:
             if updown == "up":
-                dict['vote_number'] += 1
+                data['vote_number'] += 1
             else:
-                dict['vote_number'] -= 1
-    return dict_list
+                data['vote_number'] -= 1
+    return database
+
 
 def get_question_id(answer_id):
     all_answers = import_database("answer")
+    result = ""
     for answer in all_answers:
         if answer['id'] == answer_id:
             result = answer['question_id']
