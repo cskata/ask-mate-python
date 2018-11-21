@@ -5,7 +5,7 @@ from connection import import_database, export_new_data_to_database, export_all_
 import os
 
 
-UPLOAD_FOLDER = '/home/bertalan/Asztal/webroom/First TW/ask-mate-python/static/img'
+UPLOAD_FOLDER = '../TwWeek1/static/image'
 
 app = Flask(__name__)
 
