@@ -37,9 +37,10 @@
         <form action="/list" method="get">
         <p>Sort by: </p>
         <select id="order_by" name="order_by">
-        {% for key in questions[0] %}
-            <option value="{{ key }}" {{ 'selected' if key == header }}>{{ ' '.join(key.split('_')).title() }}</option>
-        {% endfor %}
+            <option value="submission_time">Submission Time</option>
+            <option value="view_number">View Number</option>
+            <option value="vote_number">Vote Number</option>
+            <option value="{{ header }}" selected="selected" hidden>{{ ' '.join(header.split('_')).title() }}</option>
         </select>
         <select id="order_direction" name="order_direction">
             <option value="asc">Ascending</option>
@@ -48,9 +49,11 @@
         <p>
             <button type="submit">Sort</button>
         </p>
+        </form>
     </p>
-
-</form></p>
+    <br>
+    <a href="/list">
+    <input type="button" id="back" class="bigger_button" value="Back to the Main Page"></a>
 </body>
 <br>
 <br>
