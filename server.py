@@ -1,10 +1,15 @@
 from flask import Flask, render_template, request, redirect, url_for
-
+from werkzeug.utils import secure_filename
 import data_manager
 from connection import import_database, export_new_data_to_database, export_all_data
+import os
+
+
+UPLOAD_FOLDER = '/home/bertalan/Asztal/webroom/First TW/ask-mate-python/static/img'
 
 app = Flask(__name__)
 
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 @app.route('/')
 @app.route('/question')
@@ -40,10 +45,13 @@ def route_add_question():
             'vote_number': 0,
             'title': request.form['title'],
             'message': request.form['message'],
-            'image': request.form['image']
+            'image': request.files['image']
         }
         export_new_data_to_database(new_question, 'question')
-        return redirect('/')
+        file = request.files['image']
+        filename = secure_filename(file.filename)
+        file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+        return redirect(url_for('index', filename=filename))
 
 
 @app.route('/question/<question_id>/new-answer')
