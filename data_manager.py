@@ -66,3 +66,12 @@ def view_counter(question_id, count):
     current_question['view_number'] += count
     every_question.append(current_question)
     export_all_data("question", every_question)
+
+def vote_counter(id, dict_list, updown):
+    for dict in dict_list:
+        if dict['id'] == id:
+            if updown == "up":
+                dict['vote_number'] += 1
+            else:
+                dict['vote_number'] -= 1
+    return dict_list
