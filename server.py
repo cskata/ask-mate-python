@@ -127,22 +127,36 @@ def route_delete_answer(answer_id):
 
 @app.route('/question/<question_id>/vote-up')
 def route_vote_question_up(question_id):
-    pass
+    every_question = import_database("question")
+    every_question = data_manager.vote_counter(question_id, every_question, 'up')
+    export_all_data('question', every_question)
+    return redirect('/question/'+question_id)
 
 
 @app.route('/question/<question_id>/vote-down')
 def route_vote_question_down(question_id):
-    pass
+    every_question = import_database("question")
+    every_question = data_manager.vote_counter(question_id, every_question, 'down')
+    export_all_data('question', every_question)
+    return redirect('/question/' + question_id)
 
-
-@app.route('/question/<answer_id>/vote-up')
+@app.route('/answer/<answer_id>/vote-up')
 def route_vote_answer_up(answer_id):
-    pass
+    every_answer = import_database("answer")
+    every_answer = data_manager.vote_counter(answer_id, every_answer, 'up')
+    question_id = data_manager.get_question_id(answer_id)
+    export_all_data('answer', every_answer)
+    return redirect('/question/' + question_id)
+
+@app.route('/answer/<answer_id>/vote-down')
+def route_vote_answer_down(answer_id):
+    every_answer = import_database("answer")
+    every_answer = data_manager.vote_counter(answer_id, every_answer, 'down')
+    question_id = data_manager.get_question_id(answer_id)
+    export_all_data('answer', every_answer)
+    return redirect('/question/' + question_id)
 
 
-@app.route('/question/<question_id>/vote-down')
-def route_vote_answer_down(question_id):
-    pass
 
 
 if __name__ == '__main__':
