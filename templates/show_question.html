@@ -34,6 +34,12 @@
     <td colspan="2" class="title">
         <h1>{{ question.title }}</h1>
         <p style="text-align: justify; padding: 4px">{{ question.message }}</p>
+
+        {% if question.image %}
+        <p>
+            <a href="{{ question.image }}"> See the attached image</a>
+        </p>
+        {% endif %}
     </td>
   </tr>
   <tr>
