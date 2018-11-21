@@ -12,14 +12,18 @@
 <body>
     <form action="/question/{{ question_id }}" method="POST">
         <p>
+            <p><label style="font-weight: bold">Your answer</label></p>
             <textarea id="message" name="message" cols="50" rows="20"
                       placeholder="Write your answer here "
                       required></textarea>
         </p>
         <p>
-            <label for='image'>Upload an image</label><br>
-            <input id="image" name="image" type="file">
+            <div class="image-upload">
+                <label for="image"><img src="http://goo.gl/pB9rpQ"/></label>
+                <input id="image" type="file">
+            </div>
         </p>
+        <p>Click the icon to upload an image</p>
         <br>
         <button type="submit" class="button">Post answer</button>
     </form>
