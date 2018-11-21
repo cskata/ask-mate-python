@@ -52,7 +52,6 @@ def remove_data_by_id(database, data_id, key):
         if data[key] == data_id:
             database.remove(data)
 
-
 def convert_counter_to_int(database, key):
     for data in database:
         data[key] = int(data[key])
@@ -75,3 +74,10 @@ def vote_counter(id, dict_list, updown):
             else:
                 dict['vote_number'] -= 1
     return dict_list
+
+def get_question_id(answer_id):
+    all_answers = import_database("answer")
+    for answer in all_answers:
+        if answer['id'] == answer_id:
+            result = answer['question_id']
+    return result

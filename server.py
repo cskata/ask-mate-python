@@ -140,15 +140,17 @@ def route_vote_question_down(question_id):
 def route_vote_answer_up(answer_id):
     every_answer = import_database("answer")
     every_answer = data_manager.vote_counter(answer_id, every_answer, 'up')
+    question_id = data_manager.get_question_id(answer_id)
     export_all_data('answer', every_answer)
-    return redirect('/question/' + answer_id)
+    return redirect('/question/' + question_id)
 
 @app.route('/answer/<answer_id>/vote-down')
 def route_vote_answer_down(answer_id):
     every_answer = import_database("answer")
     every_answer = data_manager.vote_counter(answer_id, every_answer, 'down')
+    question_id = data_manager.get_question_id(answer_id)
     export_all_data('answer', every_answer)
-    return redirect('/question/' + answer_id)
+    return redirect('/question/' + question_id)
 
 
 
