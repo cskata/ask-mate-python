@@ -126,7 +126,7 @@ def route_vote_question_down(question_id):
     pass
 
 
-@app.route('/question/<answern_id>/vote-up')
+@app.route('/question/<answer_id>/vote-up')
 def route_vote_answer_up(answer_id):
     pass
 
