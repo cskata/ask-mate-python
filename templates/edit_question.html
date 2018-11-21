@@ -10,7 +10,7 @@
     <h1>AskMate (Sprint 1)</h1>
 </header>
 <body>
-    <form action="/question/{{ question.id }}/edit" method="POST">
+    <form action="/question/{{ question.id }}/edit" method="POST" enctype=multipart/form-data>
         <p><label style="font-weight: bold">Title</label></p>
         <input id="title" name="title" type="text" value="{{ question.title }}"
                placeholder="Add title to your question" required>

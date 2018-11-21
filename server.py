@@ -5,7 +5,7 @@ from connection import import_database, export_new_data_to_database, export_all_
 import os
 
 
-UPLOAD_FOLDER = '../TwWeek1/static/image'
+UPLOAD_FOLDER = "/home/kata/codecool/Webpython/TwWeek1/static/image/"
 
 app = Flask(__name__)
 
@@ -43,12 +43,18 @@ def route_add_question():
             'vote_number': 0,
             'title': request.form['title'],
             'message': request.form['message'],
-            'image': request.files['image']
+            'image': ""
         }
+
+        if request.files['image'].filename != "":
+            new_question['image'] = request.files['image']
+            file = request.files['image']
+            filename = secure_filename(file.filename)
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+
+        filename = ""
         export_new_data_to_database(new_question, 'question')
-        file = request.files['image']
-        filename = secure_filename(file.filename)
-        file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+
         return redirect(url_for('index', filename=filename))
 
 
@@ -83,9 +89,17 @@ def route_show_question(question_id):
             'vote_number': 0,
             'question_id': question_id,
             'message': request.form['message'],
-            'image': request.form['image']
+            'image': ""
         }
+
+        if request.files['image'].filename != "":
+            new_answer['image'] = request.files['image']
+            file = request.files['image']
+            filename = secure_filename(file.filename)
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+
         export_new_data_to_database(new_answer, "answer")
+
         return redirect('/question/'+question_id)
 
 
@@ -108,8 +122,14 @@ def route_edit_question(question_id):
             'vote_number': current_question['vote_number'],
             'title': request.form['title'],
             'message': request.form['message'],
-            'image': request.form['image']
+            'image': ""
         }
+
+        if request.files['image'].filename != "":
+            edited_question['image'] = request.files['image']
+            file = request.files['image']
+            filename = secure_filename(file.filename)
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 
         data_manager.remove_data_by_id(every_question, question_id, 'id')
         every_question.append(edited_question)
