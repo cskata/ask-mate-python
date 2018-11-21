@@ -11,21 +11,36 @@
 <header class="mainhead">
     <h1>AskMate (Sprint 1)</h1>
 </header>
-    <table id="maintable">
-        <th style="padding: 4px; border-bottom: 1px solid #579bd1">Title</th>
-        <th style="padding: 4px; border-bottom: 1px solid #579bd1">Submission Time</th>
+    <table id="index_table">
+        <th>Title</th>
+        <th width="15%">{{ ' '.join(header.split('_')).title() }}</th>
+
+        <th width="5%">
+            <i class="fa fa-sort-amount-asc"></i>  |
+            <i class="fa fa-sort-amount-desc"></i>
+        </th>
 
         {% for question in questions %}
             <tr>
                 <td style="padding: 4px"><a href="/question/{{ question.id }}">{{ question.title }}</a></td>
-                <td> {{ question.submission_time }} </td>
+                <td> {{ question[header] }}</td>
+                <td></td>
             </tr>
         {% endfor %}
     </table>
     <br>
     <br>
-    <a href="/add-question">
-        <input type="button" id="new_question" class="bigger_button" value="Ask a new question"></a>
+    <p><a href="/add-question">
+        <input type="button" id="new_question" class="bigger_button" value="Ask a new question"></a></p>
+
+    <p><form action="/list?order_by={{ key }}&order_direction=desc'" method="post">
+        <select id="header" name="header">
+        {% for key in questions[0] %}
+            <option value="{{ key }}" {{ 'selected' if key == header }}>{{ ' '.join(key.split('_')).title() }}</option>
+        {% endfor %}
+        </select>
+        <p></p><button type="submit" id="choose_data">Get data</button></p>
+    </form></p>
 </body>
 <br>
 <br>
