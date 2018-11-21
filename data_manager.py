@@ -15,7 +15,7 @@ def convert_date_to_unix_timestamp(database):
     return database
 
 
-def sort_data(data, key, order):
+def sort_data(data, key="submission_time", order="desc"):
     if order == "asc":
         result = data.sort(key=operator.itemgetter(key))
     else:
