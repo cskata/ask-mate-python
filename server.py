@@ -15,8 +15,13 @@ def index():
 @app.route('/list')
 def route_list():
     questions = import_database("question")
-    data_manager.sort_data(questions, "submission_time", 'desc')
+    data_manager.sort_data(questions)
     return render_template('index.html', questions=questions)
+
+
+@app.route('/list?order_by=<header> &order_direction=<direction>')
+def route_order_list(header, direction):
+    pass
 
 
 @app.route('/add-question', methods=['GET', 'POST'])
