@@ -11,49 +11,47 @@
 <header class="mainhead">
     <h1>AskMate (Sprint 1)</h1>
 </header>
-    <table id="index_table">
-        <th>Title</th>
-        <th width="15%">{{ ' '.join(header.split('_')).title() }}</th>
+<table id="index_table">
+    <th>Title</th>
+    <th width="15%">{{ ' '.join(header.split('_')).title() }}</th>
 
-        <th width="5%">
-            <i class="fa fa-sort-amount-asc"></i>  |
-            <i class="fa fa-sort-amount-desc"></i>
-        </th>
-
-        {% for question in questions %}
-            <tr>
-                <td style="padding: 4px"><a href="/question/{{ question.id }}">{{ question.title }}</a></td>
-                <td> {{ question[header] }}</td>
-                <td></td>
-            </tr>
-        {% endfor %}
-    </table>
-    <br>
-    <br>
-    <p><a href="/add-question">
-        <input type="button" id="new_question" class="bigger_button" value="Ask a new question"></a></p>
-
+    <th width="5%">
+        <i class="fa fa-sort-amount-asc"></i>  |
+        <i class="fa fa-sort-amount-desc"></i>
+    </th>
+    {% for question in questions %}
+        <tr>
+            <td style="padding: 4px"><a href="/question/{{ question.id }}">{{ question.title }}</a></td>
+            <td> {{ question[header] }}</td>
+            <td></td>
+        </tr>
+    {% endfor %}
+</table>
+<br>
+<br>
+<p><a href="/add-question">
+    <input type="button" id="new_question" class="bigger_button" value="Ask a new question"></a></p>
+<p>
+    <form action="/list" method="get">
+    <p>Sort by: </p>
+    <select id="order_by" name="order_by">
+        <option value="submission_time">Submission Time</option>
+        <option value="view_number">View Number</option>
+        <option value="vote_number">Vote Number</option>
+        <option value="{{ header }}" selected="selected" hidden>{{ ' '.join(header.split('_')).title() }}</option>
+    </select>
+    <select id="order_direction" name="order_direction">
+        <option value="asc">Ascending</option>
+        <option value="desc">Descending</option>
+    </select>
     <p>
-        <form action="/list" method="get">
-        <p>Sort by: </p>
-        <select id="order_by" name="order_by">
-            <option value="submission_time">Submission Time</option>
-            <option value="view_number">View Number</option>
-            <option value="vote_number">Vote Number</option>
-            <option value="{{ header }}" selected="selected" hidden>{{ ' '.join(header.split('_')).title() }}</option>
-        </select>
-        <select id="order_direction" name="order_direction">
-            <option value="asc">Ascending</option>
-            <option value="desc">Descending</option>
-        </select>
-        <p>
-            <button type="submit">Sort</button>
-        </p>
-        </form>
+        <button type="submit">Sort</button>
     </p>
-    <br>
-    <a href="/list">
-    <input type="button" id="back" class="bigger_button" value="Back to the Main Page"></a>
+    </form>
+</p>
+<br>
+<a href="/list">
+<input type="button" id="back" class="bigger_button" value="Back to the Main Page"></a>
 </body>
 <br>
 <br>
