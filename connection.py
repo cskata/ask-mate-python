@@ -23,6 +23,10 @@ def import_database(which_database):
         database.append(line)
 
     data_manager.convert_unix_timestamp_to_date(database)
+    data_manager.convert_counter_to_int(database, 'vote_number')
+
+    if which_database == "question":
+        data_manager.convert_counter_to_int(database, 'view_number')
 
     return database     # list of dicts
 
