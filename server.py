@@ -68,9 +68,15 @@ def route_show_question(question_id):
 
         current_answers = data_manager.get_answers_for_question(question_id, every_answer)
         current_question = data_manager.get_question_by_id(question_id, every_question)
+        if current_question['image']:
+            image = current_question['image']
+            image = image.split()
+            image = image[1].replace("'", '')
+        else:
+            image = ""
 
         return render_template('show_question.html', question_id=question_id,
-                               question=current_question, answers=current_answers)
+                               question=current_question, answers=current_answers, image=image)
     else:
         new_answer = {
             'id': "",
@@ -82,6 +88,11 @@ def route_show_question(question_id):
         }
         export_new_data_to_database(new_answer, "answer")
         return redirect('/question/'+question_id)
+
+
+@app.route('/image/<image_filename>')
+def route_open_image(image_filename):
+    return render_template('view_image.html', image=image_filename)
 
 
 @app.route('/question/<question_id>/edit', methods=['GET', 'POST'])
