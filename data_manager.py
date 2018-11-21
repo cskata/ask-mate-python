@@ -16,9 +16,10 @@ def convert_date_to_unix_timestamp(database):
 
 
 def sort_data(data, key, order):
+    result = {}
     if order == "asc":
         result = data.sort(key=operator.itemgetter(key))
-    elif order =="desc":
+    elif order == "desc":
         result = data.sort(key=operator.itemgetter(key), reverse=True)
     return result
 
