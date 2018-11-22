@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, abort
 from werkzeug.utils import secure_filename
 import data_manager
 from connection import import_database, export_new_data_to_database, export_all_data
@@ -98,7 +98,7 @@ def route_show_question(question_id):
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 
         export_new_data_to_database(new_answer, "answer")
-        return redirect('/question/'+question_id)
+        return redirect(url_for("route_show_question", question_id=question_id))
 
 
 @app.route('/image/<image_filename>')
@@ -135,7 +135,7 @@ def route_edit_question(question_id):
         every_question.append(edited_question)
 
         export_all_data("question", every_question)
-        return redirect('/question/'+question_id)
+        return redirect(url_for("route_show_question", question_id=question_id))
 
 
 @app.route('/question/<question_id>/delete')
@@ -148,7 +148,8 @@ def route_delete_question(question_id):
 
     export_all_data("question", every_question)
     export_all_data("answer", every_answer)
-    return redirect('/list')
+    # return redirect('/list')
+    return redirect(url_for('route_list'))
 
 
 @app.route('/answer/<answer_id>/delete')
@@ -158,7 +159,7 @@ def route_delete_answer(answer_id):
     data_manager.remove_data_by_id(every_answer, answer_id, 'id')
 
     export_all_data("answers", every_answer)
-    return redirect('/question/'+question_id)
+    return redirect(url_for("route_show_question", question_id=question_id))
 
 
 @app.route('/question/<question_id>/vote-up')
@@ -168,7 +169,7 @@ def route_vote_question_up(question_id):
 
     export_all_data('question', every_question)
     data_manager.view_counter(question_id, -1)
-    return redirect('/question/'+question_id)
+    return redirect(url_for("route_show_question", question_id=question_id))
 
 
 @app.route('/question/<question_id>/vote-down')
@@ -178,7 +179,7 @@ def route_vote_question_down(question_id):
 
     export_all_data('question', every_question)
     data_manager.view_counter(question_id, -1)
-    return redirect('/question/' + question_id)
+    return redirect(url_for("route_show_question", question_id=question_id))
 
 
 @app.route('/answer/<answer_id>/vote-up')
@@ -190,7 +191,7 @@ def route_vote_answer_up(answer_id):
     data_manager.view_counter(question_id, -1)
 
     export_all_data('answer', every_answer)
-    return redirect('/question/' + question_id)
+    return redirect(url_for("route_show_question", question_id=question_id))
 
 
 @app.route('/answer/<answer_id>/vote-down')
@@ -202,7 +203,12 @@ def route_vote_answer_down(answer_id):
     data_manager.view_counter(question_id, -1)
 
     export_all_data('answer', every_answer)
-    return redirect('/question/' + question_id)
+    return redirect(url_for("route_show_question", question_id=question_id))
+
+
+@app.errorhandler(404)
+def not_found(error):
+    return render_template('404.html'), 404
 
 
 if __name__ == '__main__':
