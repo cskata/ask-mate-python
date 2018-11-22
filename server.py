@@ -60,7 +60,7 @@ def route_add_question():
 
 @app.route('/question/<question_id>/new-answer')
 def route_new_answer(question_id):
-    data_manager.view_counter(question_id, -1)
+    data_manager.view_counter(question_id, -2)
     return render_template('new_answer.html', question_id=question_id)
 
 
