@@ -39,13 +39,12 @@ def export_new_data_to_database(new_data, which_database):
     next_id = generate_id()
 
     new_data['id'] = next_id
-    new_data['submission_time'] = int(time.time())
+    new_data['submission_time'] = int(time.time()) + 3600
 
     if which_database == "question":
         filepath = QUESTION_FILE_PATH
     else:
         filepath = ANSWER_FILE_PATH
-
 
     with open(filepath, 'a', newline='') as f:
         w = csv.DictWriter(f, new_data.keys())
@@ -61,6 +60,6 @@ def export_all_data(which_database, data):
         header = ANSWER_HEADERS
     data_manager.convert_date_to_unix_timestamp(data)
     with open(filepath, 'w') as output_file:
-       dict_writer = csv.DictWriter(output_file, header)
-       dict_writer.writeheader()
-       dict_writer.writerows(data)
+        dict_writer = csv.DictWriter(output_file, header)
+        dict_writer.writeheader()
+        dict_writer.writerows(data)
