@@ -39,7 +39,8 @@ def export_new_data_to_database(new_data, which_database):
     next_id = generate_id()
 
     new_data['id'] = next_id
-    new_data['submission_time'] = int(time.time()) + 3600
+    winter_time_hour = 3600
+    new_data['submission_time'] = int(time.time()) + winter_time_hour
 
     if which_database == "question":
         filepath = QUESTION_FILE_PATH
