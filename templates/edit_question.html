@@ -10,6 +10,7 @@
     <h1 class="headtitle">AskMate (Sprint 1)</h1>
 </header>
 <body>
+<div style="text-align: center">
     <form action="/question/{{ question.id }}/edit" method="POST" enctype=multipart/form-data>
         <p><label style="font-weight: bold">Title</label></p>
         <input id="title" name="title" type="text" value="{{ question.title }}"
@@ -27,10 +28,9 @@
     </form>
     <br>
     <br>
-<div class="mainstuffs">
     <p><a href="/list">
         <input type="button" id="back" class="bigger_button" value="Back to the Main Page"></a></p>
-</div>
+    </div>
 <br>
 </body>
 <div class="footer">

@@ -12,102 +12,102 @@
 </header>
 
 <body>
-<br>
-<table id="question">
-    <tr>
-        <th colspan="3">
-            <p style="text-align: center">Question</p>
-        </th>
-      </tr>
-    <tr>
-        <td width="4%" style="text-align: center">
-            <p>
-                <a href="/question/{{ question.id }}/vote-up">
-                    <i class="fa fa-arrow-up" style="font-size: 16px"></i></a>
-            </p>
-            <p>{{ question.vote_number}}</p>
-            <p>
-                <a href="/question/{{ question.id }}/vote-down">
-                    <i class="fa fa-arrow-down" style="font-size: 16px; text-align: center"></i></a>
-            </p>
-        </td>
-        <td colspan="2" class="title">
-            <h1>{{ question.title }}</h1>
-            <p style="text-align: justify; padding: 4px">{{ question.message }}</p>
+    <div style="text-align: center">
+    <br>
+    <table id="question">
+        <tr>
+            <th colspan="3">
+                <p style="text-align: center">Question</p>
+            </th>
+          </tr>
+        <tr>
+            <td width="4%" style="text-align: center">
+                <p>
+                    <a href="/question/{{ question.id }}/vote-up">
+                        <i class="fa fa-arrow-up" style="font-size: 16px"></i></a>
+                </p>
+                <p>{{ question.vote_number}}</p>
+                <p>
+                    <a href="/question/{{ question.id }}/vote-down">
+                        <i class="fa fa-arrow-down" style="font-size: 16px; text-align: center"></i></a>
+                </p>
+            </td>
+            <td colspan="2" class="title">
+                <h1>{{ question.title }}</h1>
+                <p style="text-align: justify; padding: 4px">{{ question.message }}</p>
 
-            {% if question.image %}
-            <p>
-                <a href="/image/{{ q_image }}" target="_blank"> See the attached image</a>
-            </p>
-            {% endif %}
-        </td>
-  </tr>
-  <tr>
-      <td class="smol">
-          <p>Seen by: {{ question.view_number}}</p>
-      </td>
-      <td class="smol">
-          <p>Posted: {{ question.submission_time }}</p>
-      </td>
-      <td class="opts" style="width: 9%">
-          <a href="/question/{{ question.id }}/new-answer">
-              <i class="fa fa-lg fa-plus-circle" title="Add new answer"></i></a> |
-          <a href="/question/{{ question.id }}/edit">
-              <i class="fa fa-lg fa-pencil" title="Edit question"></i></a> |
-          <a href="/question/{{ question.id }}/delete">
-              <i class="fa fa-lg fa-trash-o" title="Delete question"></i></a>
-      </td>
-  </tr>
-</table>
-<br>
-<br>
-<br>
-<table id="answer">
-    <tr>
-        <th colspan="3">
-            <p>Answers</p>
-        </th>
-    </tr>
-    {% for answer in answers %}
-    <tr>
-        <td width="4%" style="text-align: center">
-            <p>
-                <a href="/answer/{{ answer.id }}/vote-up">
-                    <i class="fa fa-arrow-up" style="font-size: 16px"></i></a>
-            </p>
-            <p>{{ answer.vote_number}}</p>
-            <p>
-                <a href="/answer/{{ answer.id }}/vote-down">
-                    <i class="fa fa-arrow-down" style="font-size: 16px; text-align: center"></i></a>
-            </p>
-        </td>
-        <td colspan="3">
-            <p style="padding: 4px; text-align: justify">{{ answer.message }}</p>
-            {% if answer.image %}
-            <p>
-                <a href="/image/{{ answer.image }}" target="_blank">See the attached image</a>
-            </p>
-            {% endif %}
-        </td>
+                {% if question.image %}
+                <p>
+                    <a href="/image/{{ q_image }}" target="_blank"> See the attached image</a>
+                </p>
+                {% endif %}
+            </td>
       </tr>
       <tr>
-          <td class="answerbottoms"></td>
-          <td class="answerbottoms">
-              <p class="smol" >Posted: {{ answer.submission_time }}</p>
+          <td class="smol">
+              <p>Seen by: {{ question.view_number}}</p>
           </td>
-          <td width="9%" class="answerdelete">
-              <a href="/answer/{{ answer.id }}/delete">
-                <i class="fa fa-lg fa-trash-o" title="Delete answer"></i></a>
+          <td class="smol">
+              <p>Posted: {{ question.submission_time }}</p>
+          </td>
+          <td class="opts" style="width: 9%">
+              <a href="/question/{{ question.id }}/new-answer">
+                  <i class="fa fa-lg fa-plus-circle" title="Add new answer"></i></a> |
+              <a href="/question/{{ question.id }}/edit">
+                  <i class="fa fa-lg fa-pencil" title="Edit question"></i></a> |
+              <a href="/question/{{ question.id }}/delete">
+                  <i class="fa fa-lg fa-trash-o" title="Delete question"></i></a>
           </td>
       </tr>
-    {% endfor %}
-</table>
-<br>
-<br>
-<div class="mainstuffs">
+    </table>
+    <br>
+    <br>
+    <br>
+    <table id="answer">
+        <tr>
+            <th colspan="3">
+                <p>Answers</p>
+            </th>
+        </tr>
+        {% for answer in answers %}
+        <tr>
+            <td width="4%" style="text-align: center">
+                <p>
+                    <a href="/answer/{{ answer.id }}/vote-up">
+                        <i class="fa fa-arrow-up" style="font-size: 16px"></i></a>
+                </p>
+                <p>{{ answer.vote_number}}</p>
+                <p>
+                    <a href="/answer/{{ answer.id }}/vote-down">
+                        <i class="fa fa-arrow-down" style="font-size: 16px; text-align: center"></i></a>
+                </p>
+            </td>
+            <td colspan="3">
+                <p style="padding: 4px; text-align: justify">{{ answer.message }}</p>
+                {% if answer.image %}
+                <p>
+                    <a href="/image/{{ answer.image }}" target="_blank">See the attached image</a>
+                </p>
+                {% endif %}
+            </td>
+          </tr>
+          <tr>
+              <td class="answerbottoms"></td>
+              <td class="answerbottoms">
+                  <p class="smol" >Posted: {{ answer.submission_time }}</p>
+              </td>
+              <td width="9%" class="answerdelete">
+                  <a href="/answer/{{ answer.id }}/delete">
+                    <i class="fa fa-lg fa-trash-o" title="Delete answer"></i></a>
+              </td>
+          </tr>
+        {% endfor %}
+    </table>
+    <br>
+    <br>
     <p><a href="/list">
         <input type="button" id="back" class="bigger_button" value="Back to the Main Page"></a></p>
-</div>
+        </div>
 </body>
 <div class="footer">
     <p>Codecool BP - 2018 - Bence Árvai, Balázs Bertalan, Katalin Csortos</p>
