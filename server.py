@@ -15,7 +15,7 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 @app.route('/')
 @app.route('/question')
 def index():
-    return redirect('/list')
+    return redirect(url_for('route_list'))
 
 
 @app.route('/list')
