@@ -11,11 +11,10 @@
 <header class="mainhead">
     <h1>AskMate (Sprint 1)</h1>
 </header>
-<div class="mainstuffs">
+<p><div class="mainstuffs">
     <p><a href="/add-question">
         <input type="button" id="new_question" class="bigger_button" value="Ask a new question"></a></p>
-</div>
-<br>
+</div></p>
 <table id="index_table">
     <tr>
         <th style="text-align: center">Title</th>
@@ -45,8 +44,10 @@
                 <option value="{{ header }}" selected="selected" hidden>{{ ' '.join(header.split('_')).title() }}</option>
             </select>
             <p>
-                <button type="submit" name="order_direction" value="asc"><i class="fa fa-sort-amount-asc"></i></button>
-                <button type="submit" name="order_direction" value="desc"><i class="fa fa-sort-amount-desc"></i></button>
+                <button type="submit" name="order_direction"
+                        value="asc" title="Ascending order"><i class="fa fa-sort-amount-asc"></i></button>
+                <button type="submit" name="order_direction"
+                        value="desc" title="Descending order"><i class="fa fa-sort-amount-desc"></i></button>
             </p>
             </form>
         </p>
