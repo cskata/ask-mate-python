@@ -40,12 +40,10 @@
         <option value="vote_number">Vote Number</option>
         <option value="{{ header }}" selected="selected" hidden>{{ ' '.join(header.split('_')).title() }}</option>
     </select>
-    <select id="order_direction" name="order_direction">
-        <option value="asc">Ascending</option>
-        <option value="desc">Descending</option>
-    </select>
     <p>
-        <button type="submit">Sort</button>
+        <button type="submit" name="order_direction" value="asc"><i class="fa fa-sort-amount-asc"></i></button>
+        <button type="submit" name="order_direction" value="desc"><i class="fa fa-sort-amount-desc"></i></button>
+
     </p>
     </form>
 </p>
