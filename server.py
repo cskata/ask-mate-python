@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, abort
+from flask import Flask, render_template, request, redirect, url_for
 from werkzeug.utils import secure_filename
 import data_manager
 from connection import import_database, export_new_data_to_database, export_all_data
@@ -45,7 +45,6 @@ def route_add_question():
             'message': request.form['message'],
             'image': ""
         }
-
         if request.files['image'].filename != "":
             new_question['image'] = request.files['image']
             file = request.files['image']
@@ -66,21 +65,20 @@ def route_new_answer(question_id):
 @app.route("/question/<question_id>", methods=['GET', 'POST'])
 def route_show_question(question_id):
     data_manager.view_counter(question_id, 1)
-
     if request.method == 'GET':
         every_question = import_database("question")
         every_answer = import_database("answer")
 
         current_answers = data_manager.get_answers_for_question(question_id, every_answer)
         current_question = data_manager.get_question_by_id(question_id, every_question)
-        q_image = data_manager.get_back_image_name(current_question)
+        question_image_name = data_manager.get_back_image_name(current_question)
 
         for answer in current_answers:
             answer['image'] = data_manager.get_back_image_name(answer)
 
         return render_template('show_question.html', question_id=question_id,
                                question=current_question, answers=current_answers,
-                               q_image=q_image)
+                               q_image=question_image_name)
     else:
         new_answer = {
             'id': "",
