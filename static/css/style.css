@@ -31,6 +31,7 @@ body {
     border:1px solid #579bd1;
     border-collapse: collapse;
     border-radius: 5px 5px 5px 5px;
+
 }
 
 #index_table th {
@@ -130,7 +131,10 @@ body {
     padding-bottom: 4px;
     padding-top: 4px;
     border: solid 1px #579bd1;
+    border-radius: 3px;
 }
+
+
 
 .headtitle {
     font-size: 30px;
