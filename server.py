@@ -137,6 +137,7 @@ def route_edit_question(question_id):
         every_question.append(edited_question)
 
         export_all_data("question", every_question)
+        data_manager.view_counter(question_id, -1)
         return redirect(url_for("route_show_question", question_id=question_id))
 
 
