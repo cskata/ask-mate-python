@@ -5,7 +5,7 @@ from connection import import_database, export_new_data_to_database, export_all_
 import os
 
 
-UPLOAD_FOLDER = "../TwWeek1/static/image/"
+UPLOAD_FOLDER = "static/image/"
 
 app = Flask(__name__)
 
@@ -45,6 +45,7 @@ def route_add_question():
             'message': request.form['message'],
             'image': ""
         }
+
         if len(request.files) > 0:
             if request.files['image'].filename != "":
                 new_question['image'] = request.files['image']
@@ -90,11 +91,12 @@ def route_show_question(question_id):
             'image': ""
         }
 
-        if request.files['image'].filename != "":
-            new_answer['image'] = request.files['image']
-            file = request.files['image']
-            filename = secure_filename(file.filename)
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+        if len(request.files) > 0:
+            if request.files['image'].filename != "":
+                new_answer['image'] = request.files['image']
+                file = request.files['image']
+                filename = secure_filename(file.filename)
+                file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 
         export_new_data_to_database(new_answer, "answer")
         return redirect(url_for("route_show_question", question_id=question_id))
@@ -124,11 +126,12 @@ def route_edit_question(question_id):
             'image': ""
         }
 
-        if request.files['image'].filename != "":
-            edited_question['image'] = request.files['image']
-            file = request.files['image']
-            filename = secure_filename(file.filename)
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+        if len(request.files) > 0:
+            if request.files['image'].filename != "":
+                edited_question['image'] = request.files['image']
+                file = request.files['image']
+                filename = secure_filename(file.filename)
+                file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 
         data_manager.remove_data_by_id(every_question, question_id, 'id')
         every_question.append(edited_question)
@@ -147,7 +150,6 @@ def route_delete_question(question_id):
 
     export_all_data("question", every_question)
     export_all_data("answer", every_answer)
-    # return redirect('/list')
     return redirect(url_for('route_list'))
 
 
@@ -203,11 +205,6 @@ def route_vote_answer_down(answer_id):
 
     export_all_data('answer', every_answer)
     return redirect(url_for("route_show_question", question_id=question_id))
-
-
-@app.errorhandler(404)
-def not_found(error):
-    return render_template('404.html'), 404
 
 
 if __name__ == '__main__':
