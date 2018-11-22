@@ -12,15 +12,21 @@
     <h1>AskMate (Sprint 1)</h1>
 </header>
 <table id="index_table">
-    <th>Title</th>
-    <th width="15%">{{ ' '.join(header.split('_')).title() }}</th>
-    {% for question in questions %}
-        <tr>
-            <td style="padding: 4px"><a href="/question/{{ question.id }}">{{ question.title }}</a></td>
-            <td> {{ question[header] }}</td>
-        </tr>
-    {% endfor %}
-</table>
+    <tr>
+        <th>Title</th>
+        <th>Submission time</th>
+        <th>Vote number</th>
+        <th>Views</th>
+        {% for question in questions %}
+            <tr>
+                 <td style="padding: 4px"><a href="/question/{{ question.id }}">{{ question.title }}</a></td>
+                <td style="width: 20%">{{ question.submission_time }}</td>
+                <td style="width: 5%">{{ question.vote_number }}</td>
+                <td style="width: 5%">{{ question.view_number }}</td>
+            </tr>
+        {% endfor %}
+    </tr>
+    </table>
 <br>
 <br>
 <p><a href="/add-question">
@@ -29,6 +35,7 @@
     <form action="/list" method="get">
     <p>Sort by: </p>
     <select id="order_by" name="order_by">
+        <option value="title">Title</option>
         <option value="submission_time">Submission Time</option>
         <option value="view_number">View Number</option>
         <option value="vote_number">Vote Number</option>
