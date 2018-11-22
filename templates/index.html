@@ -14,16 +14,10 @@
 <table id="index_table">
     <th>Title</th>
     <th width="15%">{{ ' '.join(header.split('_')).title() }}</th>
-
-    <th width="5%">
-        <i class="fa fa-sort-amount-asc"></i>  |
-        <i class="fa fa-sort-amount-desc"></i>
-    </th>
     {% for question in questions %}
         <tr>
             <td style="padding: 4px"><a href="/question/{{ question.id }}">{{ question.title }}</a></td>
             <td> {{ question[header] }}</td>
-            <td></td>
         </tr>
     {% endfor %}
 </table>
