@@ -16,6 +16,8 @@ html {
     margin-top:10px;
     font-size: 10px;
     height: 30px;
+    border: solid 1px #579bd1;
+    border-radius: 3px;
 }
 
 body {
@@ -31,7 +33,6 @@ body {
     border:1px solid #579bd1;
     border-collapse: collapse;
     border-radius: 5px 5px 5px 5px;
-
 }
 
 #index_table th {
@@ -40,7 +41,7 @@ body {
     background-color: #98d0f7;
     height: 30px;
     padding: 4px;
-    border-bottom: 1px solid #579bd1
+    border-bottom: 1px solid #579bd1;
 }
 
 #index_table tr {
@@ -95,14 +96,20 @@ body {
 .sbutton, .button, .bigger_button {
     border: solid 2px #579bd1;
     border-radius: 180px;
-    background-color: white;
-    color: #579bd1;
+    background-color: #86CDD1;
+    color: black;
     font-size: 12px;
     font-weight: bold;
     text-decoration: none;
     transition: 0.3s;
     height: 30px;
     text-align: center;
+}
+
+.button:hover, .bigger_button:hover {
+    color: #579bd1;
+    background-color: white;
+    cursor: pointer;
 }
 
 .bigger_button {
@@ -117,12 +124,6 @@ body {
     width: 80px;
 }
 
-.button:hover, .bigger_button:hover {
-    background-color: #86CDD1;
-    color: black;
-    cursor: pointer;
-}
-
 .mainhead {
     width: 100%;
     text-align: center;
@@ -133,8 +134,6 @@ body {
     border: solid 1px #579bd1;
     border-radius: 3px;
 }
-
-
 
 .headtitle {
     font-size: 30px;
