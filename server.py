@@ -45,11 +45,12 @@ def route_add_question():
             'message': request.form['message'],
             'image': ""
         }
-        if request.files['image'].filename != "":
-            new_question['image'] = request.files['image']
-            file = request.files['image']
-            filename = secure_filename(file.filename)
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+        if len(request.files) > 0:
+            if request.files['image'].filename != "":
+                new_question['image'] = request.files['image']
+                file = request.files['image']
+                filename = secure_filename(file.filename)
+                file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 
         filename = ""
         export_new_data_to_database(new_question, 'question')
