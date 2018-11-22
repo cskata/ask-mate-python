@@ -44,7 +44,12 @@ body {
 
 #index_table tr {
     height: 30px;
+    border-bottom: 1px solid #579bd1;
+    border-collapse: collapse;
+}
 
+#index_table tr:hover {
+    background-color: #ddd;
 }
 
 #question, #answer {
@@ -53,6 +58,7 @@ body {
     border-collapse: collapse;
     border-radius: 5px 5px 5px 5px;
 }
+
 #question th, #answer th {
     font-size: 10px;
     border:1px solid #579bd1;
@@ -156,4 +162,8 @@ body {
 .image-upload img {
     width: 80px;
     cursor: pointer;
+}
+
+.textbox_gen {
+    white-space: pre;
 }
