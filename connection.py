@@ -1,66 +1,52 @@
-import csv
-import os
 import data_manager
 import uuid
 import time
-
-QUESTION_FILE_PATH = os.getenv('DATA_FILE_PATH') if 'DATA_FILE_PATH' in os.environ else 'sample_data/question.csv'
-QUESTION_HEADERS = ['id', 'submission_time', 'view_number',
-                    'vote_number', 'title', 'message', 'image']
-ANSWER_FILE_PATH = os.getenv('DATA_FILE_PATH') if 'DATA_FILE_PATH' in os.environ else 'sample_data/answer.csv'
-ANSWER_HEADERS = ['id', 'submission_time','vote_number', 'question_id', 'message', 'image']
+import os
+import psycopg2
+import psycopg2.extras
 
 
-def import_database(which_database):
-    if which_database == "question":
-        filepath = QUESTION_FILE_PATH
+def get_connection_string():
+    # setup connection string
+    # to do this, please define these environment variables first
+    user_name = os.environ.get('PSQL_USER_NAME')
+    password = os.environ.get('PSQL_PASSWORD')
+    host = os.environ.get('PSQL_HOST')
+    database_name = os.environ.get('PSQL_DB_NAME')
+
+    env_variables_defined = user_name and password and host and database_name
+
+    if env_variables_defined:
+        # this string describes all info for psycopg2 to connect to the database
+        return 'postgresql://{user_name}:{password}@{host}/{database_name}'.format(
+            user_name=user_name,
+            password=password,
+            host=host,
+            database_name=database_name
+        )
     else:
-        filepath = ANSWER_FILE_PATH
-
-    reader = csv.DictReader(open(filepath, 'r'))
-    database = []
-    for line in reader:
-        database.append(line)
-
-    data_manager.convert_unix_timestamp_to_date(database)
-    data_manager.convert_counter_to_int(database, 'vote_number')
-
-    if which_database == "question":
-        data_manager.convert_counter_to_int(database, 'view_number')
-
-    return database     # list of dicts
+        raise KeyError('Some necessary environment variable(s) are not defined')
 
 
-def generate_id():
-    return str(uuid.uuid4())[:8]
+def open_database():
+    try:
+        connection_string = get_connection_string()
+        connection = psycopg2.connect(connection_string)
+        connection.autocommit = True
+    except psycopg2.DatabaseError as exception:
+        print('Database connection problem')
+        raise exception
+    return connection
 
 
-def export_new_data_to_database(new_data, which_database):
-    next_id = generate_id()
+def connection_handler(function):
+    def wrapper(*args, **kwargs):
+        connection = open_database()
+        # we set the cursor_factory parameter to return with a RealDictCursor cursor (cursor which provide dictionaries)
+        dict_cur = connection.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
+        ret_value = function(dict_cur, *args, **kwargs)
+        dict_cur.close()
+        connection.close()
+        return ret_value
 
-    new_data['id'] = next_id
-    winter_time_hour = 3600
-    new_data['submission_time'] = int(time.time()) + winter_time_hour
-
-    if which_database == "question":
-        filepath = QUESTION_FILE_PATH
-    else:
-        filepath = ANSWER_FILE_PATH
-
-    with open(filepath, 'a', newline='') as f:
-        w = csv.DictWriter(f, new_data.keys())
-        w.writerow(new_data)
-
-
-def export_all_data(which_database, data):
-    if which_database == "question":
-        filepath = QUESTION_FILE_PATH
-        header = QUESTION_HEADERS
-    else:
-        filepath = ANSWER_FILE_PATH
-        header = ANSWER_HEADERS
-    data_manager.convert_date_to_unix_timestamp(data)
-    with open(filepath, 'w') as output_file:
-        dict_writer = csv.DictWriter(output_file, header)
-        dict_writer.writeheader()
-        dict_writer.writerows(data)
+    return wrapper
