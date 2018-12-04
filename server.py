@@ -1,7 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for
 from werkzeug.utils import secure_filename
 import data_manager
-from connection import import_database, export_new_data_to_database, export_all_data
 import os
 
 
@@ -13,20 +12,26 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 
 @app.route('/')
-@app.route('/question')
 def index():
-    return redirect(url_for('route_list'))
+    questions = data_manager.get_limited_database("question", 5)
+    key = 'submission_time'
+    # if 'order_by' in request.args:
+    #     key = request.args.get('order_by')
+    #     direction = request.args.get('order_direction')
+    #     data_manager.sort_data(questions, key, direction)
+
+    return render_template('index.html', questions=questions, header=key)
 
 
+@app.route('/question')
 @app.route('/list')
 def route_list():
-    questions = import_database("question")
-    data_manager.sort_data(questions, 'submission_time', 'desc')
+    questions = data_manager.get_database("question")
     key = 'submission_time'
-    if 'order_by' in request.args:
-        key = request.args.get('order_by')
-        direction = request.args.get('order_direction')
-        data_manager.sort_data(questions, key, direction)
+    # if 'order_by' in request.args:
+    #     key = request.args.get('order_by')
+    #     direction = request.args.get('order_direction')
+    #     data_manager.sort_data(questions, key, direction)
 
     return render_template('index.html', questions=questions, header=key)
 
@@ -37,7 +42,6 @@ def route_add_question():
         return render_template('new_question.html')
     else:
         new_question = {
-            'id': "",
             'submission_time': "",
             'view_number': 0,
             'vote_number': 0,
@@ -54,7 +58,8 @@ def route_add_question():
                 file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 
         filename = ""
-        export_new_data_to_database(new_question, 'question')
+
+        data_manager.insert_new_question_to_database(new_question)
         return redirect(url_for('index', filename=filename))
 
 
@@ -88,7 +93,7 @@ def route_show_question(question_id):
             'vote_number': 0,
             'question_id': question_id,
             'message': request.form['message'],
-            'image': ""
+            'image': "",
         }
 
         if len(request.files) > 0:
