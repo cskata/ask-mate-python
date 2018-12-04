@@ -1,18 +1,6 @@
 import operator
-import pandas
-from connection import import_database, export_all_data
-
-
-def convert_unix_timestamp_to_date(database):
-    for data in database:
-        data["submission_time"] = pandas.to_datetime(data["submission_time"], unit='s')
-    return database
-
-
-def convert_date_to_unix_timestamp(database):
-    for data in database:
-        data["submission_time"] = pandas.to_datetime(data["submission_time"]).value // 10**9
-    return database
+from connection import connection_handler
+from datetime import datetime
 
 
 def sort_data(data, key, order):
@@ -88,3 +76,37 @@ def get_back_image_name(data):
     else:
         image = ""
     return image
+
+
+@connection_handler
+def get_database(cursor, which_database):
+    cursor.execute(f"""
+                    SELECT * FROM {which_database}
+                    ORDER BY submission_time DESC;
+                   """)
+    database = cursor.fetchall()
+    return database
+
+
+@connection_handler
+def get_limited_database(cursor, which_database, limit):
+    cursor.execute(f"""
+                    SELECT * FROM {which_database}
+                    ORDER BY submission_time DESC
+                    LIMIT {limit};
+                   """)
+    database = cursor.fetchall()
+    return database
+
+
+@connection_handler
+def insert_new_question_to_database(cursor, new_data):
+    dt = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    new_data['submission_time'] = str(dt)
+
+    data_to_insert = list(new_data.values())
+    cursor.execute(f"""
+                    INSERT INTO question
+                    (submission_time, view_number, vote_number, title, message, image)
+                    VALUES (%s, %s, %s, %s, %s, %s);
+                    """, data_to_insert)
