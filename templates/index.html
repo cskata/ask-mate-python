@@ -6,7 +6,15 @@
 
 <div style="text-align: center">
     <p><a href="/add-question">
-        <input type="button" id="new_question" class="bigger_button" value="Ask a new question"></a></p>
+    <input type="button" id="new_question" class="bigger_button" value="Ask a new question"></a></p>
+
+    <p><form action="/search" method="get">
+    Search: <input type="text" id="q" name="q">
+    <button type="submit" title="Search"><i class="fa fa-search"></i></button></p></form>
+    {% if search_data %}
+        <p>AskMate found <span style="font-weight: bold">{{ results_num }}</span>
+            result(s) for <span style="font-weight: bold">{{ search_data }}</span>.</p>
+    {% endif %}
 </div>
 <table id="index_table">
     <tr>
@@ -15,12 +23,12 @@
         <th>Vote number</th>
         <th>Views</th>
         {% for question in questions %}
-        <tr>
-            <td style="padding: 4px"><a href="/question/{{ question.id }}">{{ question.title }}</a></td>
-            <td style="width: 20%; text-align: center">{{ question.submission_time }}</td>
-            <td style="width: 8%; text-align: center">{{ question.vote_number }}</td>
-            <td style="width: 8%; text-align: center">{{ question.view_number }}</td>
-        </tr>
+            <tr>
+                <td style="padding: 4px"><a href="/question/{{ question.id }}">{{ question.title }}</a></td>
+                <td style="width: 20%; text-align: center">{{ question.submission_time }}</td>
+                <td style="width: 8%; text-align: center">{{ question.vote_number }}</td>
+                <td style="width: 8%; text-align: center">{{ question.view_number }}</td>
+            </tr>
         {% endfor %}
     </tr>
 </table>

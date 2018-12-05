@@ -23,7 +23,7 @@
         </td>
         <td colspan="2" class="title">
             <h1>{{ question.title }}</h1>
-            <p style="text-align: justify; padding: 4px">{{ question.message }}</p>
+            <p style="text-align: justify; padding: 4px">{{ question.message | safe }}</p>
 
             {% if question.image %}
             <p>
@@ -51,7 +51,15 @@
     </tr>
 </table>
 <br>
-<br>
+<p>
+    {% if number_of_answers > 1 %}
+        {{ number_of_answers }} Answers
+    {% elif number_of_answers == 1 %}
+        {{ number_of_answers }} Answer
+    {% elif number_of_answers == 0 %}
+        No one has answered yet.
+    {% endif %}
+</p>
 <br>
 <table id="answer">
     <tr>
@@ -73,7 +81,7 @@
             </p>
         </td>
         <td colspan="3">
-            <p style="padding: 4px; text-align: justify">{{ answer.message }}</p>
+            <p style="padding: 4px; text-align: justify">{{ answer.message | safe }}</p>
             {% if answer.image %}
             <p>
                 <a href="/image/{{ answer.image }}" target="_blank">See the attached image</a>

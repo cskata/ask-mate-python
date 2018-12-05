@@ -34,7 +34,7 @@ def route_list():
     if 'order_by' in request.args:
         key = request.args.get('order_by')
         direction = request.args.get('order_direction')
-        questions = data_manager.sort_data(key,'question', direction)
+        questions = data_manager.sort_data(key, 'question', direction)
 
     return render_template('index.html', questions=questions, header=key)
 
@@ -43,13 +43,14 @@ def route_list():
 def route_add_question():
     if request.method == 'GET':
         return render_template('new_question.html')
+
     else:
         new_question = {
             'submission_time': "",
             'view_number': 0,
             'vote_number': 0,
             'title': request.form['title'],
-            'message': request.form['message'],
+            'message': request.form['message'].replace('\n', '<br/>'),
             'image': ""
         }
 
@@ -80,17 +81,19 @@ def route_show_question(question_id):
     data_manager.update_view_counter(question_id, 1)
 
     if request.method == 'GET':
-        current_question = data_manager.get_record_by_id('question', question_id)
+        current_question = data_manager.get_record_by_id('question', question_id)[0]
         current_answers = data_manager.get_answers_by_question_id(question_id)
+        number_of_answers = len(current_answers)
 
         return render_template('show_question.html', question_id=question_id,
-                               question=current_question[0], answers=current_answers)
+                               question=current_question, answers=current_answers,
+                               number_of_answers=number_of_answers)
     else:
         new_answer = {
             'submission_time': "",
             'vote_number': 0,
             'question_id': question_id,
-            'message': request.form['message'],
+            'message': request.form['message'].replace('\n', '<br/>'),
             'image': "",
         }
 
@@ -116,13 +119,15 @@ def route_open_image(image_filename):
 @app.route('/question/<question_id>/edit', methods=['GET', 'POST'])
 def route_edit_question(question_id):
     current_question = data_manager.get_record_by_id('question', question_id)[0]
+    current_question['message'] = current_question['message'].replace('<br/>', "")
+
     if request.method == 'GET':
         return render_template('edit_question.html', question=current_question)
 
     else:
         edited_question = {
             'title': request.form['title'],
-            'message': request.form['message'],
+            'message': request.form['message'].replace('\n', '<br/>'),
             'image': ""
         }
 
@@ -130,7 +135,10 @@ def route_edit_question(question_id):
 
         if len(request.files) > 0:
             if request.files['image'].filename != "":
-                edited_question['image'] = request.files['image']
+                current_image_name = str(request.files['image'])
+                normal_image_name = data_manager.get_back_image_name(current_image_name)
+                edited_question['image'] = normal_image_name
+
                 file = request.files['image']
                 filename = secure_filename(file.filename)
                 file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
@@ -148,7 +156,33 @@ def route_delete_question(question_id):
 
 @app.route('/answer/<answer_id>/edit', methods=['GET', 'POST'])
 def route_edit_answer(answer_id):
-    pass
+    current_answer = data_manager.get_record_by_id('answer', answer_id)[0]
+    current_answer['message'] = current_answer['message'].replace('<br/>', "")
+
+    if request.method == 'GET':
+        return render_template('edit_answer.html', answer=current_answer)
+    else:
+        edited_answer = {
+            'message': request.form['message'].replace('\n', '<br/>'),
+            'image': ""
+        }
+
+        answer_id = int(request.form['id'])
+        question_id = int(request.form['question_id'])
+
+        if len(request.files) > 0:
+            if request.files['image'].filename != "":
+                current_image_name = str(request.files['image'])
+                normal_image_name = data_manager.get_back_image_name(current_image_name)
+                edited_answer['image'] = normal_image_name
+
+                file = request.files['image']
+                filename = secure_filename(file.filename)
+                file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+
+        data_manager.update_answer(edited_answer, answer_id)
+        data_manager.update_view_counter(question_id, -1)
+        return redirect(url_for("route_show_question", question_id=question_id))
 
 
 @app.route('/answer/<answer_id>/delete')
@@ -189,6 +223,18 @@ def route_vote_answer_down(answer_id):
     question_id = data_manager.get_question_id_by_answer_id(answer_id)
     data_manager.update_view_counter(question_id, -1)
     return redirect(url_for("route_show_question", question_id=question_id))
+
+
+@app.route('/search')
+def search():
+    key = 'submission_time'
+    if 'q' in request.args:
+        search_data = request.args.get('q')
+        questions = data_manager.get_search_results(search_data)[0]
+        number_of_results = data_manager.get_search_results(search_data)[1]
+
+    return render_template('index.html', questions=questions, header=key,
+                           search_data=search_data, results_num=number_of_results)
 
 
 if __name__ == '__main__':
