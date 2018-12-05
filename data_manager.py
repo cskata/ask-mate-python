@@ -154,3 +154,12 @@ def update_question(cursor, new_data, question_id):
                         image = {new_data['image']}
                     WHERE id = {question_id}
                     """)
+
+@connection_handler
+def sort_data(cursor,key, table, order):
+    cursor.execute(f"""
+                    SELECT * FROM {table}
+                    ORDER BY {key} {order}
+                    """)
+    result = cursor.fetchall()
+    return result

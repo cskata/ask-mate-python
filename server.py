@@ -13,12 +13,14 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 @app.route('/')
 def index():
-    questions = data_manager.get_limited_database("question", 5)
+    limit = 5
+    questions = data_manager.get_limited_database("question", limit)
     key = 'submission_time'
-    # if 'order_by' in request.args:
-    #     key = request.args.get('order_by')
-    #     direction = request.args.get('order_direction')
-    #     data_manager.sort_data(questions, key, direction)
+    if 'order_by' in request.args:
+        key = request.args.get('order_by')
+        direction = request.args.get('order_direction')
+        questions = data_manager.sort_data(key, 'question', direction)
+        questions = questions[:limit]
 
     return render_template('index.html', questions=questions, header=key)
 
@@ -28,10 +30,11 @@ def index():
 def route_list():
     questions = data_manager.get_database("question")
     key = 'submission_time'
-    # if 'order_by' in request.args:
-    #     key = request.args.get('order_by')
-    #     direction = request.args.get('order_direction')
-    #     data_manager.sort_data(questions, key, direction)
+
+    if 'order_by' in request.args:
+        key = request.args.get('order_by')
+        direction = request.args.get('order_direction')
+        questions = data_manager.sort_data(key,'question', direction)
 
     return render_template('index.html', questions=questions, header=key)
 
@@ -110,26 +113,22 @@ def route_open_image(image_filename):
 @app.route('/question/<question_id>/edit', methods=['GET', 'POST'])
 def route_edit_question(question_id):
     current_question = data_manager.get_record_by_id('question', question_id)[0]
-    print(current_question)
     if request.method == 'GET':
         return render_template('edit_question.html', question=current_question)
 
-    else:
+    elif request.method == "POST":
         edited_question = {
             'title': request.form['title'],
             'message': request.form['message'],
             'image': ""
         }
         question_id = int(request.form['id'])
-
         if len(request.files) > 0:
             if request.files['image'].filename != "":
                 edited_question['image'] = request.files['image']
                 file = request.files['image']
                 filename = secure_filename(file.filename)
                 file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-        print(edited_question)
-        print(question_id)
         data_manager.update_question(edited_question, question_id)
         #data_manager.view_counter(question_id, -1)
         return redirect(url_for("route_show_question", question_id=question_id))
