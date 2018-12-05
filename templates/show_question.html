@@ -96,6 +96,8 @@
             <p class="smol" >Posted: {{ answer.submission_time }}</p>
         </td>
         <td width="9%" class="answerdelete">
+            <a href="/answer/{{ answer.id }}/edit">
+                <i class="fa fa-lg fa-pencil" title="Edit answer"></i></a> |
             <a href="/answer/{{ answer.id }}/delete"
                onclick="return confirm('Are you sure you want to delete this item?');">
                 <i class="fa fa-lg fa-trash-o" title="Delete answer"></i></a>

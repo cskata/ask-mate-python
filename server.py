@@ -142,6 +142,11 @@ def route_delete_question(question_id):
     return redirect(url_for('route_list'))
 
 
+@app.route('/answer/<answer_id>/edit', methods=['GET', 'POST'])
+def route_edit_answer(answer_id):
+    pass
+
+
 @app.route('/answer/<answer_id>/delete')
 def route_delete_answer(answer_id):
     current_answer = data_manager.get_record_by_id("answer", answer_id)[0]
