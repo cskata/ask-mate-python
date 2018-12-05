@@ -1,6 +1,3 @@
-import data_manager
-import uuid
-import time
 import os
 import psycopg2
 import psycopg2.extras
