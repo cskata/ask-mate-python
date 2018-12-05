@@ -13,12 +13,14 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 @app.route('/')
 def index():
-    questions = data_manager.get_limited_database("question", 5)
+    limit = 5
+    questions = data_manager.get_limited_database("question", limit)
     key = 'submission_time'
-    # if 'order_by' in request.args:
-    #     key = request.args.get('order_by')
-    #     direction = request.args.get('order_direction')
-    #     data_manager.sort_data(questions, key, direction)
+    if 'order_by' in request.args:
+        key = request.args.get('order_by')
+        direction = request.args.get('order_direction')
+        questions = data_manager.sort_data(key, 'question', direction)
+        questions = questions[:limit]
 
     return render_template('index.html', questions=questions, header=key)
 
@@ -28,10 +30,11 @@ def index():
 def route_list():
     questions = data_manager.get_database("question")
     key = 'submission_time'
-    # if 'order_by' in request.args:
-    #     key = request.args.get('order_by')
-    #     direction = request.args.get('order_direction')
-    #     data_manager.sort_data(questions, key, direction)
+
+    if 'order_by' in request.args:
+        key = request.args.get('order_by')
+        direction = request.args.get('order_direction')
+        questions = data_manager.sort_data(key,'question', direction)
 
     return render_template('index.html', questions=questions, header=key)
 
@@ -159,47 +162,36 @@ def route_delete_answer(answer_id):
 
 @app.route('/question/<question_id>/vote-up')
 def route_vote_question_up(question_id):
-    # every_question = import_database("question")
-    # every_question = data_manager.vote_counter(question_id, every_question, 'up')
 
-    # export_all_data('question', every_question)
-    data_manager.view_counter(question_id, -1)
+    data_manager.vote_counter("question", question_id, 'up')
+
+    #data_manager.view_counter(question_id, -1)
     return redirect(url_for("route_show_question", question_id=question_id))
 
 
 @app.route('/question/<question_id>/vote-down')
 def route_vote_question_down(question_id):
-    # every_question = import_database("question")
-    # every_question = data_manager.vote_counter(question_id, every_question, 'down')
-    #
-    # export_all_data('question', every_question)
-    data_manager.update_view_counter(question_id, -1)
+    data_manager.vote_counter("question", question_id, 'down')
+
+    #data_manager.view_counter(question_id, -1)
     return redirect(url_for("route_show_question", question_id=question_id))
 
 
 @app.route('/answer/<answer_id>/vote-up')
 def route_vote_answer_up(answer_id):
-    # every_answer = import_database("answer")
-    # every_answer = data_manager.vote_counter(answer_id, every_answer, 'up')
-    #
-    current_answer = data_manager.get_record_by_id("answer", answer_id)[0]
-    question_id = current_answer['question_id']
-    data_manager.update_view_counter(question_id, -1)
 
-    # export_all_data('answer', every_answer)
+    data_manager.vote_counter('answer', answer_id, 'up')
+    question_id = data_manager.get_question_id_by_answer_id(answer_id)
+    #data_manager.view_counter(question_id, -1)
+
     return redirect(url_for("route_show_question", question_id=question_id))
 
 
 @app.route('/answer/<answer_id>/vote-down')
 def route_vote_answer_down(answer_id):
-    # every_answer = import_database("answer")
-    # every_answer = data_manager.vote_counter(answer_id, every_answer, 'down')
 
-    current_answer = data_manager.get_record_by_id("answer", answer_id)[0]
-    question_id = current_answer['question_id']
-    data_manager.update_view_counter(question_id, -1)
-
-    # export_all_data('answer', every_answer)
+    data_manager.vote_counter('answer', answer_id, 'down')
+    question_id = data_manager.get_question_id_by_answer_id(answer_id)
     return redirect(url_for("route_show_question", question_id=question_id))
 
 

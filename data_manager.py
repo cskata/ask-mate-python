@@ -21,20 +21,11 @@ def update_view_counter(cursor, question_id, increment):
                     """)
 
 
-def vote_counter(data_id, database, up_or_down):
-    for data in database:
-        if data['id'] == data_id:
-            if up_or_down == "up":
-                data['vote_number'] += 1
-            else:
-                data['vote_number'] -= 1
-    return database
-
-
 def get_back_image_name(new_image_name):
     new_image_name = new_image_name.split()
     new_image_name = new_image_name[1].replace("'", '')
     return new_image_name
+
 
 
 @connection_handler
@@ -110,7 +101,8 @@ def update_question(cursor, updated_data, question_id):
 def get_answers_by_question_id(cursor, question_id):
     cursor.execute(f"""
                         SELECT * FROM answer
-                        WHERE question_id = {question_id};
+                        WHERE question_id = {question_id}
+                        ORDER BY submission_time;
                        """)
     current_answers = cursor.fetchall()
     return current_answers
@@ -146,3 +138,35 @@ def delete_single_answer_by_id(cursor, answer_id):
                         DELETE FROM answer
                         WHERE id = {answer_id};
                         """)
+
+@connection_handler
+def sort_data(cursor,key, table, order):
+    cursor.execute(f"""
+                    SELECT * FROM {table}
+                    ORDER BY {key} {order}
+                    """)
+    result = cursor.fetchall()
+    return result
+
+
+@connection_handler
+def vote_counter(cursor, table, id, up_or_down):
+    if up_or_down == "up":
+        vote_change = 1
+    else:
+        vote_change = -1
+    cursor.execute(f"""
+                    UPDATE {table}
+                    SET vote_number = vote_number + {vote_change}
+                    WHERE id = {id}
+                    """)
+
+
+@connection_handler
+def get_question_id_by_answer_id(cursor, id, table='answer'):
+    cursor.execute(f"""
+                    SELECT question_id from {table}
+                    WHERE id = {id}
+                    """)
+    question_id = cursor.fetchall()
+    return question_id[0]['question_id']

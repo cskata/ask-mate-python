@@ -32,26 +32,26 @@
     </tr>
 </table>
 <br>
-{#<div style="margin-top:auto; margin-bottom:auto; text-align:center;">#}
-{#    <p>#}
-{#        <form action="/list" method="get">#}
-{#        <p style="font-weight: bold">Sort by: </p>#}
-{#        <select id="order_by" name="order_by">#}
-{#            <option value="title">Title</option>#}
-{#            <option value="submission_time">Submission Time</option>#}
-{#            <option value="view_number">View Number</option>#}
-{#            <option value="vote_number">Vote Number</option>#}
-{#            <option value="{{ header }}" selected="selected" hidden>{{ ' '.join(header.split('_')).title() }}</option>#}
-{#        </select>#}
-{#        <p>#}
-{#            <button type="submit" name="order_direction"#}
-{#                    value="asc" title="Ascending order"><i class="fa fa-sort-amount-asc"></i></button>#}
-{#            <button type="submit" name="order_direction"#}
-{#                    value="desc" title="Descending order"><i class="fa fa-sort-amount-desc"></i></button>#}
-{#        </p>#}
-{#        </form>#}
-{#    </p>#}
-{#</div>#}
+<div style="margin-top:auto; margin-bottom:auto; text-align:center;">
+    <p>
+        <form action="/" method="get">
+        <p style="font-weight: bold">Sort by: </p>
+        <select id="order_by" name="order_by">
+            <option value="title">Title</option>
+            <option value="submission_time">Submission Time</option>
+            <option value="view_number">View Number</option>
+            <option value="vote_number">Vote Number</option>
+            <option value="{{ header }}" selected="selected" hidden>{{ ' '.join(header.split('_')).title() }}</option>
+        </select>
+        <p>
+            <button type="submit" name="order_direction"
+                    value="asc" title="Ascending order"><i class="fa fa-sort-amount-asc"></i></button>
+            <button type="submit" name="order_direction"
+                    value="desc" title="Descending order"><i class="fa fa-sort-amount-desc"></i></button>
+        </p>
+        </form>
+    </p>
+</div>
 <br>
 <div style="text-align: center">
     <p><a href="/list">
