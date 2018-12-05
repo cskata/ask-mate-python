@@ -34,7 +34,7 @@ def route_list():
     if 'order_by' in request.args:
         key = request.args.get('order_by')
         direction = request.args.get('order_direction')
-        questions = data_manager.sort_data(key,'question', direction)
+        questions = data_manager.sort_data(key, 'question', direction)
 
     return render_template('index.html', questions=questions, header=key)
 
@@ -216,6 +216,11 @@ def route_vote_answer_down(answer_id):
     question_id = data_manager.get_question_id_by_answer_id(answer_id)
     data_manager.update_view_counter(question_id, -1)
     return redirect(url_for("route_show_question", question_id=question_id))
+
+
+@app.route('/search')
+def search():
+    pass
 
 
 if __name__ == '__main__':
