@@ -65,30 +65,25 @@ def route_add_question():
 
 @app.route('/question/<question_id>/new-answer')
 def route_new_answer(question_id):
-    data_manager.view_counter(question_id, -2)
+    #data_manager.view_counter(question_id, -2)
     return render_template('new_answer.html', question_id=question_id)
 
 
 @app.route("/question/<question_id>", methods=['GET', 'POST'])
 def route_show_question(question_id):
-    data_manager.view_counter(question_id, 1)
+    #data_manager.view_counter(question_id, 1)
     if request.method == 'GET':
-        every_question = import_database("question")
-        every_answer = import_database("answer")
+        current_answers =  data_manager.get_answer_by_questionid('answer', question_id)
+        current_question = data_manager.get_record_by_id('question', question_id)
+        #question_image_name = data_manager.get_back_image_name(current_question)
 
-        current_answers = data_manager.get_answers_for_question(question_id, every_answer)
-        current_question = data_manager.get_question_by_id(question_id, every_question)
-        question_image_name = data_manager.get_back_image_name(current_question)
-
-        for answer in current_answers:
-            answer['image'] = data_manager.get_back_image_name(answer)
+        #for answer in current_answers:
+        #    answer['image'] = data_manager.get_back_image_name(answer)
 
         return render_template('show_question.html', question_id=question_id,
-                               question=current_question, answers=current_answers,
-                               q_image=question_image_name)
+                               question=current_question[0], answers=current_answers)
     else:
         new_answer = {
-            'id': "",
             'submission_time': "",
             'vote_number': 0,
             'question_id': question_id,
@@ -103,7 +98,7 @@ def route_show_question(question_id):
                 filename = secure_filename(file.filename)
                 file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 
-        export_new_data_to_database(new_answer, "answer")
+        data_manager.insert_new_answer_to_database(new_answer)
         return redirect(url_for("route_show_question", question_id=question_id))
 
 

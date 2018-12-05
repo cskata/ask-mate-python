@@ -110,3 +110,39 @@ def insert_new_question_to_database(cursor, new_data):
                     (submission_time, view_number, vote_number, title, message, image)
                     VALUES (%s, %s, %s, %s, %s, %s);
                     """, data_to_insert)
+
+
+@connection_handler
+def insert_new_answer_to_database(cursor, new_data):
+    dt = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    new_data['submission_time'] = str(dt)
+
+    data_to_insert = list(new_data.values())
+    cursor.execute(f"""
+                    INSERT INTO answer
+                    (submission_time, vote_number, question_id, message, image)
+                    VALUES (%s, %s, %s, %s, %s);
+                    """, data_to_insert)
+
+
+@connection_handler
+def get_record_by_id(cursor, which_database, id):
+    cursor.execute(f"""
+                    SELECT * FROM {which_database}
+                    WHERE id = {id};
+                   """)
+    record = cursor.fetchall()
+    return record
+
+
+@connection_handler
+def get_answer_by_questionid(cursor, which_database, question_id):
+    cursor.execute(f"""
+                    SELECT * FROM {which_database}
+                    WHERE question_id = {question_id};
+                   """)
+    answers = cursor.fetchall()
+    return answers
+
+
+
