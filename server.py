@@ -76,8 +76,8 @@ def route_new_answer(question_id):
 def route_show_question(question_id):
     #data_manager.view_counter(question_id, 1)
     if request.method == 'GET':
-        current_answers =  data_manager.get_answer_by_questionid('answer', question_id)
         current_question = data_manager.get_record_by_id('question', question_id)
+        current_answers = data_manager.get_answers_by_question_id(question_id)
         #question_image_name = data_manager.get_back_image_name(current_question)
 
         #for answer in current_answers:
@@ -116,19 +116,22 @@ def route_edit_question(question_id):
     if request.method == 'GET':
         return render_template('edit_question.html', question=current_question)
 
-    elif request.method == "POST":
+    else:
         edited_question = {
             'title': request.form['title'],
             'message': request.form['message'],
             'image': ""
         }
+
         question_id = int(request.form['id'])
+
         if len(request.files) > 0:
             if request.files['image'].filename != "":
                 edited_question['image'] = request.files['image']
                 file = request.files['image']
                 filename = secure_filename(file.filename)
                 file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+
         data_manager.update_question(edited_question, question_id)
         #data_manager.view_counter(question_id, -1)
         return redirect(url_for("route_show_question", question_id=question_id))
@@ -136,24 +139,15 @@ def route_edit_question(question_id):
 
 @app.route('/question/<question_id>/delete')
 def route_delete_question(question_id):
-    every_question = import_database("question")
-    every_answer = import_database("answer")
-
-    data_manager.remove_data_by_id(every_question, question_id, 'id')
-    data_manager.remove_data_by_id(every_answer, question_id, 'question_id')
-
-    export_all_data("question", every_question)
-    export_all_data("answer", every_answer)
+    data_manager.delete_question_and_answers(question_id)
     return redirect(url_for('route_list'))
 
 
 @app.route('/answer/<answer_id>/delete')
 def route_delete_answer(answer_id):
-    every_answer = import_database("answers")
-    question_id = data_manager.get_question_id_by_answer_id(answer_id, every_answer)
-    data_manager.remove_data_by_id(every_answer, answer_id, 'id')
-
-    export_all_data("answers", every_answer)
+    current_answer = data_manager.get_record_by_id("answer", answer_id)[0]
+    question_id = current_answer['question_id']
+    data_manager.delete_single_answer_by_id(answer_id)
     return redirect(url_for("route_show_question", question_id=question_id))
 
 

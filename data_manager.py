@@ -1,46 +1,5 @@
-import operator
 from connection import connection_handler
 from datetime import datetime
-
-
-def sort_data(data, key, order):
-    result = {}
-    if order == "asc":
-        result = data.sort(key=operator.itemgetter(key))
-    elif order == "desc":
-        result = data.sort(key=operator.itemgetter(key), reverse=True)
-    return result
-
-
-def get_answers_for_question(question_id, every_answer):
-    answers = []
-    for answer in every_answer:
-        if answer['question_id'] == str(question_id):
-            answers.append(answer)
-    sort_data(answers, "submission_time", 'asc')
-    return answers
-
-
-def get_question_by_id(question_id, every_question):
-    current_question = {}
-    for question_data in every_question:
-        if question_data['id'] == question_id:
-            current_question = question_data
-    return current_question
-
-
-def get_question_id_by_answer_id(answer_id, every_answer):
-    question_id = ""
-    for answer_data in every_answer:
-        if answer_data['id'] == answer_id:
-            question_id = answer_data['question_id']
-    return question_id
-
-
-def remove_data_by_id(database, data_id, key):
-    for data in database:
-        if data[key] == data_id:
-            database.remove(data)
 
 
 def convert_counter_to_int(database, key):
@@ -136,24 +95,57 @@ def get_record_by_id(cursor, which_database, id):
 
 
 @connection_handler
-def get_answer_by_questionid(cursor, which_database, question_id):
+def update_question(cursor, updated_data, question_id):
+    new_data = list(updated_data.values())
     cursor.execute(f"""
-                    SELECT * FROM {which_database}
-                    WHERE question_id = {question_id};
-                   """)
-    answers = cursor.fetchall()
-    return answers
+                    UPDATE question
+                    SET title = %s,
+                        message = %s,
+                        image = %s
+                    WHERE id = {question_id};
+                    """, new_data)
 
 
 @connection_handler
-def update_question(cursor, new_data, question_id):
+def get_answers_by_question_id(cursor, question_id):
     cursor.execute(f"""
-                    UPDATE question
-                    SET title = {new_data['title']},
-                        message = {new_data['message']},
-                        image = {new_data['image']}
-                    WHERE id = {question_id}
+                        SELECT * FROM answer
+                        WHERE question_id = {question_id};
+                       """)
+    current_answers = cursor.fetchall()
+    return current_answers
+
+
+@connection_handler
+def delete_every_answer_by_question_id(cursor, question_id):
+    current_answers = get_answers_by_question_id(question_id)
+    list_of_answer_ids = []
+    for answer in current_answers:
+        list_of_answer_ids.append(int(answer['id']))
+
+    for answer_id in list_of_answer_ids:
+        cursor.execute(f"""
+                        DELETE FROM answer
+                        WHERE id = {answer_id};
+                        """)
+
+
+@connection_handler
+def delete_question_and_answers(cursor, question_id):
+    delete_every_answer_by_question_id(question_id)
+
+    cursor.execute(f"""
+                    DELETE FROM question
+                    WHERE id = {question_id};
                     """)
+
+
+@connection_handler
+def delete_single_answer_by_id(cursor, answer_id):
+    cursor.execute(f"""
+                        DELETE FROM answer
+                        WHERE id = {answer_id};
+                        """)
 
 @connection_handler
 def sort_data(cursor,key, table, order):
