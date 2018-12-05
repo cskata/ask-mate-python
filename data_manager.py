@@ -27,14 +27,10 @@ def vote_counter(data_id, database, up_or_down):
     return database
 
 
-def get_back_image_name(data):
-    if data['image'] != '':
-        image = data['image']
-        image = image.split()
-        image = image[1].replace("'", '')
-    else:
-        image = ""
-    return image
+def get_back_image_name(new_image_name):
+    new_image_name = new_image_name.split()
+    new_image_name = new_image_name[1].replace("'", '')
+    return new_image_name
 
 
 @connection_handler

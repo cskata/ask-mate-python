@@ -52,7 +52,10 @@ def route_add_question():
 
         if len(request.files) > 0:
             if request.files['image'].filename != "":
-                new_question['image'] = request.files['image']
+                current_image_name = str(request.files['image'])
+                normal_image_name = data_manager.get_back_image_name(current_image_name)
+                new_question['image'] = normal_image_name
+
                 file = request.files['image']
                 filename = secure_filename(file.filename)
                 file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
@@ -75,10 +78,6 @@ def route_show_question(question_id):
     if request.method == 'GET':
         current_question = data_manager.get_record_by_id('question', question_id)
         current_answers = data_manager.get_answers_by_question_id(question_id)
-        #question_image_name = data_manager.get_back_image_name(current_question)
-
-        #for answer in current_answers:
-        #    answer['image'] = data_manager.get_back_image_name(answer)
 
         return render_template('show_question.html', question_id=question_id,
                                question=current_question[0], answers=current_answers)
@@ -93,7 +92,10 @@ def route_show_question(question_id):
 
         if len(request.files) > 0:
             if request.files['image'].filename != "":
-                new_answer['image'] = request.files['image']
+                current_image_name = str(request.files['image'])
+                normal_image_name = data_manager.get_back_image_name(current_image_name)
+                new_answer['image'] = normal_image_name
+
                 file = request.files['image']
                 filename = secure_filename(file.filename)
                 file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
