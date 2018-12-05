@@ -130,7 +130,10 @@ def route_edit_question(question_id):
 
         if len(request.files) > 0:
             if request.files['image'].filename != "":
-                edited_question['image'] = request.files['image']
+                current_image_name = str(request.files['image'])
+                normal_image_name = data_manager.get_back_image_name(current_image_name)
+                edited_question['image'] = normal_image_name
+
                 file = request.files['image']
                 filename = secure_filename(file.filename)
                 file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
@@ -148,7 +151,31 @@ def route_delete_question(question_id):
 
 @app.route('/answer/<answer_id>/edit', methods=['GET', 'POST'])
 def route_edit_answer(answer_id):
-    pass
+    current_answer = data_manager.get_record_by_id('answer', answer_id)[0]
+    if request.method == 'GET':
+        return render_template('edit_answer.html', answer=current_answer)
+    else:
+        edited_answer = {
+            'message': request.form['message'],
+            'image': ""
+        }
+
+        answer_id = int(request.form['id'])
+        question_id = int(request.form['question_id'])
+
+        if len(request.files) > 0:
+            if request.files['image'].filename != "":
+                current_image_name = str(request.files['image'])
+                normal_image_name = data_manager.get_back_image_name(current_image_name)
+                edited_answer['image'] = normal_image_name
+
+                file = request.files['image']
+                filename = secure_filename(file.filename)
+                file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+
+        data_manager.update_answer(edited_answer, answer_id)
+        data_manager.update_view_counter(question_id, -1)
+        return redirect(url_for("route_show_question", question_id=question_id))
 
 
 @app.route('/answer/<answer_id>/delete')

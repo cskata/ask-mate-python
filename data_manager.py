@@ -27,7 +27,6 @@ def get_back_image_name(new_image_name):
     return new_image_name
 
 
-
 @connection_handler
 def get_database(cursor, which_database):
     cursor.execute(f"""
@@ -94,6 +93,17 @@ def update_question(cursor, updated_data, question_id):
                         message = %s,
                         image = %s
                     WHERE id = {question_id};
+                    """, new_data)
+
+
+@connection_handler
+def update_answer(cursor, updated_data, answer_id):
+    new_data = list(updated_data.values())
+    cursor.execute(f"""
+                    UPDATE answer
+                    SET message = %s,
+                        image = %s
+                    WHERE id = {answer_id};
                     """, new_data)
 
 
