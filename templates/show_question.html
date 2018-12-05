@@ -60,7 +60,15 @@
     </tr>
 </table>
 <br>
-<br>
+<p>
+    {% if number_of_answers > 1 %}
+        {{ number_of_answers }} Answers
+    {% elif number_of_answers == 1 %}
+        {{ number_of_answers }} Answer
+    {% elif number_of_answers == 0 %}
+        No one has answered yet.
+    {% endif %}
+</p>
 <br>
 <table id="answer">
     <tr>
