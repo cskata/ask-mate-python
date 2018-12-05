@@ -145,4 +145,12 @@ def get_answer_by_questionid(cursor, which_database, question_id):
     return answers
 
 
-
+@connection_handler
+def update_question(cursor, new_data, question_id):
+    cursor.execute(f"""
+                    UPDATE question
+                    SET title = {new_data['title']},
+                        message = {new_data['message']},
+                        image = {new_data['image']}
+                    WHERE id = {question_id}
+                    """)

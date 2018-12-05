@@ -109,22 +109,18 @@ def route_open_image(image_filename):
 
 @app.route('/question/<question_id>/edit', methods=['GET', 'POST'])
 def route_edit_question(question_id):
-    every_question = import_database("question")
-    current_question = data_manager.get_question_by_id(question_id, every_question)
-
+    current_question = data_manager.get_record_by_id('question', question_id)[0]
+    print(current_question)
     if request.method == 'GET':
         return render_template('edit_question.html', question=current_question)
 
     else:
         edited_question = {
-            'id': question_id,
-            'submission_time': current_question['submission_time'],
-            'view_number': current_question['view_number'],
-            'vote_number': current_question['vote_number'],
             'title': request.form['title'],
             'message': request.form['message'],
             'image': ""
         }
+        question_id = int(request.form['id'])
 
         if len(request.files) > 0:
             if request.files['image'].filename != "":
@@ -132,12 +128,10 @@ def route_edit_question(question_id):
                 file = request.files['image']
                 filename = secure_filename(file.filename)
                 file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-
-        data_manager.remove_data_by_id(every_question, question_id, 'id')
-        every_question.append(edited_question)
-
-        export_all_data("question", every_question)
-        data_manager.view_counter(question_id, -1)
+        print(edited_question)
+        print(question_id)
+        data_manager.update_question(edited_question, question_id)
+        #data_manager.view_counter(question_id, -1)
         return redirect(url_for("route_show_question", question_id=question_id))
 
 
