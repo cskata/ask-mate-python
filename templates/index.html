@@ -1,26 +1,19 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
-    <link href="https://fonts.googleapis.com/css?family=Noto+Sans" rel="stylesheet">
-    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+{% extends "layout.html" %}
+{% block title %}
     <title>AskMate</title>
-</head>
-<body>
-<header class="mainhead">
-    <h1 class="headtitle">AskMate (Sprint 1)</h1>
-</header>
+{% endblock %}
+{% block content %}
+
 <div style="text-align: center">
     <p><a href="/add-question">
         <input type="button" id="new_question" class="bigger_button" value="Ask a new question"></a></p>
 </div>
 <table id="index_table">
     <tr>
-        <th style="text-align: center">Title</th>
-        <th style="text-align: center">Submission time</th>
-        <th style="text-align: center">Vote number</th>
-        <th style="text-align: center">Views</th>
+        <th>Title</th>
+        <th>Submission time</th>
+        <th>Vote number</th>
+        <th>Views</th>
         {% for question in questions %}
         <tr>
             <td style="padding: 4px"><a href="/question/{{ question.id }}">{{ question.title }}</a></td>
@@ -57,10 +50,6 @@
     <p><a href="/list">
         <input type="button" id="back" class="bigger_button" value="Back to the Main Page"></a></p>
 </div>
-</body>
-<br>
-<br>
-<div class="footer">
-    <p>Codecool BP - 2018 - Bence Árvai, Balázs Bertalan, Katalin Csortos</p>
-</div>
-</html>
+
+{% include 'footer.html' %}
+{% endblock %}
