@@ -220,7 +220,14 @@ def route_vote_answer_down(answer_id):
 
 @app.route('/search')
 def search():
-    pass
+    key = 'submission_time'
+    if 'q' in request.args:
+        search_data = request.args.get('q')
+        questions = data_manager.get_search_results(search_data)[0]
+        number_of_results = data_manager.get_search_results(search_data)[1]
+
+    return render_template('index.html', questions=questions, header=key,
+                           search_data=search_data, results_num=number_of_results)
 
 
 if __name__ == '__main__':

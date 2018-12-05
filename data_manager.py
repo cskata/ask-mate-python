@@ -2,11 +2,6 @@ from connection import connection_handler
 from datetime import datetime
 
 
-def convert_counter_to_int(database, key):
-    for data in database:
-        data[key] = int(data[key])
-
-
 @connection_handler
 def update_view_counter(cursor, question_id, increment):
     current_question = get_record_by_id("question", question_id)[0]
@@ -149,6 +144,7 @@ def delete_single_answer_by_id(cursor, answer_id):
                         WHERE id = {answer_id};
                         """)
 
+
 @connection_handler
 def sort_data(cursor,key, table, order):
     cursor.execute(f"""
@@ -180,3 +176,51 @@ def get_question_id_by_answer_id(cursor, id, table='answer'):
                     """)
     question_id = cursor.fetchall()
     return question_id[0]['question_id']
+
+
+@connection_handler
+def get_search_results_from_database(cursor, which_database, id, column, search_data):
+    cursor.execute(f"""
+                    SELECT {id} from {which_database}
+                    WHERE {column} ILIKE '%{search_data}%'
+                    """)
+    ids = cursor.fetchall()
+    list_of_ids = []
+    if which_database == "question":
+        for element in ids:
+            list_of_ids.append(element['id'])
+    else:
+        for element in ids:
+            list_of_ids.append(element['question_id'])
+    return list_of_ids
+
+
+@connection_handler
+def get_search_results(cursor, search_data):
+    question_ids_from_title = get_search_results_from_database("question", 'id', 'title', search_data)
+    question_ids_from_message = get_search_results_from_database("question", 'id', 'message', search_data)
+    answer_ids_from_message = get_search_results_from_database("answer", 'question_id', 'message', search_data)
+
+    question_ids_for_search = question_ids_from_title + question_ids_from_message + answer_ids_from_message
+    unique_question_ids = tuple(set(question_ids_for_search))
+
+    if len(unique_question_ids) == 1:
+        unique_question_id = list(unique_question_ids)[0]
+        cursor.execute(f"""
+                        SELECT * from question
+                        WHERE id = {unique_question_id};
+                        """)
+    elif len(unique_question_ids) == 0:
+        cursor.execute(f"""
+                        SELECT * from question
+                        WHERE id = -1;
+                        """)
+    else:
+        cursor.execute(f"""
+                        SELECT * from question
+                        WHERE id IN {unique_question_ids};
+                        """)
+
+    search_results = cursor.fetchall()
+    number_of_results = len(search_results)
+    return search_results, number_of_results

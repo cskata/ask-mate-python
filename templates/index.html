@@ -11,15 +11,16 @@
 <header class="mainhead">
     <h1 class="headtitle">AskMate (Sprint 1)</h1>
 </header>
-
 <div style="text-align: center">
-       <p><a href="/add-question">
-        <input type="button" id="new_question" class="bigger_button" value="Ask a new question"></a></p>
+    <p><a href="/add-question">
+    <input type="button" id="new_question" class="bigger_button" value="Ask a new question"></a></p>
 
-        <p><form action="/search"></form>
-        Search: <input type="text">
-        <button type="submit" name="search"
-                title="Search"><i class="fa fa-search"></i></button></p>
+    <p><form action="/search" method="get">
+    Search: <input type="text" id="q" name="q">
+    <button type="submit" title="Search"><i class="fa fa-search"></i></button></p></form>
+    {% if search_data %}
+        <p>AskMate found '{{ results_num }}' result(s) for the term '{{ search_data }}'.</p>
+    {% endif %}
 </div>
 <table id="index_table">
     <tr>
