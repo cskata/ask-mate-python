@@ -20,7 +20,7 @@
     <button type="submit" title="Search"><i class="fa fa-search"></i></button></p></form>
     {% if search_data %}
         <p>AskMate found <span style="font-weight: bold">{{ results_num }}</span>
-            result(s) for the term {{ search_data }}.</p>
+            result(s) for <span style="font-weight: bold">{{ search_data }}</span>.</p>
     {% endif %}
 </div>
 <table id="index_table">
