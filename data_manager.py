@@ -7,14 +7,18 @@ def convert_counter_to_int(database, key):
         data[key] = int(data[key])
 
 
-def view_counter(question_id, increment):
-    every_question = import_database("question")
-    current_question = get_question_by_id(question_id, every_question)
-    remove_data_by_id(every_question, question_id, 'id')
+@connection_handler
+def update_view_counter(cursor, question_id, increment):
+    current_question = get_record_by_id("question", question_id)[0]
 
     current_question['view_number'] += increment
-    every_question.append(current_question)
-    export_all_data("question", every_question)
+    new_view_number = current_question['view_number']
+
+    cursor.execute(f"""
+                    UPDATE question
+                    SET view_number = {new_view_number}
+                    WHERE id = {question_id};
+                    """)
 
 
 def vote_counter(data_id, database, up_or_down):
