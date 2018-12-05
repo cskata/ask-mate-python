@@ -32,7 +32,7 @@
         </td>
         <td colspan="2" class="title">
             <h1>{{ question.title }}</h1>
-            <p style="text-align: justify; padding: 4px">{{ question.message | safe}}</p>
+            <p style="text-align: justify; padding: 4px">{{ question.message | safe }}</p>
 
             {% if question.image %}
             <p>
@@ -82,7 +82,7 @@
             </p>
         </td>
         <td colspan="3">
-            <p style="padding: 4px; text-align: justify">{{ answer.message | safe}}</p>
+            <p style="padding: 4px; text-align: justify">{{ answer.message | safe }}</p>
             {% if answer.image %}
             <p>
                 <a href="/image/{{ answer.image }}" target="_blank">See the attached image</a>
