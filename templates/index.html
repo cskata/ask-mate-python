@@ -10,7 +10,11 @@
 
     {% if search_data %}
         <p>AskMate found <span style="font-weight: bold">{{ results_num }}</span>
-            result(s) for <span style="font-weight: bold">{{ search_data }}</span>.</p>
+            {% if results_num > 1 %}
+                results for <span style="font-weight: bold">{{ search_data }}</span>
+            {% else %}
+                result for <span style="font-weight: bold">{{ search_data }}</span>
+            {% endif %}</p>
     {% endif %}
 </div>
 <table id="index_table">
