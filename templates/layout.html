@@ -11,10 +11,12 @@
 <body>
 <div id="header">
 <header class="mainhead">
+    <form action="/search" method="get">
         <p class="headtitle">
-            <a href="/">ask<strong>mate</strong></a>
-        </p>
-        <input id="search" type="text" placeholder="Search">
+        <a href="/">ask<strong>mate</strong></a></p>
+        <input type="text" id="q" name="q" placeholder="Search">
+        <button type="submit" title="Search"><i class="fa fa-search"></i></button>
+    </form>
 </header>
 </div>
 {% block content %} {% endblock %}

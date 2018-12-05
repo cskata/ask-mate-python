@@ -8,9 +8,6 @@
     <p><a href="/add-question">
     <input type="button" id="new_question" class="bigger_button" value="Ask a new question"></a></p>
 
-    <p><form action="/search" method="get">
-    Search: <input type="text" id="q" name="q">
-    <button type="submit" title="Search"><i class="fa fa-search"></i></button></p></form>
     {% if search_data %}
         <p>AskMate found <span style="font-weight: bold">{{ results_num }}</span>
             result(s) for <span style="font-weight: bold">{{ search_data }}</span>.</p>
