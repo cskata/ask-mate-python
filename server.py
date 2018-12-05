@@ -75,30 +75,41 @@ def route_show_question(question_id):
     if request.method == 'GET':
         current_answers =  data_manager.get_answer_by_questionid('answer', question_id)
         current_question = data_manager.get_record_by_id('question', question_id)
+        current_comments = data_manager.get_comments_by_quesionid('comment', question_id)
         #question_image_name = data_manager.get_back_image_name(current_question)
 
         #for answer in current_answers:
         #    answer['image'] = data_manager.get_back_image_name(answer)
 
         return render_template('show_question.html', question_id=question_id,
-                               question=current_question[0], answers=current_answers)
+                               question=current_question[0], answers=current_answers, comments=current_comments)
     else:
-        new_answer = {
-            'submission_time': "",
-            'vote_number': 0,
-            'question_id': question_id,
-            'message': request.form['message'],
-            'image': "",
-        }
+        if len(request.form['comment_message']) > 0:
+            new_comment = {
+                'question_id': question_id,
+                'message': request.form['comment_message'],
+                'submission_time': "",
+            }
 
-        if len(request.files) > 0:
-            if request.files['image'].filename != "":
-                new_answer['image'] = request.files['image']
-                file = request.files['image']
-                filename = secure_filename(file.filename)
-                file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            data_manager.insert_new_comment_to_database(new_comment)
+        elif len(request.form['message']) > 0:
+            new_answer = {
+                'submission_time': "",
+                'vote_number': 0,
+                'question_id': question_id,
+                'message': request.form['message'],
+                'image': "",
+            }
 
-        data_manager.insert_new_answer_to_database(new_answer)
+            if len(request.files) > 0:
+                if request.files['image'].filename != "":
+                    new_answer['image'] = request.files['image']
+                    file = request.files['image']
+                    filename = secure_filename(file.filename)
+                    file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+
+            data_manager.insert_new_answer_to_database(new_answer)
+
         return redirect(url_for("route_show_question", question_id=question_id))
 
 
@@ -200,6 +211,16 @@ def route_vote_answer_down(answer_id):
 
     export_all_data('answer', every_answer)
     return redirect(url_for("route_show_question", question_id=question_id))
+
+
+@app.route('/question/<question_id>/new-comment', methods=['GET', 'POST'])
+def add_new_comment(question_id):
+    return render_template('new_comment.html', question_id=question_id)
+
+
+@app.route('/question/<question_id>/<comment_id>/edit<edited_count>', methods=['GET', 'POST'])
+def update_comment(question_id, comment_id, edited_count):
+    return render_template('new_comment.html', question_id=question_id, comment_id=comment_id, edited_count=edited_count)
 
 
 if __name__ == '__main__':

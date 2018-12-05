@@ -154,3 +154,26 @@ def update_question(cursor, new_data, question_id):
                         image = {new_data['image']}
                     WHERE id = {question_id}
                     """)
+
+
+@connection_handler
+def insert_new_comment_to_database(cursor, new_comment_data):
+    dt = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    new_comment_data['submission_time'] = str(dt)
+
+    data_to_insert = list(new_comment_data.values())
+    cursor.execute("""
+                    INSERT INTO comment
+                    (question_id, message, submission_time)
+                    VALUES (%s, %s, %s)
+                    """, data_to_insert)
+
+
+@connection_handler
+def get_comments_by_quesionid(cursor, which_database, question_id):
+    cursor.execute(f"""
+                        SELECT * FROM {which_database}
+                        WHERE question_id = {question_id};
+                       """)
+    comments = cursor.fetchall()
+    return comments

@@ -57,10 +57,30 @@
                 <i class="fa fa-lg fa-trash-o" title="Delete question"></i></a>
         </td>
     </tr>
+
+    <div class="question_comment">
+    <a href="/question/{{ question.id }}/{{ comment.id }}/edit{{ comment.edited_count }}">
+                <i class="fa fa-lg fa-plus-circle" title="Add new answer"></i></a>
+    <table id="answer">
+        {% for comment in comments %}
+        <tr>
+            <td>
+                {{ comment.message }}
+                <a href="/question/{{ question.id }}/new-comment/edit">
+                    <i class="fa fa-lg fa-pencil" title="Edit question"></i></a>
+            </td>
+        </tr>
+        <tr>
+            <td><p class="smol" >Posted: {{ comment.submission_time }}</p></td>
+        </tr>
+        {%  endfor  %}
+    </table>
+</div>
 </table>
 <br>
 <br>
 <br>
+
 <table id="answer">
     <tr>
         <th colspan="3">
