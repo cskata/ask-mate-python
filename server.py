@@ -43,13 +43,14 @@ def route_list():
 def route_add_question():
     if request.method == 'GET':
         return render_template('new_question.html')
+
     else:
         new_question = {
             'submission_time': "",
             'view_number': 0,
             'vote_number': 0,
             'title': request.form['title'],
-            'message': request.form['message'],
+            'message': request.form['message'].replace('\n', '<br/>'),
             'image': ""
         }
 
@@ -80,17 +81,17 @@ def route_show_question(question_id):
     data_manager.update_view_counter(question_id, 1)
 
     if request.method == 'GET':
-        current_question = data_manager.get_record_by_id('question', question_id)
+        current_question = data_manager.get_record_by_id('question', question_id)[0]
         current_answers = data_manager.get_answers_by_question_id(question_id)
 
         return render_template('show_question.html', question_id=question_id,
-                               question=current_question[0], answers=current_answers)
+                               question=current_question, answers=current_answers)
     else:
         new_answer = {
             'submission_time': "",
             'vote_number': 0,
             'question_id': question_id,
-            'message': request.form['message'],
+            'message': request.form['message'].replace('\n', '<br/>'),
             'image': "",
         }
 
@@ -116,13 +117,15 @@ def route_open_image(image_filename):
 @app.route('/question/<question_id>/edit', methods=['GET', 'POST'])
 def route_edit_question(question_id):
     current_question = data_manager.get_record_by_id('question', question_id)[0]
+    current_question['message'] = current_question['message'].replace('<br/>', "")
+
     if request.method == 'GET':
         return render_template('edit_question.html', question=current_question)
 
     else:
         edited_question = {
             'title': request.form['title'],
-            'message': request.form['message'],
+            'message': request.form['message'].replace('\n', '<br/>'),
             'image': ""
         }
 
@@ -152,11 +155,13 @@ def route_delete_question(question_id):
 @app.route('/answer/<answer_id>/edit', methods=['GET', 'POST'])
 def route_edit_answer(answer_id):
     current_answer = data_manager.get_record_by_id('answer', answer_id)[0]
+    current_answer['message'] = current_answer['message'].replace('<br/>', "")
+
     if request.method == 'GET':
         return render_template('edit_answer.html', answer=current_answer)
     else:
         edited_answer = {
-            'message': request.form['message'],
+            'message': request.form['message'].replace('\n', '<br/>'),
             'image': ""
         }
 
