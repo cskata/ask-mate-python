@@ -78,6 +78,7 @@ def route_new_answer(question_id):
 @app.route("/question/<question_id>", methods=['GET', 'POST'])
 def route_show_question(question_id):
     data_manager.update_view_counter(question_id, 1)
+
     if request.method == 'GET':
         current_question = data_manager.get_record_by_id('question', question_id)
         current_answers = data_manager.get_answers_by_question_id(question_id)
@@ -162,36 +163,31 @@ def route_delete_answer(answer_id):
 
 @app.route('/question/<question_id>/vote-up')
 def route_vote_question_up(question_id):
-
     data_manager.vote_counter("question", question_id, 'up')
-
-    #data_manager.view_counter(question_id, -1)
+    data_manager.update_view_counter(question_id, -1)
     return redirect(url_for("route_show_question", question_id=question_id))
 
 
 @app.route('/question/<question_id>/vote-down')
 def route_vote_question_down(question_id):
     data_manager.vote_counter("question", question_id, 'down')
-
-    #data_manager.view_counter(question_id, -1)
+    data_manager.update_view_counter(question_id, -1)
     return redirect(url_for("route_show_question", question_id=question_id))
 
 
 @app.route('/answer/<answer_id>/vote-up')
 def route_vote_answer_up(answer_id):
-
     data_manager.vote_counter('answer', answer_id, 'up')
     question_id = data_manager.get_question_id_by_answer_id(answer_id)
-    #data_manager.view_counter(question_id, -1)
-
+    data_manager.update_view_counter(question_id, -1)
     return redirect(url_for("route_show_question", question_id=question_id))
 
 
 @app.route('/answer/<answer_id>/vote-down')
 def route_vote_answer_down(answer_id):
-
     data_manager.vote_counter('answer', answer_id, 'down')
     question_id = data_manager.get_question_id_by_answer_id(answer_id)
+    data_manager.update_view_counter(question_id, -1)
     return redirect(url_for("route_show_question", question_id=question_id))
 
 
