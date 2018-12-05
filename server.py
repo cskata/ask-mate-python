@@ -110,7 +110,6 @@ def route_open_image(image_filename):
 @app.route('/question/<question_id>/edit', methods=['GET', 'POST'])
 def route_edit_question(question_id):
     current_question = data_manager.get_record_by_id('question', question_id)[0]
-    print(current_question)
     if request.method == 'GET':
         return render_template('edit_question.html', question=current_question)
 
@@ -120,6 +119,7 @@ def route_edit_question(question_id):
             'message': request.form['message'],
             'image': ""
         }
+
         question_id = int(request.form['id'])
 
         if len(request.files) > 0:
@@ -128,8 +128,7 @@ def route_edit_question(question_id):
                 file = request.files['image']
                 filename = secure_filename(file.filename)
                 file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-        print(edited_question)
-        print(question_id)
+
         data_manager.update_question(edited_question, question_id)
         #data_manager.view_counter(question_id, -1)
         return redirect(url_for("route_show_question", question_id=question_id))

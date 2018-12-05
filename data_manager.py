@@ -147,7 +147,6 @@ def get_answer_by_questionid(cursor, which_database, question_id):
 
 @connection_handler
 def update_question(cursor, updated_data, question_id):
-    print(updated_data)
     new_data = list(updated_data.values())
     cursor.execute(f"""
                     UPDATE question
