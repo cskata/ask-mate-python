@@ -4,28 +4,25 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
     <link href="https://fonts.googleapis.com/css?family=Noto+Sans" rel="stylesheet">
-    <title>Edit question</title>
+    <title>Edit answer</title>
 </head>
 <header class="mainhead">
     <h1 class="headtitle">AskMate (Sprint 1)</h1>
 </header>
 <body>
 <div style="text-align: center">
-    <form action="/question/{{ question.id }}/edit" method="POST" enctype=multipart/form-data>
-        <input type="number" id="id" name="id" value="{{ question.id }}" hidden>
-        <p><label style="font-weight: bold">Title</label></p>
-        <input id="title" name="title" type="text" value="{{ question.title }}"
-               placeholder="Add title to your question" required>
-
-        <p><label style="font-weight: bold">Question</label></p>
+    <form action="/answer/{{ answer.id }}/edit" method="POST" enctype=multipart/form-data>
+        <input type="number" id="id" name="id" value="{{ answer.id }}" hidden>
+        <input type="number" id="question_id" name="question_id" value="{{ answer.question_id }}" hidden>
+        <p><label style="font-weight: bold">Your answer</label></p>
         <textarea class="textbox_gen" id="message" name="message" cols="50" rows="20"
-                  placeholder="Write your question here" required>{{ question.message }}</textarea>
+                  placeholder="Write your answer here" required>{{ answer.message }}</textarea>
         <p><div class="image-upload">
                 <label for="image"><img src="/static/image/imgupl.png"/></label>
                 <input id="image" type="file" name="image">
             </div></p>
         <p>Click the icon to upload a new image</p>
-        <button type="submit" class="bigger_button">Edit Question</button>
+        <button type="submit" class="bigger_button">Edit Answer</button>
     </form>
     <br>
     <br>
