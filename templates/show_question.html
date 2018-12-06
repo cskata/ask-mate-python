@@ -89,6 +89,7 @@
             <p>Answers</p>
         </th>
     </tr>
+    {% if answers|length > 0 %}
     {% for answer in answers %}
     <tr>
         <td width="4%" style="text-align: center">
@@ -145,6 +146,9 @@
         {%  endfor  %}
     {% endfor %}
 </table>
+{% else %}
+    <p id="noasnwer">No answer(s) here yet!</p>
+{% endif %}
 <br>
 <br>
 <div style="text-align: center">

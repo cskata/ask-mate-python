@@ -210,3 +210,9 @@ body {
 .snowflake:hover {
     cursor: default;
 }
+
+#noasnwer {
+    display: block;
+    text-align: center;
+    font-size: 3px;
+}
