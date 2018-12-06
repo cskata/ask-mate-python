@@ -150,7 +150,6 @@ def delete_single_answer_by_id(cursor, answer_id):
                         """)
 
 
-
 @connection_handler
 def sort_data(cursor, key, table, order):
     cursor.execute(f"""
