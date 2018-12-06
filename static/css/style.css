@@ -122,7 +122,6 @@ body {
     box-shadow: 0 8px 12px 0 rgba(0,0,0,0.24), 0 13px 40px 0 rgba(0,0,0,0.19);
 }
 
-
 .bigger_button {
     width: 200px;
 }
@@ -196,6 +195,25 @@ body {
     padding:3px;
     margin-left:5px;
     vertical-align: center;
+}
+
+#snowflakeContainer {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+}
+.snowflake {
+    padding-left: 15px;
+    font-family: Cambria, Georgia, serif;
+    font-size: 14px;
+    line-height: 24px;
+    position: fixed;
+    color: #FFFFFF;
+    user-select: none;
+    z-index: 1000;
+}
+.snowflake:hover {
+    cursor: default;
 }
 
 #table-container{

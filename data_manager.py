@@ -288,7 +288,8 @@ def insert_new_answer_comment_to_database(cursor, new_comment_data):
 def get_comments_by_question_id(cursor, which_database, question_id):
     cursor.execute(f"""
                         SELECT * FROM {which_database}
-                        WHERE question_id = {question_id} AND answer_id IS NULL;
+                        WHERE question_id = {question_id} AND answer_id IS NULL
+                        ORDER BY submission_time;
                        """)
     comments = cursor.fetchall()
     return comments
@@ -298,7 +299,8 @@ def get_comments_by_question_id(cursor, which_database, question_id):
 def get_answer_comments(cursor, which_database):
     cursor.execute(f"""
                         SELECT * FROM {which_database}
-                        WHERE answer_id IS NOT NULL ;
+                        WHERE answer_id IS NOT NULL 
+                        ORDER BY submission_time;
                        """)
     comments = cursor.fetchall()
     return comments
