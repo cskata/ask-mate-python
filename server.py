@@ -80,7 +80,6 @@ def route_new_answer(question_id):
 def route_show_question(question_id):
     data_manager.update_view_counter(question_id, 1)
 
-
     if request.method == 'GET':
         current_question = data_manager.get_record_by_id('question', question_id)[0]
         current_answers = data_manager.get_answers_by_question_id(question_id)
@@ -89,7 +88,7 @@ def route_show_question(question_id):
         current_question_comments = data_manager.get_comments_by_quesionid('comment', question_id)
         current_answer_comments = data_manager.get_answercomments('comment')
         return render_template('show_question.html', question_id=question_id,
-                               question=current_question[0], answers=current_answers,
+                               question=current_question, answers=current_answers,
                                question_comments=current_question_comments, answer_comments=current_answer_comments,
                                number_of_answers=number_of_answers)
     else:

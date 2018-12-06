@@ -9,12 +9,17 @@
     <input type="button" id="new_question" class="bigger_button" value="Ask a new question"></a></p>
 
     {% if search_data %}
+        {% if results_num > 0 %}
         <p>AskMate found <span style="font-weight: bold">{{ results_num }}</span>
             {% if results_num > 1 %}
                 results for <span style="font-weight: bold">{{ search_data }}</span>
             {% else %}
                 result for <span style="font-weight: bold">{{ search_data }}</span>
             {% endif %}</p>
+        {% else %}
+            <p>AskMate found<span style="font-weight: bold"> nothing </span>
+            for <span style="font-weight: bold">{{ search_data }}</span></p>
+        {% endif %}
     {% endif %}
 </div>
 <table id="index_table">
