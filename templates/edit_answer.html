@@ -1,15 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
-    <link href="https://fonts.googleapis.com/css?family=Noto+Sans" rel="stylesheet">
+{% extends "layout.html" %}
+{% block title %}
     <title>Edit answer</title>
-</head>
-<header class="mainhead">
-    <h1 class="headtitle">AskMate (Sprint 1)</h1>
-</header>
-<body>
+{% endblock %}
+{% block content %}
+
 <div style="text-align: center">
     <form action="/answer/{{ answer.id }}/edit" method="POST" enctype=multipart/form-data>
         <input type="number" id="id" name="id" value="{{ answer.id }}" hidden>
@@ -30,8 +24,5 @@
         <input type="button" id="back" class="bigger_button" value="Back to the Main Page"></a></p>
     </div>
 <br>
-</body>
-<div class="footer">
-    <p>Codecool BP - 2018 - Bence Árvai, Balázs Bertalan, Katalin Csortos</p>
-</div>
-</html>
+
+{% endblock %}

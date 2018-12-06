@@ -247,6 +247,7 @@ def insert_new_questioncomment_to_database(cursor, new_comment_data):
                     VALUES (%s, %s, %s, %s)
                     """, data_to_insert)
 
+
 @connection_handler
 def insert_new_answercomment_to_database(cursor, new_comment_data):
     dt = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
@@ -268,6 +269,7 @@ def get_comments_by_quesionid(cursor, which_database, question_id):
                        """)
     comments = cursor.fetchall()
     return comments
+
 
 @connection_handler
 def get_comments_by_answerid(cursor, which_database, answer_id):
@@ -297,6 +299,7 @@ def get_comment_by_commentid(cursor, which_database, comment_id):
                        """)
     comment = cursor.fetchall()
     return comment[0]
+
 
 @connection_handler
 def update_data_by_id(cursor, which_database, new_data, id):
