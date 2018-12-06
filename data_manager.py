@@ -140,9 +140,15 @@ def delete_question_and_answers(cursor, question_id):
 @connection_handler
 def delete_single_answer_by_id(cursor, answer_id):
     cursor.execute(f"""
+                                DELETE FROM comment
+                                WHERE answer_id = {answer_id};
+                                """)
+
+    cursor.execute(f"""
                         DELETE FROM answer
                         WHERE id = {answer_id};
                         """)
+
 
 
 @connection_handler
