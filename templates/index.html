@@ -4,24 +4,7 @@
 {% endblock %}
 {% block content %}
 
-<div style="text-align: center">
-    <p><a href="/add-question">
-    <input type="button" id="new_question" class="bigger_button" value="Ask a new question"></a></p>
-
-    {% if search_data %}
-        {% if results_num > 0 %}
-        <p>AskMate found <span style="font-weight: bold">{{ results_num }}</span>
-            {% if results_num > 1 %}
-                results for <span style="font-weight: bold">{{ search_data }}</span>
-            {% else %}
-                result for <span style="font-weight: bold">{{ search_data }}</span>
-            {% endif %}</p>
-        {% else %}
-            <p>AskMate found<span style="font-weight: bold"> nothing </span>
-            for <span style="font-weight: bold">{{ search_data }}</span></p>
-        {% endif %}
-    {% endif %}
-</div>
+<div id ="table-container">
 <table id="index_table">
     <tr>
         <th>Title</th>
@@ -38,10 +21,29 @@
         {% endfor %}
     </tr>
 </table>
-<br>
-<div style="margin-top:auto; margin-bottom:auto; text-align:center;">
-    <p>
-        <form action="/" method="get">
+</div>
+    <div id="container-2">
+<div id="question-button">
+    <a href="/add-question">
+    <input type="button" id="new_question" class="bigger_button" value="Ask a new question"></a>
+
+    {% if search_data %}
+        {% if results_num > 0 %}
+        <p>AskMate found <span style="font-weight: bold">{{ results_num }}</span>
+            {% if results_num > 1 %}
+                results for <span style="font-weight: bold">{{ search_data }}</span>
+            {% else %}
+                result for <span style="font-weight: bold">{{ search_data }}</span>
+            {% endif %}</p>
+        {% else %}
+            <p>AskMate found<span style="font-weight: bold"> nothing </span>
+            for <span style="font-weight: bold">{{ search_data }}</span></p>
+        {% endif %}
+    {% endif %}
+
+</div>
+<div id="sort-form" class="styled-select blue semi-square">
+<form action="/" method="get">
         <p style="font-weight: bold">Sort by: </p>
         <select id="order_by" name="order_by">
             <option value="title">Title</option>
@@ -50,19 +52,18 @@
             <option value="vote_number">Vote Number</option>
             <option value="{{ header }}" selected="selected" hidden>{{ ' '.join(header.split('_')).title() }}</option>
         </select>
-        <p>
             <button type="submit" name="order_direction"
                     value="asc" title="Ascending order"><i class="fa fa-sort-amount-asc"></i></button>
             <button type="submit" name="order_direction"
                     value="desc" title="Descending order"><i class="fa fa-sort-amount-desc"></i></button>
-        </p>
         </form>
-    </p>
 </div>
+    </div>
 <br>
-<div style="text-align: center">
-    <p><a href="/list">
-        <input type="button" id="back" class="bigger_button" value="Back to the Main Page"></a></p>
+<div id="back-button">
+    <a href="/list">
+        <input type="button" id="back" class="bigger_button" value="Back to the Main Page">
+    </a>
 </div>
-
+{% include 'footer.html' %}
 {% endblock %}
