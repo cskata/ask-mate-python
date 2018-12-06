@@ -64,10 +64,11 @@
                         <i class="fa fa-lg fa-trash-o" title="Delete comment"></i></a>
                 </td>
             </tr>
-            <tr>
+            <tr >
                 <td><p>Edited {{ comment.edited_count }} times.</p></td>
                 <td><p class="smol" >Posted: {{ comment.submission_time }}</p></td>
             </tr>
+                <br id="comment_border">
             {%  endfor  %}
         </table>
 </table>
