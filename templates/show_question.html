@@ -58,25 +58,26 @@
                 <i class="fa fa-lg fa-trash-o" title="Delete question"></i></a>
         </td>
     </tr>
-
-    <div class="question_comment">
-    <a href="/question/{{ question.id }}/{{ comment.id }}/edit{{ comment.edited_count }}">
-                <i class="fa fa-lg fa-plus-circle" title="Add new answer"></i></a>
-    <table id="answer">
-        {% for comment in comments %}
-        <tr>
+        <table id="question-comments">
+            {% for comment in question_comments %}
+            <tr>
+                <td>
+                    <p id="comment_message">{{ comment.message }}</p>
+                    <a href="/comments/{{ comment.id }}/edit">
+                        <i class="fa fa-lg fa-pencil" title="Edit comment"></i></a>
+                </td>
+            </tr>
+            <tr>
+                <td><p>Edited {{ comment.edited_count }} times.</p></td>
+                <td><p class="smol" >Posted: {{ comment.submission_time }}</p></td>
+            </tr>
+            {%  endfor  %}
             <td>
-                {{ comment.message }}
-                <a href="/question/{{ question.id }}/new-comment/edit">
-                    <i class="fa fa-lg fa-pencil" title="Edit question"></i></a>
+                <label>Add new comment</label>
+                <a href="/question/{{ question.id }}/new-comment">
+                <i class="fa fa-lg fa-plus-circle" title="Add new comment"></i></a>
             </td>
-        </tr>
-        <tr>
-            <td><p class="smol" >Posted: {{ comment.submission_time }}</p></td>
-        </tr>
-        {%  endfor  %}
-    </table>
-</div>
+        </table>
 </table>
 <br>
 <br>
@@ -116,6 +117,8 @@
             <p class="smol" >Posted: {{ answer.submission_time }}</p>
         </td>
         <td width="9%" class="answerdelete">
+            <a href="/answer/{{ answer.id }}/new-comment">
+                <i class="fa fa-lg fa-plus-circle" title="Add new comment"></i></a> |
             <a href="/answer/{{ answer.id }}/edit">
                 <i class="fa fa-lg fa-pencil" title="Edit answer"></i></a> |
             <a href="/answer/{{ answer.id }}/delete"
@@ -123,6 +126,20 @@
                 <i class="fa fa-lg fa-trash-o" title="Delete answer"></i></a>
         </td>
     </tr>
+        {% for comment in answer_comments %}
+            {%  if answer.id == comment.answer_id %}
+            <tr>
+                <td>
+                    <p id="comment_message">{{ comment.message }}</p>
+                    <a href="/comments/{{ comment.id }}/edit">
+                    <i class="fa fa-lg fa-pencil" title="Edit question"></i></a>
+                </td>
+            </tr>
+            <tr>
+                <td><p class="smol" >Posted: {{ comment.submission_time }}</p></td>
+            </tr>
+            {% endif %}
+        {%  endfor  %}
     {% endfor %}
 </table>
 <br>
