@@ -26,10 +26,6 @@ body {
 }
 
 #index_table {
-    width: 90%;
-    margin-left: 5%;
-    margin-right: 5%;
-    padding: 10px;
     border:1px solid #579bd1;
     border-collapse: collapse;
     border-radius: 5px 5px 5px 5px;
@@ -190,4 +186,13 @@ body {
     padding:3px;
     margin-left:5px;
     vertical-align: center;
+}
+
+#table-container{
+    width: 60%;
+    margin:auto;
+}
+#question-button{
+    width: 60%;
+    margin:auto;
 }
