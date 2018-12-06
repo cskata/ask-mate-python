@@ -169,10 +169,10 @@ def vote_counter(cursor, table, id, up_or_down):
 
 
 @connection_handler
-def get_question_id_by_answer_id(cursor, id, table='answer'):
+def get_question_id_by_answer_id(cursor, answer_id, table='answer'):
     cursor.execute(f"""
                     SELECT question_id from {table}
-                    WHERE id = {id}
+                    WHERE id = {answer_id}
                     """)
     question_id = cursor.fetchall()
     return question_id[0]['question_id']
@@ -227,3 +227,81 @@ def get_search_results(cursor, search_data, key):
     search_results = cursor.fetchall()
     number_of_results = len(search_results)
     return search_results, number_of_results
+
+
+@connection_handler
+def insert_new_questioncomment_to_database(cursor, new_comment_data):
+    dt = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    new_comment_data['submission_time'] = str(dt)
+
+    data_to_insert = list(new_comment_data.values())
+    cursor.execute("""
+                    INSERT INTO comment
+                    (question_id, message, submission_time, edited_count)
+                    VALUES (%s, %s, %s, %s)
+                    """, data_to_insert)
+
+@connection_handler
+def insert_new_answercomment_to_database(cursor, new_comment_data):
+    dt = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    new_comment_data['submission_time'] = str(dt)
+
+    data_to_insert = list(new_comment_data.values())
+    cursor.execute("""
+                    INSERT INTO comment
+                    (question_id, answer_id, message, submission_time, edited_count)
+                    VALUES (%s, %s, %s, %s, %s)
+                    """, data_to_insert)
+
+
+@connection_handler
+def get_comments_by_quesionid(cursor, which_database, question_id):
+    cursor.execute(f"""
+                        SELECT * FROM {which_database}
+                        WHERE question_id = {question_id} AND answer_id IS NULL;
+                       """)
+    comments = cursor.fetchall()
+    return comments
+
+@connection_handler
+def get_comments_by_answerid(cursor, which_database, answer_id):
+    cursor.execute(f"""
+                        SELECT * FROM {which_database}
+                        WHERE answer_id = {answer_id};
+                       """)
+    comments = cursor.fetchall()
+    return comments
+
+
+@connection_handler
+def get_answercomments(cursor, which_database):
+    cursor.execute(f"""
+                        SELECT * FROM {which_database}
+                        WHERE answer_id IS NOT NULL ;
+                       """)
+    comments = cursor.fetchall()
+    return comments
+
+
+@connection_handler
+def get_comment_by_commentid(cursor, which_database, comment_id):
+    cursor.execute(f"""
+                        SELECT * FROM {which_database}
+                        WHERE id = {comment_id};
+                       """)
+    comment = cursor.fetchall()
+    return comment[0]
+
+@connection_handler
+def update_data_by_id(cursor, which_database, new_data, id):
+
+    comment = get_comment_by_commentid('comment', id)
+    comment['edited_count'] += 1
+    new_edited_count = comment['edited_count']
+    data_to_update = list(new_data.values())
+
+    cursor.execute(f"""
+                    UPDATE {which_database}
+                    SET message = %s , edited_count = {new_edited_count}
+                    WHERE id = {id}
+                    """, data_to_update)
