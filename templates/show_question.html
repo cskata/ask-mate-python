@@ -4,54 +4,55 @@
 {% endblock %}
 {% block content %}
 
-<table id="question">
-    <tr>
-        <th colspan="3">
-            <p style="text-align: center">Question</p>
-        </th>
-      </tr>
-    <tr>
-        <td width="4%" style="text-align: center">
-            <p>
-                <a href="/question/{{ question.id }}/vote-up">
-                    <i class="fa fa-arrow-up" style="font-size: 16px"></i></a>
-            </p>
-            <p>{{ question.vote_number}}</p>
-            <p>
-                <a href="/question/{{ question.id }}/vote-down">
-                    <i class="fa fa-arrow-down" style="font-size: 16px; text-align: center"></i></a>
-            </p>
-        </td>
-        <td colspan="2" class="title">
-            <h1>{{ question.title }}</h1>
-            <p style="text-align: justify; padding: 4px">{{ question.message | safe }}</p>
+<div id ="table-container">
+    <table id="question">
+        <tr>
+            <th colspan="3">
+                <p style="text-align: center">Question</p>
+            </th>
+          </tr>
+        <tr>
+            <td width="4%" style="text-align: center">
+                <p>
+                    <a href="/question/{{ question.id }}/vote-up">
+                        <i class="fa fa-arrow-up" style="font-size: 16px"></i></a>
+                </p>
+                <p>{{ question.vote_number}}</p>
+                <p>
+                    <a href="/question/{{ question.id }}/vote-down">
+                        <i class="fa fa-arrow-down" style="font-size: 16px; text-align: center"></i></a>
+                </p>
+            </td>
+            <td colspan="2" class="title">
+                <h1>{{ question.title }}</h1>
+                <p style="text-align: justify; padding: 4px">{{ question.message | safe }}</p>
 
-            {% if question.image %}
-            <p>
-                <a href="/image/{{ question.image }}" target="_blank"> See the attached image</a>
-            </p>
-            {% endif %}
-        </td>
-    </tr>
-    <tr>
-        <td class="smol">
-            <p>Seen by: {{ question.view_number}}</p>
-        </td>
-        <td class="smol">
-            <p>Posted: {{ question.submission_time }}</p>
-        </td>
-        <td class="opts" style="width: 12%">
-            <a href="/question/{{ question.id }}/new-answer">
-                <i class="fa fa-lg fa-plus-circle" title="Add new answer"></i></a> |
-            <a href="/question/{{ question.id }}/new-comment">
-                <i class="fa fa-lg fa-comment" title="Add new comment"></i></a> |
-            <a href="/question/{{ question.id }}/edit">
-                <i class="fa fa-lg fa-pencil" title="Edit question"></i></a> |
-            <a href="/question/{{ question.id }}/delete"
-               onclick="return confirm('Are you sure you want to delete this item?')">
-                <i class="fa fa-lg fa-trash-o" title="Delete question"></i></a>
-        </td>
-    </tr>
+                {% if question.image %}
+                <p>
+                    <a href="/image/{{ question.image }}" target="_blank"> See the attached image</a>
+                </p>
+                {% endif %}
+            </td>
+        </tr>
+        <tr>
+            <td class="smol">
+                <p>Seen by: {{ question.view_number}}</p>
+            </td>
+            <td class="smol">
+                <p>Posted: {{ question.submission_time }}</p>
+            </td>
+            <td class="opts" style="width: 12%">
+                <a href="/question/{{ question.id }}/new-answer">
+                    <i class="fa fa-lg fa-plus-circle" title="Add new answer"></i></a> |
+                <a href="/question/{{ question.id }}/new-comment">
+                    <i class="fa fa-lg fa-comment" title="Add new comment"></i></a> |
+                <a href="/question/{{ question.id }}/edit">
+                    <i class="fa fa-lg fa-pencil" title="Edit question"></i></a> |
+                <a href="/question/{{ question.id }}/delete"
+                   onclick="return confirm('Are you sure you want to delete this item?')">
+                    <i class="fa fa-lg fa-trash-o" title="Delete question"></i></a>
+            </td>
+        </tr>
         <table id="question-comments">
             {% for comment in question_comments %}
             <tr>
@@ -70,7 +71,8 @@
             </tr>
             {%  endfor  %}
         </table>
-</table>
+    </table>
+</div>
 <br>
 <p>
     {% if number_of_answers > 1 %}
