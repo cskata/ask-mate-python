@@ -85,8 +85,8 @@ def route_show_question(question_id):
         current_answers = data_manager.get_answers_by_question_id(question_id)
         number_of_answers = len(current_answers)
 
-        current_question_comments = data_manager.get_comments_by_quesionid('comment', question_id)
-        current_answer_comments = data_manager.get_answercomments('comment')
+        current_question_comments = data_manager.get_comments_by_question_id('comment', question_id)
+        current_answer_comments = data_manager.get_answer_comments('comment')
         return render_template('show_question.html', question_id=question_id,
                                question=current_question, answers=current_answers,
                                question_comments=current_question_comments, answer_comments=current_answer_comments,

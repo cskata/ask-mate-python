@@ -262,7 +262,7 @@ def insert_new_answer_comment_to_database(cursor, new_comment_data):
 
 
 @connection_handler
-def get_comments_by_quesionid(cursor, which_database, question_id):
+def get_comments_by_question_id(cursor, which_database, question_id):
     cursor.execute(f"""
                         SELECT * FROM {which_database}
                         WHERE question_id = {question_id} AND answer_id IS NULL;
@@ -272,17 +272,7 @@ def get_comments_by_quesionid(cursor, which_database, question_id):
 
 
 @connection_handler
-def get_comments_by_answerid(cursor, which_database, answer_id):
-    cursor.execute(f"""
-                        SELECT * FROM {which_database}
-                        WHERE answer_id = {answer_id};
-                       """)
-    comments = cursor.fetchall()
-    return comments
-
-
-@connection_handler
-def get_answercomments(cursor, which_database):
+def get_answer_comments(cursor, which_database):
     cursor.execute(f"""
                         SELECT * FROM {which_database}
                         WHERE answer_id IS NOT NULL ;
@@ -304,7 +294,7 @@ def get_comment_by_comment_id(cursor, which_database, comment_id):
 @connection_handler
 def update_data_by_id(cursor, which_database, new_data, id):
 
-    comment = get_comment_by_commentid('comment', id)
+    comment = get_comment_by_comment_id('comment', id)
     comment['edited_count'] += 1
     new_edited_count = comment['edited_count']
     data_to_update = list(new_data.values())
