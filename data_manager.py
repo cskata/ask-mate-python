@@ -204,7 +204,6 @@ def get_question_id_by_comment_id(cursor, comment_id):
                     WHERE id = {comment_id}
                     """)
     question_id = cursor.fetchall()
-    print(question_id)
     return question_id[0]['question_id']
 
 
