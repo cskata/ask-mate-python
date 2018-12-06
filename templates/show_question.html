@@ -40,9 +40,11 @@
         <td class="smol">
             <p>Posted: {{ question.submission_time }}</p>
         </td>
-        <td class="opts" style="width: 9%">
+        <td class="opts" style="width: 12%">
             <a href="/question/{{ question.id }}/new-answer">
                 <i class="fa fa-lg fa-plus-circle" title="Add new answer"></i></a> |
+            <a href="/question/{{ question.id }}/new-comment">
+                <i class="fa fa-lg fa-comment" title="Add new comment"></i></a> |
             <a href="/question/{{ question.id }}/edit">
                 <i class="fa fa-lg fa-pencil" title="Edit question"></i></a> |
             <a href="/question/{{ question.id }}/delete"
@@ -122,7 +124,7 @@
         </td>
         <td width="9%" class="answerdelete">
             <a href="/answer/{{ answer.id }}/new-comment">
-                <i class="fa fa-lg fa-plus-circle" title="Add new comment"></i></a> |
+                <i class="fa fa-lg fa-comment" title="Add new comment"></i></a> |
             <a href="/answer/{{ answer.id }}/edit">
                 <i class="fa fa-lg fa-pencil" title="Edit answer"></i></a> |
             <a href="/answer/{{ answer.id }}/delete"
