@@ -250,6 +250,7 @@ def add_new_comment_to_question(question_id):
         data_manager.insert_new_questioncomment_to_database(new_comment)
         return redirect(url_for("route_show_question", question_id=question_id))
 
+
 @app.route('/answer/<answer_id>/new-comment', methods=['GET', 'POST'])
 def add_new_comment_to_answer(answer_id):
     question_id = data_manager.get_question_id_by_answer_id(answer_id)
