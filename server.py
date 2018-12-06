@@ -230,8 +230,8 @@ def search():
     key = 'submission_time'
     if 'q' in request.args:
         search_data = request.args.get('q')
-        questions = data_manager.get_search_results(search_data)[0]
-        number_of_results = data_manager.get_search_results(search_data)[1]
+        questions = data_manager.get_search_results(search_data, key)[0]
+        number_of_results = data_manager.get_search_results(search_data, key)[1]
 
     return render_template('index.html', questions=questions, header=key,
                            search_data=search_data, results_num=number_of_results)

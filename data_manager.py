@@ -146,7 +146,7 @@ def delete_single_answer_by_id(cursor, answer_id):
 
 
 @connection_handler
-def sort_data(cursor,key, table, order):
+def sort_data(cursor, key, table, order):
     cursor.execute(f"""
                     SELECT * FROM {table}
                     ORDER BY {key} {order}
@@ -196,7 +196,7 @@ def get_search_results_from_database(cursor, which_database, id, column, search_
 
 
 @connection_handler
-def get_search_results(cursor, search_data):
+def get_search_results(cursor, search_data, key):
     question_ids_from_title = get_search_results_from_database("question", 'id', 'title', search_data)
     question_ids_from_message = get_search_results_from_database("question", 'id', 'message', search_data)
     answer_ids_from_message = get_search_results_from_database("answer", 'question_id', 'message', search_data)
@@ -208,17 +208,20 @@ def get_search_results(cursor, search_data):
         unique_question_id = list(unique_question_ids)[0]
         cursor.execute(f"""
                         SELECT * from question
-                        WHERE id = {unique_question_id};
+                        WHERE id = {unique_question_id}
+                        ORDER BY {key} DESC;
                         """)
     elif len(unique_question_ids) == 0:
         cursor.execute(f"""
                         SELECT * from question
-                        WHERE id = -1;
+                        WHERE id = -1
+                        ORDER BY {key} DESC;
                         """)
     else:
         cursor.execute(f"""
                         SELECT * from question
-                        WHERE id IN {unique_question_ids};
+                        WHERE id IN {unique_question_ids}
+                        ORDER BY {key} DESC;
                         """)
 
     search_results = cursor.fetchall()
