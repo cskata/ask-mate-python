@@ -1,8 +1,5 @@
-html {
+html{
     height: 100%;
-    scroll-behavior: smooth;
-    padding: 5px;
-    font-family: 'Noto Sans', sans-serif;
 }
 
 .footer {
@@ -17,7 +14,6 @@ html {
     font-size: 10px;
     height: 30px;
     border: solid 1px #579bd1;
-    border-radius: 3px;
 }
 
 body {
@@ -26,6 +22,7 @@ body {
     min-height: 100%;
     padding-bottom: 60px;
     background-color: #fdffe0;
+    font-family: 'Noto Sans', sans-serif;
 }
 
 #index_table {
@@ -38,6 +35,10 @@ body {
     border-radius: 5px 5px 5px 5px;
 }
 
+#index_table a{
+    text-decoration: none;
+    color: #185d86;
+}
 #index_table th {
     text-align: left;
     border-collapse: collapse;
@@ -45,6 +46,7 @@ body {
     height: 30px;
     padding: 4px;
     border-bottom: 1px solid #579bd1;
+    text-align: center;
 }
 
 #index_table tr {
@@ -70,6 +72,7 @@ body {
     border-collapse: collapse;
     background-color: #98d0f7;
     height: 20px;
+    text-align: center;
 }
 
 #question h1 {
@@ -128,18 +131,12 @@ body {
 }
 
 .mainhead {
+    position: fixed;
     width: 100%;
-    text-align: center;
+    top:0;
     background-color: #86CDD1;
-    margin-bottom: 20px;
-    padding-bottom: 4px;
-    padding-top: 4px;
+    padding: 5px;
     border: solid 1px #579bd1;
-    border-radius: 3px;
-}
-
-.headtitle {
-    font-size: 30px;
 }
 
 .opts {
@@ -172,4 +169,25 @@ body {
 
 .textbox_gen {
     white-space: pre;
+}
+
+#header{
+    margin-bottom: 105px;
+}
+
+.headtitle{
+    display:inline;
+    font-size: 20px;
+    margin-left: 200px;
+}
+
+.headtitle a{
+    text-decoration: none;
+    color:black;
+}
+
+#search{
+    padding:3px;
+    margin-left:5px;
+    vertical-align: center;
 }
