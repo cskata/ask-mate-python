@@ -90,10 +90,7 @@ def route_show_question(question_id):
         current_answer_comments = data_manager.get_answercomments('comment')
         return render_template('show_question.html', question_id=question_id,
                                question=current_question[0], answers=current_answers,
-                               question_comments=current_question_comments, answer_comments=current_answer_comments)
-
-
-                               question=current_question, answers=current_answers,
+                               question_comments=current_question_comments, answer_comments=current_answer_comments,
                                number_of_answers=number_of_answers)
     else:
         new_answer = {
@@ -101,20 +98,10 @@ def route_show_question(question_id):
             'vote_number': 0,
             'question_id': question_id,
             'message': request.form['message'].replace('\n', '<br/>'),
-            'image': "",
+            'image': ""
         }
-        try:
-            if request.form['comment_message'] != '':
-                new_comment = {
-                    'question_id': question_id,
-                    'message': request.form['comment_message'],
-                    'submission_time': "",
-                    'edited_count': 0
-                }
 
-                data_manager.insert_new_questioncomment_to_database(new_comment)
-        except:
-            if len(request.form['message']) > 0:
+        if len(request.form['message']) > 0:
                 new_answer = {
                     'submission_time': "",
                     'vote_number': 0,
@@ -122,18 +109,17 @@ def route_show_question(question_id):
                     'message': request.form['message'],
                     'image': "",
                 }
+        if len(request.files) > 0:
+            if request.files['image'].filename != "":
+                current_image_name = str(request.files['image'])
+                normal_image_name = data_manager.get_back_image_name(current_image_name)
+                new_answer['image'] = normal_image_name
 
-            if len(request.files) > 0:
-                if request.files['image'].filename != "":
-                    current_image_name = str(request.files['image'])
-                    normal_image_name = data_manager.get_back_image_name(current_image_name)
-                    new_answer['image'] = normal_image_name
+                file = request.files['image']
+                filename = secure_filename(file.filename)
+                file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 
-                    file = request.files['image']
-                    filename = secure_filename(file.filename)
-                    file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-
-                data_manager.insert_new_answer_to_database(new_answer)
+            data_manager.insert_new_answer_to_database(new_answer)
         return redirect(url_for("route_show_question", question_id=question_id))
 
 
@@ -253,8 +239,17 @@ def route_vote_answer_down(answer_id):
 
 @app.route('/question/<question_id>/new-comment', methods=['GET', 'POST'])
 def add_new_comment_to_question(question_id):
-    return render_template('new_comment.html', question_id=question_id)
-
+    if request.method == 'GET':
+        return render_template('new_comment.html', question_id=question_id)
+    else:
+        new_comment = {
+            'question_id': question_id,
+            'message': request.form['comment_message'],
+            'submission_time': "",
+            'edited_count': 0
+        }
+        data_manager.insert_new_questioncomment_to_database(new_comment)
+        return redirect(url_for("route_show_question", question_id=question_id))
 
 @app.route('/answer/<answer_id>/new-comment', methods=['GET', 'POST'])
 def add_new_comment_to_answer(answer_id):
@@ -270,9 +265,7 @@ def add_new_comment_to_answer(answer_id):
             'edited_count': 0
         }
         data_manager.insert_new_answercomment_to_database(new_comment)
-        # comments = data_manager.get_comments_by_answerid('comment', answer_id)
-        # question_id = comments[0]['question_id']
-        # data_manager.update_view_counter(question_id, -1)
+        data_manager.update_view_counter(question_id, -1)
         return redirect(url_for("route_show_question", question_id=question_id))
 
 
