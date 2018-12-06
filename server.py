@@ -243,27 +243,31 @@ def add_new_comment_to_question(question_id):
     else:
         new_comment = {
             'question_id': question_id,
-            'message': request.form['comment_message'],
+            'message': request.form['comment_message'].replace('\n', '<br/>'),
             'submission_time': "",
             'edited_count': 0
         }
-        data_manager.insert_new_questioncomment_to_database(new_comment)
+
+        data_manager.insert_new_question_comment_to_database(new_comment)
         return redirect(url_for("route_show_question", question_id=question_id))
+
 
 @app.route('/answer/<answer_id>/new-comment', methods=['GET', 'POST'])
 def add_new_comment_to_answer(answer_id):
     question_id = data_manager.get_question_id_by_answer_id(answer_id)
+
     if request.method == 'GET':
         return render_template('new_answer_comment.html', answer_id=answer_id)
     else:
         new_comment = {
             'question_id': question_id,
             'answer_id': answer_id,
-            'message': request.form['comment_message'],
+            'message': request.form['comment_message'].replace('\n', '<br/>'),
             'submission_time': "",
             'edited_count': 0
         }
-        data_manager.insert_new_answercomment_to_database(new_comment)
+
+        data_manager.insert_new_answer_comment_to_database(new_comment)
         data_manager.update_view_counter(question_id, -1)
         return redirect(url_for("route_show_question", question_id=question_id))
 
@@ -271,17 +275,19 @@ def add_new_comment_to_answer(answer_id):
 @app.route('/comments/<comment_id>/edit', methods=['GET', 'POST'])
 def update_comment(comment_id):
     if request.method == 'GET':
-        comment = data_manager.get_comment_by_commentid('comment', comment_id)
+        comment = data_manager.get_comment_by_comment_id('comment', comment_id)
         return render_template('edit_comment.html', comment_id=comment_id, comment=comment)
     else:
-        new_comment = {
-            'message': request.form['comment_message']
+        edited_comment = {
+            'message': request.form['comment_message'].replace('\n', '<br/>')
         }
 
-        data_manager.update_data_by_id('comment', new_comment, comment_id)
-        comment = data_manager.get_comment_by_commentid('comment', comment_id)
-        question_id = comment['question_id']
+        data_manager.update_data_by_id('comment', edited_comment, comment_id)
+
+        current_comment = data_manager.get_comment_by_comment_id('comment', comment_id)
+        question_id = current_comment['question_id']
         data_manager.update_view_counter(question_id, -1)
+
         return redirect(url_for("route_show_question", question_id=question_id))
 
 
