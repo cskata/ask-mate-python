@@ -16,6 +16,7 @@ def index():
     limit = 5
     questions = data_manager.get_limited_database("question", limit)
     key = 'submission_time'
+
     if 'order_by' in request.args:
         key = request.args.get('order_by')
         direction = request.args.get('order_direction')
@@ -89,8 +90,10 @@ def route_show_question(question_id):
         current_answer_comments = data_manager.get_answer_comments('comment')
         return render_template('show_question.html', question_id=question_id,
                                question=current_question, answers=current_answers,
-                               question_comments=current_question_comments, answer_comments=current_answer_comments,
+                               question_comments=current_question_comments,
+                               answer_comments=current_answer_comments,
                                number_of_answers=number_of_answers)
+
     else:
         new_answer = {
             'submission_time': "",
@@ -238,6 +241,7 @@ def route_vote_answer_down(answer_id):
 def add_new_comment_to_question(question_id):
     if request.method == 'GET':
         return render_template('new_comment.html', question_id=question_id)
+
     else:
         new_comment = {
             'question_id': question_id,
@@ -256,6 +260,7 @@ def add_new_comment_to_answer(answer_id):
 
     if request.method == 'GET':
         return render_template('new_answer_comment.html', answer_id=answer_id)
+
     else:
         new_comment = {
             'question_id': question_id,
@@ -275,6 +280,7 @@ def update_comment(comment_id):
     if request.method == 'GET':
         comment = data_manager.get_comment_by_comment_id('comment', comment_id)
         return render_template('edit_comment.html', comment_id=comment_id, comment=comment)
+
     else:
         edited_comment = {
             'message': request.form['comment_message'].replace('\n', '<br/>')
@@ -292,6 +298,7 @@ def update_comment(comment_id):
 @app.route('/search')
 def search():
     key = 'submission_time'
+
     if 'q' in request.args:
         search_data = request.args.get('q')
         questions = data_manager.get_search_results(search_data, key)[0]
