@@ -163,7 +163,6 @@ def delete_single_comment_by_id(cursor, comment_id):
                                 """)
 
 
-
 @connection_handler
 def sort_data(cursor, key, table, order):
     cursor.execute(f"""
@@ -180,6 +179,7 @@ def vote_counter(cursor, table, id, up_or_down):
         vote_change = 1
     else:
         vote_change = -1
+
     cursor.execute(f"""
                     UPDATE {table}
                     SET vote_number = vote_number + {vote_change}
@@ -214,6 +214,7 @@ def get_search_results_from_database(cursor, which_database, id, column, search_
                     WHERE {column} ILIKE '%{search_data}%'
                     """)
     ids = cursor.fetchall()
+
     list_of_ids = []
     if which_database == "question":
         for element in ids:
@@ -318,12 +319,11 @@ def get_comment_by_comment_id(cursor, which_database, comment_id):
 
 @connection_handler
 def update_data_by_id(cursor, which_database, new_data, id):
-
     comment = get_comment_by_comment_id('comment', id)
     comment['edited_count'] += 1
     new_edited_count = comment['edited_count']
-    data_to_update = list(new_data.values())
 
+    data_to_update = list(new_data.values())
     cursor.execute(f"""
                     UPDATE {which_database}
                     SET message = %s , edited_count = {new_edited_count}
