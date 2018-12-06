@@ -4,7 +4,7 @@
 {% endblock %}
 {% block content %}
 
-<div style="text-align: center">
+<div class="form-container">
     <form action="/answer/{{ answer.id }}/edit" method="POST" enctype=multipart/form-data>
         <input type="number" id="id" name="id" value="{{ answer.id }}" hidden>
         <input type="number" id="question_id" name="question_id" value="{{ answer.question_id }}" hidden>

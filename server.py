@@ -16,14 +16,14 @@ def index():
     limit = 5
     questions = data_manager.get_limited_database("question", limit)
     key = 'submission_time'
-
+    limit_questions = True
     if 'order_by' in request.args:
         key = request.args.get('order_by')
         direction = request.args.get('order_direction')
         questions = data_manager.sort_data(key, 'question', direction)
         questions = questions[:limit]
 
-    return render_template('index.html', questions=questions, header=key)
+    return render_template('index.html', questions=questions, header=key, limit=limit_questions)
 
 
 @app.route('/question')
@@ -31,13 +31,13 @@ def index():
 def route_list():
     questions = data_manager.get_database("question")
     key = 'submission_time'
-
+    limit_questions = False
     if 'order_by' in request.args:
         key = request.args.get('order_by')
         direction = request.args.get('order_direction')
         questions = data_manager.sort_data(key, 'question', direction)
 
-    return render_template('index.html', questions=questions, header=key)
+    return render_template('index.html', questions=questions, header=key, limit=limit_questions)
 
 
 @app.route('/add-question', methods=['GET', 'POST'])

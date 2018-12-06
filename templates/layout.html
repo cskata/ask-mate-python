@@ -13,17 +13,14 @@
 <div id="snowflakeContainer">
     <p class="snowflake">*</p>
 </div>
-<div id="header">
 <header class="mainhead">
     <form action="/search" method="get">
         <p class="headtitle">
-        <a href="/list">ask<strong>mate</strong></a></p>
+        <a href="/">ask<strong>mate</strong></a></p>
         <input type="text" id="q" name="q" placeholder="Search">
-        <button type="submit" title="Search"><i class="fa fa-search"></i></button>
-        <a href="/"><i class="fa fa-lg fa-trophy" title="Show last 5 questions"></i></a>
+        <button id="submit_button" type="submit" title="Search"><i class="fa fa-search"></i></button>
     </form>
 </header>
-</div>
 {% block content %} {% endblock %}
 <script src="/static/scripts/lightbox.js"></script>
 <script type="text/javascript" src="/static/scripts/snowfall.js"></script>

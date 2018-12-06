@@ -4,22 +4,25 @@
 {% endblock %}
 {% block content %}
 
-<div id ="table-container">
-<table id="index_table">
-    <tr>
-        <th>Title</th>
-        <th>Submission time</th>
-        <th>Vote number</th>
-        <th>Views</th>
-        {% for question in questions %}
-            <tr>
-                <td style="padding: 4px"><a href="/question/{{ question.id }}">{{ question.title }}</a></td>
-                <td style="width: 20%; text-align: center">{{ question.submission_time }}</td>
-                <td style="width: 8%; text-align: center">{{ question.vote_number }}</td>
-                <td style="width: 8%; text-align: center">{{ question.view_number }}</td>
-            </tr>
-        {% endfor %}
-    </tr>
+    <div id ="table-container">
+        {%  if limit  %}
+        <p class ="date">Top Questions</p>
+        {% endif %}
+        <table id="index_table">
+        <tr>
+            <th>Title</th>
+            <th>Submission time</th>
+            <th>Vote number</th>
+            <th>Views</th>
+            {% for question in questions %}
+                <tr>
+                    <td style="padding: 4px"><a href="/question/{{ question.id }}">{{ question.title }}</a></td>
+                    <td style="width: 20%; text-align: center">{{ question.submission_time }}</td>
+                    <td style="width: 9%; text-align: center">{{ question.vote_number }}</td>
+                    <td style="width: 8%; text-align: center">{{ question.view_number }}</td>
+                </tr>
+            {% endfor %}
+        </tr>
 </table>
 </div>
     <div id="container-2">
@@ -43,7 +46,7 @@
 
 </div>
 <div id="sort-form" class="styled-select blue semi-square">
-<form action="/list" method="get">
+<form action={{ "/" if limit == true else "/list"  }} method="get">
         <p style="font-weight: bold">Sort by: </p>
         <select id="order_by" name="order_by">
             <option value="title">Title</option>
@@ -59,11 +62,11 @@
         </form>
 </div>
     </div>
-<br>
-<div id="back-button">
+{% if limit == true %}
+    <div id="back-button">
     <a href="/list">
-        <input type="button" id="back" class="bigger_button" value="Back to the Main Page">
+      <input type="button" id="back" class="bigger_button" value="Show all">
     </a>
-</div>
-{% include 'footer.html' %}
+    </div>
+{% endif %}
 {% endblock %}
