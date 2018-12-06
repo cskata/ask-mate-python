@@ -196,6 +196,14 @@ def route_delete_answer(answer_id):
     return redirect(url_for("route_show_question", question_id=question_id))
 
 
+@app.route('/comments/<comment_id>/delete')
+def route_delete_comment(comment_id):
+    question_id = data_manager.get_question_id_by_comment_id(comment_id)
+    data_manager.delete_single_comment_by_id(comment_id)
+    data_manager.update_view_counter(question_id, -1)
+    return redirect(url_for("route_show_question", question_id=question_id))
+
+
 @app.route('/question/<question_id>/vote-up')
 def route_vote_question_up(question_id):
     data_manager.vote_counter("question", question_id, 'up')
