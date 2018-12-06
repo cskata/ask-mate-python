@@ -7,13 +7,13 @@ html{
     left: 0;
     bottom: 0;
     width: 100%;
-    background-color: #86CDD1;;
+    background-color: #85a3a5cc;
     color: black;
     text-align: center;
     margin-top:10px;
     font-size: 10px;
     height: 30px;
-    border: solid 1px #579bd1;
+    border: solid 1px #35455257;
 }
 
 body {
@@ -21,28 +21,30 @@ body {
     margin:0;
     min-height: 100%;
     padding-bottom: 60px;
-    background-color: #fdffe0;
+    background-color: #00000057;
     font-family: 'Noto Sans', sans-serif;
 }
 
 #index_table {
-    border:1px solid #579bd1;
+    border:1px solid #727272;
     border-collapse: collapse;
     border-radius: 5px 5px 5px 5px;
     background-color:white;
+    margin: 0 auto;
+    width: 60%;
     box-shadow: 0 1px 1px 0 rgba(0,0,0,0.24), 0 15px 31px 0 rgba(0,0,0,0.19);
 }
 
 #index_table a {
     text-decoration: none;
     color:#30426f;
-
+    display: block;
+    padding: 15px;
 }
 
 #index_table th {
-    text-align: left;
     border-collapse: collapse;
-    background-color: #85a3a5;
+    background-color: #85a3a5cc;
     height: 30px;
     padding: 4px;
     border-bottom: 1px solid #35455257;
@@ -50,6 +52,9 @@ body {
     box-shadow: 0 1px 1px 0 rgba(0,0,0,0.24), 0 7px 15px 0 rgba(0,0,0,0.19);
 }
 
+#submit_button{
+    padding: 5px;
+}
 #index_table tr {
     height: 60px;
     border-bottom: 1px solid #35455257;
@@ -65,6 +70,11 @@ body {
     border:1px solid #579bd1;
     border-collapse: collapse;
     border-radius: 5px 5px 5px 5px;
+}
+
+#q{
+    margin-left:10px;
+    padding: 5px;
 }
 
 #question th, #answer th {
@@ -101,23 +111,23 @@ body {
 }
 
 .sbutton, .button, .bigger_button {
-    border: solid 2px #579bd1;
+    border: solid 1.2px #727272;
     border-radius: 8px;
-    background-color: #86CDD1;
-    color: white;
-    text-shadow: 1px 1px 10px #101010;
-    font-size: 12px;
+    background-color: #85a3a5cc;
+    color: black;
+    font-size: 14px;
     font-weight: bold;
     text-decoration: none;
     transition: 0.3s;
     height: 55px;
     text-align: center;
+    box-shadow: 0 1px 1px 0 rgba(0,0,0,0.24), 0 1px 18px 0 rgba(0,0,0,0.19);
 
 }
-
 .button:hover, .bigger_button:hover {
-    color: #579bd1;
-    background-color: white;
+    color: black;
+    background-color: #daeff1cf;
+    -webkit-transform: scale(1.1);
     cursor: pointer;
     box-shadow: 0 8px 12px 0 rgba(0,0,0,0.24), 0 13px 40px 0 rgba(0,0,0,0.19);
 }
@@ -176,10 +186,6 @@ body {
     white-space: pre;
 }
 
-#header{
-    margin-bottom: 105px;
-}
-
 .headtitle{
     display:inline;
     font-size: 20px;
@@ -193,7 +199,7 @@ body {
 
 #search{
     padding:3px;
-    margin-left:5px;
+    margin-left:10px;
     vertical-align: center;
 }
 
@@ -217,9 +223,7 @@ body {
 }
 
 #table-container{
-    width: 60%;
-    margin:auto;
-    margin-bottom: 30px;
+    margin: 80px 0;
 }
 
 #sort-form{
