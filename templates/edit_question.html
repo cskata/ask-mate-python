@@ -6,7 +6,6 @@
 
 <div style="text-align: center">
     <form action="/question/{{ question.id }}/edit" method="POST" enctype=multipart/form-data>
-        <input type="number" id="id" name="id" value="{{ question.id }}" hidden>
         <p><label style="font-weight: bold">Title</label></p>
         <input id="title" name="title" type="text" value="{{ question.title }}"
                placeholder="Add title to your question" required>

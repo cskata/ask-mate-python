@@ -100,14 +100,6 @@ def route_show_question(question_id):
             'image': ""
         }
 
-        if len(request.form['message']) > 0:
-                new_answer = {
-                    'submission_time': "",
-                    'vote_number': 0,
-                    'question_id': question_id,
-                    'message': request.form['message'],
-                    'image': "",
-                }
         if len(request.files) > 0:
             if request.files['image'].filename != "":
                 current_image_name = str(request.files['image'])
@@ -118,7 +110,7 @@ def route_show_question(question_id):
                 filename = secure_filename(file.filename)
                 file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 
-            data_manager.insert_new_answer_to_database(new_answer)
+        data_manager.insert_new_answer_to_database(new_answer)
         return redirect(url_for("route_show_question", question_id=question_id))
 
 
@@ -141,8 +133,6 @@ def route_edit_question(question_id):
             'message': request.form['message'].replace('\n', '<br/>'),
             'image': ""
         }
-
-        question_id = int(request.form['id'])
 
         if len(request.files) > 0:
             if request.files['image'].filename != "":
