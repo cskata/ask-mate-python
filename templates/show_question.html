@@ -28,7 +28,8 @@
 
             {% if question.image %}
             <p>
-                <a href="/image/{{ question.image }}" target="_blank"> See the attached image</a>
+                <a href="{{ url_for('static', filename='image/'+question.image) }}" data-lightbox="q_img">
+                    See attached image</a>
             </p>
             {% endif %}
         </td>
@@ -105,7 +106,8 @@
             <p style="padding: 4px; text-align: justify">{{ answer.message | safe }}</p>
             {% if answer.image %}
             <p>
-                <a href="/image/{{ answer.image }}" target="_blank">See the attached image</a>
+                <a href="{{ url_for('static', filename='image/'+answer.image) }}" data-lightbox="q_img">
+                    See attached image</a>
             </p>
             {% endif %}
         </td>
