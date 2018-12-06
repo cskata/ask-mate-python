@@ -241,7 +241,7 @@ def get_search_results(cursor, search_data, key):
 
 
 @connection_handler
-def insert_new_questioncomment_to_database(cursor, new_comment_data):
+def insert_new_question_comment_to_database(cursor, new_comment_data):
     dt = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     new_comment_data['submission_time'] = str(dt)
 
@@ -254,7 +254,7 @@ def insert_new_questioncomment_to_database(cursor, new_comment_data):
 
 
 @connection_handler
-def insert_new_answercomment_to_database(cursor, new_comment_data):
+def insert_new_answer_comment_to_database(cursor, new_comment_data):
     dt = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     new_comment_data['submission_time'] = str(dt)
 
@@ -297,7 +297,7 @@ def get_answercomments(cursor, which_database):
 
 
 @connection_handler
-def get_comment_by_commentid(cursor, which_database, comment_id):
+def get_comment_by_comment_id(cursor, which_database, comment_id):
     cursor.execute(f"""
                         SELECT * FROM {which_database}
                         WHERE id = {comment_id};
