@@ -236,3 +236,20 @@ body {
     width: 60%;
     margin: auto;
 }
+
+#noasnwer {
+    display: block;
+    text-align: center;
+    font-size: 13px;
+}
+
+#answer_comments{
+    margin-top: 1rem;
+    width: 100%;
+}
+
+#comment_border{
+    border-top: 1px solid black;
+}
+
+
