@@ -54,7 +54,7 @@
             {% for comment in question_comments %}
             <tr>
                 <td>
-                    <p id="comment_message">{{ comment.message }}</p>
+                    <p id="comment_message">{{ comment.message | safe }}</p>
                     <a href="/comments/{{ comment.id }}/edit">
                         <i class="fa fa-lg fa-pencil" title="Edit comment"></i></a>
                 </td>
@@ -130,7 +130,7 @@
             {%  if answer.id == comment.answer_id %}
             <tr>
                 <td>
-                    <p id="comment_message">{{ comment.message }}</p>
+                    <p id="comment_message">{{ comment.message | safe }}</p>
                     <a href="/comments/{{ comment.id }}/edit">
                     <i class="fa fa-lg fa-pencil" title="Edit question"></i></a>
                 </td>
