@@ -240,7 +240,7 @@ def route_vote_answer_down(answer_id):
 @app.route('/question/<question_id>/new-comment', methods=['GET', 'POST'])
 def add_new_comment_to_question(question_id):
     if request.method == 'GET':
-        return render_template('new_comment.html', question_id=question_id)
+        return render_template('new_question_comment.html', question_id=question_id)
 
     else:
         new_comment = {
