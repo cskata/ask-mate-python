@@ -3,6 +3,7 @@
     <title>New answer</title>
 {% endblock %}
 {% block content %}
+
 <div style="text-align: center">
     <form action="/question/{{ question_id }}" method="POST" enctype=multipart/form-data>
         <p>
@@ -25,8 +26,6 @@
     <p><a href="/list">
         <input type="button" id="back" class="bigger_button" value="Back to the Main Page"></a></p>
 </div>
-</body>
 <br>
-{% include 'footer.html' %}
+
 {% endblock %}
-</html>
