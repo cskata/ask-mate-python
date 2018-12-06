@@ -26,32 +26,33 @@ body {
 }
 
 #index_table {
-    width: 90%;
-    margin-left: 5%;
-    margin-right: 5%;
-    padding: 10px;
     border:1px solid #579bd1;
     border-collapse: collapse;
     border-radius: 5px 5px 5px 5px;
+    background-color:white;
+    box-shadow: 0 1px 1px 0 rgba(0,0,0,0.24), 0 15px 31px 0 rgba(0,0,0,0.19);
 }
 
-#index_table a{
+#index_table a {
     text-decoration: none;
-    color: #185d86;
+    color:#30426f;
+
 }
+
 #index_table th {
     text-align: left;
     border-collapse: collapse;
-    background-color: #98d0f7;
+    background-color: #85a3a5;
     height: 30px;
     padding: 4px;
-    border-bottom: 1px solid #579bd1;
+    border-bottom: 1px solid #35455257;
     text-align: center;
+    box-shadow: 0 1px 1px 0 rgba(0,0,0,0.24), 0 7px 15px 0 rgba(0,0,0,0.19);
 }
 
 #index_table tr {
-    height: 30px;
-    border-bottom: 1px solid #579bd1;
+    height: 60px;
+    border-bottom: 1px solid #35455257;
     border-collapse: collapse;
 }
 
@@ -101,21 +102,24 @@ body {
 
 .sbutton, .button, .bigger_button {
     border: solid 2px #579bd1;
-    border-radius: 180px;
+    border-radius: 8px;
     background-color: #86CDD1;
-    color: black;
+    color: white;
+    text-shadow: 1px 1px 10px #101010;
     font-size: 12px;
     font-weight: bold;
     text-decoration: none;
     transition: 0.3s;
-    height: 30px;
+    height: 55px;
     text-align: center;
+
 }
 
 .button:hover, .bigger_button:hover {
     color: #579bd1;
     background-color: white;
     cursor: pointer;
+    box-shadow: 0 8px 12px 0 rgba(0,0,0,0.24), 0 13px 40px 0 rgba(0,0,0,0.19);
 }
 
 .bigger_button {
@@ -134,9 +138,10 @@ body {
     position: fixed;
     width: 100%;
     top:0;
-    background-color: #86CDD1;
+    background-color: #85a3a5;
     padding: 5px;
-    border: solid 1px #579bd1;
+    border: solid 1px #35455257;
+    box-shadow: 0 1px 1px 0 rgba(0,0,0,0.24), 0 15px 31px 0 rgba(0,0,0,0.19);
 }
 
 .opts {
@@ -209,4 +214,25 @@ body {
 }
 .snowflake:hover {
     cursor: default;
+}
+
+#table-container{
+    width: 60%;
+    margin:auto;
+    margin-bottom: 30px;
+}
+
+#sort-form{
+    margin-bottom: 5px;
+}
+
+#back-button {
+    width: 60%;
+    margin:auto;
+    margin-top:20px;
+}
+
+#container-2{
+    width: 60%;
+    margin: auto;
 }
