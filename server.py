@@ -131,7 +131,7 @@ def route_edit_question(question_id):
         edited_question = {
             'title': request.form['title'],
             'message': request.form['message'].replace('\n', '<br/>'),
-            'image': ""
+            'image': current_question['image']
         }
 
         if len(request.files) > 0:
@@ -165,7 +165,7 @@ def route_edit_answer(answer_id):
     else:
         edited_answer = {
             'message': request.form['message'].replace('\n', '<br/>'),
-            'image': ""
+            'image': current_answer['image']
         }
 
         answer_id = int(request.form['id'])
