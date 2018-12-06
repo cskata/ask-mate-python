@@ -22,9 +22,10 @@
     </tr>
 </table>
 </div>
+    <div id="container-2">
 <div id="question-button">
-    <p><a href="/add-question">
-    <input type="button" id="new_question" class="bigger_button" value="Ask a new question"></a></p>
+    <a href="/add-question">
+    <input type="button" id="new_question" class="bigger_button" value="Ask a new question"></a>
 
     {% if search_data %}
         {% if results_num > 0 %}
@@ -39,10 +40,10 @@
             for <span style="font-weight: bold">{{ search_data }}</span></p>
         {% endif %}
     {% endif %}
+
 </div>
-<div style="margin-top:auto; margin-bottom:auto; text-align:center;">
-    <p>
-        <form action="/" method="get">
+<div id="sort-form" class="styled-select blue semi-square">
+<form action="/" method="get">
         <p style="font-weight: bold">Sort by: </p>
         <select id="order_by" name="order_by">
             <option value="title">Title</option>
@@ -51,19 +52,18 @@
             <option value="vote_number">Vote Number</option>
             <option value="{{ header }}" selected="selected" hidden>{{ ' '.join(header.split('_')).title() }}</option>
         </select>
-        <p>
             <button type="submit" name="order_direction"
                     value="asc" title="Ascending order"><i class="fa fa-sort-amount-asc"></i></button>
             <button type="submit" name="order_direction"
                     value="desc" title="Descending order"><i class="fa fa-sort-amount-desc"></i></button>
-        </p>
         </form>
-    </p>
 </div>
+    </div>
 <br>
-<div style="text-align: center">
-    <p><a href="/list">
-        <input type="button" id="back" class="bigger_button" value="Back to the Main Page"></a></p>
+<div id="back-button">
+    <a href="/list">
+        <input type="button" id="back" class="bigger_button" value="Back to the Main Page">
+    </a>
 </div>
 {% include 'footer.html' %}
 {% endblock %}
