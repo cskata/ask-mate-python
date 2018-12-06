@@ -129,6 +129,11 @@ def delete_every_answer_by_question_id(cursor, question_id):
 
 @connection_handler
 def delete_question_and_answers(cursor, question_id):
+    cursor.execute(f"""
+                                        DELETE FROM comment
+                                        WHERE question_id = {question_id};
+                                        """)
+
     delete_every_answer_by_question_id(question_id)
 
     cursor.execute(f"""
@@ -148,6 +153,15 @@ def delete_single_answer_by_id(cursor, answer_id):
                         DELETE FROM answer
                         WHERE id = {answer_id};
                         """)
+
+
+@connection_handler
+def delete_single_comment_by_id(cursor, comment_id):
+    cursor.execute(f"""
+                                DELETE FROM comment
+                                WHERE id = {comment_id};
+                                """)
+
 
 
 @connection_handler
@@ -180,6 +194,17 @@ def get_question_id_by_answer_id(cursor, answer_id, table='answer'):
                     WHERE id = {answer_id}
                     """)
     question_id = cursor.fetchall()
+    return question_id[0]['question_id']
+
+
+@connection_handler
+def get_question_id_by_comment_id(cursor, comment_id):
+    cursor.execute(f"""
+                    SELECT question_id from comment
+                    WHERE id = {comment_id}
+                    """)
+    question_id = cursor.fetchall()
+    print(question_id)
     return question_id[0]['question_id']
 
 
