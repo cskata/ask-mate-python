@@ -85,8 +85,11 @@ def route_show_question(question_id):
         current_answers = data_manager.get_answers_by_question_id(question_id)
         number_of_answers = len(current_answers)
 
+        current_question_comments = data_manager.get_comments_by_quesionid('comment', question_id)
+        current_answer_comments = data_manager.get_answercomments('comment')
         return render_template('show_question.html', question_id=question_id,
                                question=current_question, answers=current_answers,
+                               question_comments=current_question_comments, answer_comments=current_answer_comments,
                                number_of_answers=number_of_answers)
     else:
         new_answer = {
@@ -94,9 +97,17 @@ def route_show_question(question_id):
             'vote_number': 0,
             'question_id': question_id,
             'message': request.form['message'].replace('\n', '<br/>'),
-            'image': "",
+            'image': ""
         }
 
+        if len(request.form['message']) > 0:
+                new_answer = {
+                    'submission_time': "",
+                    'vote_number': 0,
+                    'question_id': question_id,
+                    'message': request.form['message'],
+                    'image': "",
+                }
         if len(request.files) > 0:
             if request.files['image'].filename != "":
                 current_image_name = str(request.files['image'])
@@ -107,7 +118,7 @@ def route_show_question(question_id):
                 filename = secure_filename(file.filename)
                 file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 
-        data_manager.insert_new_answer_to_database(new_answer)
+            data_manager.insert_new_answer_to_database(new_answer)
         return redirect(url_for("route_show_question", question_id=question_id))
 
 
@@ -223,6 +234,56 @@ def route_vote_answer_down(answer_id):
     question_id = data_manager.get_question_id_by_answer_id(answer_id)
     data_manager.update_view_counter(question_id, -1)
     return redirect(url_for("route_show_question", question_id=question_id))
+
+
+@app.route('/question/<question_id>/new-comment', methods=['GET', 'POST'])
+def add_new_comment_to_question(question_id):
+    if request.method == 'GET':
+        return render_template('new_comment.html', question_id=question_id)
+    else:
+        new_comment = {
+            'question_id': question_id,
+            'message': request.form['comment_message'],
+            'submission_time': "",
+            'edited_count': 0
+        }
+        data_manager.insert_new_questioncomment_to_database(new_comment)
+        return redirect(url_for("route_show_question", question_id=question_id))
+
+
+@app.route('/answer/<answer_id>/new-comment', methods=['GET', 'POST'])
+def add_new_comment_to_answer(answer_id):
+    question_id = data_manager.get_question_id_by_answer_id(answer_id)
+    if request.method == 'GET':
+        return render_template('new_answer_comment.html', answer_id=answer_id)
+    else:
+        new_comment = {
+            'question_id': question_id,
+            'answer_id': answer_id,
+            'message': request.form['comment_message'],
+            'submission_time': "",
+            'edited_count': 0
+        }
+        data_manager.insert_new_answercomment_to_database(new_comment)
+        data_manager.update_view_counter(question_id, -1)
+        return redirect(url_for("route_show_question", question_id=question_id))
+
+
+@app.route('/comments/<comment_id>/edit', methods=['GET', 'POST'])
+def update_comment(comment_id):
+    if request.method == 'GET':
+        comment = data_manager.get_comment_by_commentid('comment', comment_id)
+        return render_template('edit_comment.html', comment_id=comment_id, comment=comment)
+    else:
+        new_comment = {
+            'message': request.form['comment_message']
+        }
+
+        data_manager.update_data_by_id('comment', new_comment, comment_id)
+        comment = data_manager.get_comment_by_commentid('comment', comment_id)
+        question_id = comment['question_id']
+        data_manager.update_view_counter(question_id, -1)
+        return redirect(url_for("route_show_question", question_id=question_id))
 
 
 @app.route('/search')
