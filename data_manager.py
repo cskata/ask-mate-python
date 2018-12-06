@@ -129,6 +129,11 @@ def delete_every_answer_by_question_id(cursor, question_id):
 
 @connection_handler
 def delete_question_and_answers(cursor, question_id):
+    cursor.execute(f"""
+                                        DELETE FROM comment
+                                        WHERE question_id = {question_id};
+                                        """)
+
     delete_every_answer_by_question_id(question_id)
 
     cursor.execute(f"""
