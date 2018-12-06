@@ -4,29 +4,27 @@
 {% endblock %}
 {% block content %}
 
-    <div style="text-align: center">
-        <form action="/add-question" method="POST" enctype=multipart/form-data>
-            <p><label style="font-weight: bold">Title</label></p>
-            <input id="title" name="title" type="text" placeholder="Add title to your question" required>
+<div class="form-container">
+    <form action="/add-question" method="POST" enctype=multipart/form-data>
+        <p><label style="font-weight: bold">Title</label></p>
+        <input id="title" name="title" type="text" placeholder="Add title to your question" required>
 
-            <p><label style="font-weight: bold">Question</label></p>
-            <textarea class="textbox_gen" id="message" name="message" cols="50" rows="20"
-                      placeholder="Write your question here" required></textarea>
-            <br>
-            <br>
-            <div class="image-upload">
-                <label for="image"><img src="/static/image/imgupl.png"/></label>
-                <input id="image" type="file" name="image">
-            </div>
-            <p>Click the icon to upload an image</p>
-            <br>
-            <button type="submit" class="bigger_button">Save new question</button>
-        </form>
+        <p><label style="font-weight: bold">Question</label></p>
+        <textarea class="textbox_gen" id="message" name="message" cols="50" rows="20"
+                  placeholder="Write your question here" required></textarea>
         <br>
         <br>
-        <p><a href="/list">
-        <input type="button" id="back" class="bigger_button" value="Back to the Main Page"></a></p>
-    </div>
-<br>
-
+        <div class="image-upload">
+            <label for="image"><img src="/static/image/imgupl.png"/></label>
+            <input id="image" type="file" name="image">
+        </div>
+        <p>Click the icon to upload an image</p>
+        <br>
+        <button type="submit" class="bigger_button">Save new question</button>
+    </form>
+    <br>
+    <br>
+    <p><a href="/list">
+    <input type="button" id="back" class="bigger_button" value="Back to the Main Page"></a></p>
+</div>
 {% endblock %}

@@ -4,21 +4,20 @@
 {% endblock %}
 {% block content %}
 
-    <div style="text-align: center">
-        <form action="/question/{{ question_id }}/new-comment" method="POST" enctype=multipart/form-data>
-            <p>
-                <p><label style="font-weight: bold">Your comment</label></p>
-                <textarea class="textbox_gen" id="message" name="comment_message" cols="50" rows="20"
-                          placeholder="Write your comment here "
-                          required></textarea>
-            </p>
-            <button type="submit" class="button">Post comment</button>
-        </form>
-        <br>
-        <br>
-        <p><a href="/list">
-            <input type="button" id="back" class="bigger_button" value="Back to the Main Page"></a></p>
-    </div>
+<div class="form-container">
+    <form action="/question/{{ question_id }}/new-comment" method="POST" enctype=multipart/form-data>
+        <p>
+            <p><label style="font-weight: bold">Your comment</label></p>
+            <textarea class="textbox_gen" id="message" name="comment_message" cols="50" rows="20"
+                      placeholder="Write your comment here "
+                      required></textarea>
+        </p>
+        <button type="submit" class="button">Post comment</button>
+    </form>
     <br>
+    <br>
+    <p><a href="/list">
+        <input type="button" id="back" class="bigger_button" value="Back to the Main Page"></a></p>
+</div>
 
 {% endblock %}
