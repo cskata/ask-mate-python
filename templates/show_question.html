@@ -13,7 +13,7 @@
             </th>
           </tr>
         <tr>
-            <td width="4%" style="text-align: center">
+            <td width="5%" style="text-align: center">
                 <p>
                     <a href="/question/{{ question.id }}/vote-up">
                         <i class="fa fa-arrow-up" style="font-size: 16px"></i></a>
@@ -33,7 +33,6 @@
                 <a href="{{ url_for('static', filename='image/'+question.image) }}" data-lightbox="q_img">
                     See attached image</a>
             </p>
-
             {% endif %}
         </td>
     </tr>
@@ -41,24 +40,22 @@
          <tr>
          <td></td>
          <td>
-            <p id="comment_message">{{ comment.message | safe }}</p>
-            <p class="smol">Edited {{ comment.edited_count }} times.</p>
-            <p class="smol" >Posted: {{ comment.submission_time }}</p>
+             <p id="comment_message">{{ comment.message | safe }}</p>
          </td>
-         <td style="text-align:center">
-            <a href="/comments/{{ comment.id }}/edit">
-                <i class="fa fa-lg fa-pencil" title="Edit comment"></i>
-            </a>
-            <a href="/comments/{{ comment.id }}/delete"
-                onclick="return confirm('Are you sure you want to delete this item?');">
-                <i class="fa fa-lg fa-trash-o" title="Delete comment"></i>
-            </a>
-         </td>
+             <td style="text-align:right; width: 20%" class="opts">
+                 <a href="/comments/{{ comment.id }}/edit">
+                     <i class="fa fa fa-pencil" title="Edit comment"></i></a> |
+                 <a href="/comments/{{ comment.id }}/delete"
+                 onclick="return confirm('Are you sure you want to delete this item?');">
+                     <i class="fa fa fa-trash-o" title="Delete comment"></i></a>
+                 <p class="smol answer-comment-smol">Edited {{ comment.edited_count }} times.</p>
+                 <p class="smol answer-comment-smol">Posted: {{ comment.submission_time }}</p>
+             </td>
          </tr>
     {%  endfor  %}
     <tr>
         <td class="smol">
-            <p>Seen: {{ question.view_number}}</p>
+            <p style="text-align: center">Seen: {{ question.view_number}}</p>
         </td>
         <td class="date">
             <p>Posted: {{ question.submission_time }}</p>
@@ -135,15 +132,16 @@
                 <td colspan="3">
                     <p class="answer-comment">{{ comment.message | safe }}</p>
                 </td>
-                <td  class="opts">
+                <td class="opts">
                     <a href="/comments/{{ comment.id }}/edit">
-                        <i class="fa fa-lg fa-pencil" title="Edit question"></i>
+                        <i class="fa fa fa-pencil" title="Edit question"></i>
                      </a> |
                      <a href="/comments/{{ comment.id }}/delete"
                         onclick="return confirm('Are you sure you want to delete this item?');">
-                        <i class="fa fa-lg fa-trash-o" title="Delete comment"></i>
+                        <i class="fa fa fa-trash-o" title="Delete comment"></i>
                      </a>
-                    <p class="answer-comment-smol" >Posted: {{ comment.submission_time }}</p>
+                    <p class="answer-comment-smol">Edited {{ comment.edited_count }} times.</p>
+                    <p class="answer-comment-smol">Posted: {{ comment.submission_time }}</p>
 
                 </td>
                 </tr>
