@@ -1,30 +1,36 @@
 {% extends "layout.html" %}
 {% block title %}
-    <title>{{ question.title }}</title>
+<title>{{ question.title }}</title>
 {% endblock %}
 {% block content %}
-
 <div class="form-container">
     <form action="/question/{{ question.id }}/edit" method="POST" enctype=multipart/form-data>
-        <p><label style="font-weight: bold">Title</label></p>
-        <input id="title" name="title" type="text" value="{{ question.title }}"
-               placeholder="Add title to your question" required>
-
-        <p><label style="font-weight: bold">Question</label></p>
-        <textarea class="textbox_gen" id="message" name="message" cols="50" rows="20"
-                  placeholder="Write your question here" required>{{ question.message }}</textarea>
-        <p><div class="image-upload">
-                <label for="image"><img src="/static/image/imgupl.png"/></label>
-                <input id="image" type="file" name="image">
-            </div></p>
-        <p>Click the icon to upload a new image</p>
+        <p>
+            <label style="font-weight: bold">Title</label>
+        </p>
+        <input id="title" name="title" type="text" value="{{ question.title }}" placeholder="Add title to your question" required>
+        <p>
+            <label style="font-weight: bold">Question</label>
+        </p>
+        <textarea
+            class="textbox_gen" id="message" name="message" cols="50" rows="20"
+            placeholder="Write your question here" required>{{ question.message }}
+        </textarea>
+        <p>
+        <div class="image-upload">
+            <label for="image"><img src="/static/image/imgupl.png"/></label>
+            <input id="image" type="file" name="image">
+        </div>
+        </p>
+        <p>
+            Click the icon to upload a new image
+        </p>
         <button type="submit" class="bigger_button">Edit Question</button>
     </form>
-    <br>
-    <br>
-    <p><a href="/list">
-        <input type="button" id="back" class="bigger_button" value="Back to the Main Page"></a></p>
-    </div>
-<br>
-
+    <p>
+        <a href="/list">
+        <input type="button" id="back" class="bigger_button" value="Back to the Main Page">
+        </a>
+    </p>
+</div>
 {% endblock %}

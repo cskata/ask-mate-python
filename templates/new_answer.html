@@ -1,22 +1,21 @@
 {% extends "layout.html" %}
 {% block title %}
-    <title>New answer</title>
+<title>New answer</title>
 {% endblock %}
 {% block content %}
-
 <div class="form-container">
     <form action="/question/{{ question_id }}" method="POST" enctype=multipart/form-data>
         <p>
-            <p><label style="font-weight: bold">Your answer</label></p>
-            <textarea class="textbox_gen" id="message" name="message" cols="50" rows="20"
-                      placeholder="Write your answer here "
-                      required></textarea>
+        <p><label style="font-weight: bold">Your answer</label></p>
+        <textarea class="textbox_gen" id="message" name="message" cols="50" rows="20"
+            placeholder="Write your answer here "
+            required></textarea>
         </p>
         <p>
-            <div class="image-upload">
-                <label for="image"><img src="/static/image/imgupl.png"/></label>
-                <input id="image" type="file" name="image">
-            </div>
+        <div class="image-upload">
+            <label for="image"><img src="/static/image/imgupl.png"/></label>
+            <input id="image" type="file" name="image">
+        </div>
         </p>
         <p>Click the icon to upload an image</p>
         <button type="submit" class="button">Post answer</button>
@@ -24,8 +23,8 @@
     <br>
     <br>
     <p><a href="/list">
-        <input type="button" id="back" class="bigger_button" value="Back to the Main Page"></a></p>
+        <input type="button" id="back" class="bigger_button" value="Back to the Main Page"></a>
+    </p>
 </div>
 <br>
-
 {% endblock %}
