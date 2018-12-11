@@ -279,6 +279,8 @@ def add_new_comment_to_answer(answer_id):
 def update_comment(comment_id):
     if request.method == 'GET':
         comment = data_manager.get_comment_by_comment_id('comment', comment_id)
+        comment['message'] = comment['message'].replace("<br/>", "")
+
         return render_template('edit_comment.html', comment_id=comment_id, comment=comment)
 
     else:
