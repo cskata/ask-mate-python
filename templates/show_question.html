@@ -151,8 +151,8 @@
                 onclick="return confirm('Are you sure you want to delete this item?');">
             <i class="fa fa fa-trash-o" title="Delete comment"></i>
             </a>
-            <p class="answer-comment-smol">Edited {{ comment.edited_count }} times.</p>
-            <p class="answer-comment-smol">Posted: {{ comment.submission_time }}</p>
+            <p class="smol answer-comment-smol">Edited {{ comment.edited_count }} times.</p>
+            <p class="smol answer-comment-smol">Posted: {{ comment.submission_time }}</p>
         </td>
     </tr>
     {% endif %}
@@ -162,7 +162,7 @@
     {% endfor %}
 </table>
 {% if number_of_answers == 0 %}
-<p id="noanswer">
+<p class="date">
     No one has answered yet.
 </p>
 {% endif %}
