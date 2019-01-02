@@ -35,6 +35,9 @@
             <button>
                 <a href="{{ url_for ('log_user_out') }}">Logout</a>
             </button>
+            <button>
+                <a href="{{ url_for ('list_registered_users') }}">List all user</a>
+            </button>
         {% endif %}
         </header>
         {% block content %} {% endblock %}

@@ -382,10 +382,26 @@ def log_in_user():
     return render_template('reg-login.html')
 
 
+@app.route('/list_users', methods=['GET', 'POST'])
+def list_registered_users():
+    users_data = data_manager.get_all_user_data()
+    username = session['username']
+    return render_template('list_users.html', users_data=users_data, username=username )
+
+
 @app.route('/logout')
 def log_user_out():
     session.pop('username', None)
     return redirect(url_for('index'))
+
+
+@app.route('/list')
+def cookie_insertion():
+    redirect_to_index = redirect('/')
+    response = make_response(redirect_to_index)
+    response.set_cookie('cookie-name', value='values')
+    return response
+
 
 
 if __name__ == '__main__':
