@@ -23,6 +23,19 @@
                 <input type="text" id="q" name="q" placeholder="Search">
                 <button id="submit_button" type="submit" title="Search"><i class="fa fa-search"></i></button>
             </form>
+        {% if not username %}
+            <button>
+                <a href="{{ url_for ('new_user_registration') }}">Register</a>
+            </button>
+            <button>
+                <a href="{{ url_for ('log_in_user') }}">Login</a>
+            </button>
+        {% else %}
+            {{ username }}
+            <button>
+                <a href="{{ url_for ('log_user_out') }}">Logout</a>
+            </button>
+        {% endif %}
         </header>
         {% block content %} {% endblock %}
         <script src="/static/scripts/lightbox.js"></script>

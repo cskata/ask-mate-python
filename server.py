@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, session
 from werkzeug.utils import secure_filename
 import data_manager
 import os
@@ -9,6 +9,7 @@ UPLOAD_FOLDER = "static/image/"
 app = Flask(__name__)
 
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.secret_key = "titkoskulcs"
 
 
 @app.route('/')
@@ -23,6 +24,9 @@ def index():
         questions = data_manager.sort_data(key, 'question', direction)
         questions = questions[:limit]
 
+    if 'username' in session:
+        username = session['username']
+        return render_template('index.html', questions=questions, header=key, limit=limit_questions, username=username)
     return render_template('index.html', questions=questions, header=key, limit=limit_questions)
 
 
@@ -36,6 +40,10 @@ def route_list():
         key = request.args.get('order_by')
         direction = request.args.get('order_direction')
         questions = data_manager.sort_data(key, 'question', direction)
+
+    if 'username' in session:
+        username = session['username']
+        return render_template('index.html', questions=questions, header=key, limit=limit_questions, username=username)
 
     return render_template('index.html', questions=questions, header=key, limit=limit_questions)
 
@@ -88,6 +96,13 @@ def route_show_question(question_id):
 
         current_question_comments = data_manager.get_comments_by_question_id('comment', question_id)
         current_answer_comments = data_manager.get_answer_comments('comment')
+        if 'username' in session:
+            username = session['username']
+            return render_template('show_question.html', question_id=question_id,
+                                   question=current_question, answers=current_answers,
+                                   question_comments=current_question_comments,
+                                   answer_comments=current_answer_comments,
+                                   number_of_answers=number_of_answers, username=username)
         return render_template('show_question.html', question_id=question_id,
                                question=current_question, answers=current_answers,
                                question_comments=current_question_comments,
@@ -308,6 +323,54 @@ def search():
 
     return render_template('index.html', questions=questions, header=key,
                            search_data=search_data, results_num=number_of_results)
+
+
+@app.route('/registration', methods=['GET', 'POST'])
+def new_user_registration():
+    new_user = True
+    if request.method == 'POST':
+        new_user = {
+            'username': request.form['username'],
+            'password': request.form['password']
+        }
+
+        is_username_taken = data_manager.check_username_in_database(new_user)
+
+        if is_username_taken:
+            message = "That username is already taken, please choose something else."
+            return render_template('reg-login.html', message=message, new_user=new_user)
+        else:
+            data_manager.register_new_user(new_user)
+            return redirect(url_for('index'))
+
+    return render_template('reg-login.html', new_user=new_user)
+
+
+@app.route('/login', methods=['GET', 'POST'])
+def log_in_user():
+    if request.method == 'POST':
+        login_data = {
+            'username': request.form['username'],
+            'password': request.form['password']
+        }
+
+        login_check = data_manager.verify_user(login_data)
+
+        if login_check:
+            session['username'] = login_data['username']
+            session['user_id'] = ''
+            return redirect(url_for('index'))
+        else:
+            message = "Incorrect username or password"
+            return render_template('reg-login.html', message=message)
+
+    return render_template('reg-login.html')
+
+
+@app.route('/logout')
+def log_user_out():
+    session.pop('username', None)
+    return redirect(url_for('index'))
 
 
 if __name__ == '__main__':
