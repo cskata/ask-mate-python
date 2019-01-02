@@ -16,7 +16,6 @@ app.secret_key = "titkoskulcs"
 def index():
     limit = 5
     questions = data_manager.get_limited_database("question", limit)
-    print(questions)
     key = 'submission_time'
     limit_questions = True
     if 'order_by' in request.args:
@@ -85,8 +84,9 @@ def route_add_question():
 
 @app.route('/question/<question_id>/new-answer')
 def route_new_answer(question_id):
+    username = session['username']
     data_manager.update_view_counter(question_id, -2)
-    return render_template('new_answer.html', question_id=question_id)
+    return render_template('new_answer.html', question_id=question_id, username=username)
 
 
 @app.route("/question/<question_id>", methods=['GET', 'POST'])
@@ -114,12 +114,15 @@ def route_show_question(question_id):
                                number_of_answers=number_of_answers)
 
     else:
+        username = session['username']
+        user_id = data_manager.get_user_id_by_username(username)
         new_answer = {
             'submission_time': "",
             'vote_number': 0,
             'question_id': question_id,
             'message': request.form['message'].replace('\n', '<br/>'),
-            'image': ""
+            'image': "",
+            'user_id': user_id
         }
 
         if len(request.files) > 0:
