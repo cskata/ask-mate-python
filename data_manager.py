@@ -401,3 +401,13 @@ def get_user_id_by_username(cursor, username):
         """, user)
     user_id = cursor.fetchall()
     return user_id[0]['id']
+
+
+@connection_handler
+def get_all_user_data(cursor):
+    cursor.execute("""
+            SELECT id, username, reg_date FROM registered_users;
+            """)
+    user_table = cursor.fetchall()
+    return user_table
+

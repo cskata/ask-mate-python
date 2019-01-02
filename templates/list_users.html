@@ -1,0 +1,22 @@
+{% extends "layout.html" %}
+{% block title %}
+<title>AskMate</title>
+{% endblock %}
+{% block content %}
+    <div id ="table-container" >
+        <table id="index_table">
+            <tr>
+                <th>Id</th>
+                <th>Username</th>
+                <th>Registration date</th>
+            </tr>
+            {% for data in users_data %}
+                <tr>
+                {% for key, value in data.items() %}
+                        <td>{{ value }}</td>
+                {% endfor %}
+                </tr>
+            {% endfor %}
+        </table>
+    <div>
+{% endblock %}
