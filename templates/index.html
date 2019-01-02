@@ -1,52 +1,51 @@
 {% extends "layout.html" %}
 {% block title %}
-    <title>AskMate</title>
+<title>AskMate</title>
 {% endblock %}
 {% block content %}
-
-    <div id ="table-container">
-        {%  if limit  %}
-        <p class ="date">Top Questions</p>
-        {% endif %}
-        <table id="index_table">
+<div id ="table-container">
+    {%  if limit  %}
+    <p class ="date">Top Questions</p>
+    {% endif %}
+    <table id="index_table">
         <tr>
             <th>Title</th>
             <th>Submission time</th>
             <th>Vote number</th>
             <th>Views</th>
             {% for question in questions %}
-                <tr>
-                    <td style="padding: 4px"><a href="/question/{{ question.id }}">{{ question.title }}</a></td>
-                    <td style="width: 20%; text-align: center">{{ question.submission_time }}</td>
-                    <td style="width: 9%; text-align: center">{{ question.vote_number }}</td>
-                    <td style="width: 8%; text-align: center">{{ question.view_number }}</td>
-                </tr>
-            {% endfor %}
+        <tr>
+            <td style="padding: 4px"><a href="/question/{{ question.id }}">{{ question.title }}</a></td>
+            <td style="width: 20%; text-align: center">{{ question.submission_time }}</td>
+            <td style="width: 9%; text-align: center">{{ question.vote_number }}</td>
+            <td style="width: 8%; text-align: center">{{ question.view_number }}</td>
         </tr>
-</table>
+        {% endfor %}
+        </tr>
+    </table>
 </div>
-    <div id="container-2">
-<div id="question-button">
-    <a href="/add-question">
-    <input type="button" id="new_question" class="bigger_button" value="Ask a new question"></a>
-
-    {% if search_data %}
+<div id="container-2">
+    <div id="question-button">
+        <a href="/add-question">
+        <input type="button" id="new_question" class="bigger_button" value="Ask a new question"></a>
+        {% if search_data %}
         {% if results_num > 0 %}
         <p>AskMate found <span style="font-weight: bold">{{ results_num }}</span>
             {% if results_num > 1 %}
-                results for <span style="font-weight: bold">{{ search_data }}</span>
+            results for <span style="font-weight: bold">{{ search_data }}</span>
             {% else %}
-                result for <span style="font-weight: bold">{{ search_data }}</span>
-            {% endif %}</p>
+            result for <span style="font-weight: bold">{{ search_data }}</span>
+            {% endif %}
+        </p>
         {% else %}
-            <p>AskMate found<span style="font-weight: bold"> nothing </span>
-            for <span style="font-weight: bold">{{ search_data }}</span></p>
+        <p>AskMate found<span style="font-weight: bold"> nothing </span>
+            for <span style="font-weight: bold">{{ search_data }}</span>
+        </p>
         {% endif %}
-    {% endif %}
-
-</div>
-<div id="sort-form" class="styled-select blue semi-square">
-<form action={{ "/" if limit == true else "/list"  }} method="get">
+        {% endif %}
+    </div>
+    <div id="sort-form" class="styled-select blue semi-square">
+        <form action={{ "/" if limit == true else "/list"  }} method="get">
         <p style="font-weight: bold">Sort by: </p>
         <select id="order_by" name="order_by">
             <option value="title">Title</option>
@@ -55,18 +54,18 @@
             <option value="vote_number">Vote Number</option>
             <option value="{{ header }}" selected="selected" hidden>{{ ' '.join(header.split('_')).title() }}</option>
         </select>
-            <button type="submit" name="order_direction"
-                    value="asc" title="Ascending order"><i class="fa fa-sort-amount-asc"></i></button>
-            <button type="submit" name="order_direction"
-                    value="desc" title="Descending order"><i class="fa fa-sort-amount-desc"></i></button>
+        <button type="submit" name="order_direction"
+            value="asc" title="Ascending order"><i class="fa fa-sort-amount-asc"></i></button>
+        <button type="submit" name="order_direction"
+            value="desc" title="Descending order"><i class="fa fa-sort-amount-desc"></i></button>
         </form>
+    </div>
 </div>
-    </div>
 {% if limit == true %}
-    <div id="back-button">
+<div id="back-button">
     <a href="/list">
-      <input type="button" id="back" class="bigger_button" value="Show all">
+    <input type="button" id="back" class="bigger_button" value="Show all">
     </a>
-    </div>
+</div>
 {% endif %}
 {% endblock %}

@@ -10,10 +10,10 @@ def update_view_counter(cursor, question_id, increment):
     new_view_number = current_question['view_number']
 
     cursor.execute(f"""
-                    UPDATE question
-                    SET view_number = {new_view_number}
-                    WHERE id = {question_id};
-                    """)
+        UPDATE question
+        SET view_number = {new_view_number}
+        WHERE id = {question_id};
+        """)
 
 
 def get_back_image_name(new_image_name):
@@ -25,9 +25,9 @@ def get_back_image_name(new_image_name):
 @connection_handler
 def get_database(cursor, which_database):
     cursor.execute(f"""
-                    SELECT * FROM {which_database}
-                    ORDER BY submission_time DESC;
-                   """)
+        SELECT * FROM {which_database}
+        ORDER BY submission_time DESC;
+        """)
     database = cursor.fetchall()
     return database
 
@@ -35,10 +35,10 @@ def get_database(cursor, which_database):
 @connection_handler
 def get_limited_database(cursor, which_database, limit):
     cursor.execute(f"""
-                    SELECT * FROM {which_database}
-                    ORDER BY submission_time DESC
-                    LIMIT {limit};
-                   """)
+        SELECT * FROM {which_database}
+        ORDER BY submission_time DESC
+        LIMIT {limit};
+        """)
     database = cursor.fetchall()
     return database
 
@@ -50,10 +50,10 @@ def insert_new_question_to_database(cursor, new_data):
 
     data_to_insert = list(new_data.values())
     cursor.execute(f"""
-                    INSERT INTO question
-                    (submission_time, view_number, vote_number, title, message, image)
-                    VALUES (%s, %s, %s, %s, %s, %s);
-                    """, data_to_insert)
+        INSERT INTO question
+        (submission_time, view_number, vote_number, title, message, image)
+        VALUES (%s, %s, %s, %s, %s, %s);
+        """, data_to_insert)
 
 
 @connection_handler
@@ -63,18 +63,18 @@ def insert_new_answer_to_database(cursor, new_data):
 
     data_to_insert = list(new_data.values())
     cursor.execute(f"""
-                    INSERT INTO answer
-                    (submission_time, vote_number, question_id, message, image)
-                    VALUES (%s, %s, %s, %s, %s);
-                    """, data_to_insert)
+        INSERT INTO answer
+        (submission_time, vote_number, question_id, message, image)
+        VALUES (%s, %s, %s, %s, %s);
+        """, data_to_insert)
 
 
 @connection_handler
 def get_record_by_id(cursor, which_database, id):
     cursor.execute(f"""
-                    SELECT * FROM {which_database}
-                    WHERE id = {id};
-                   """)
+        SELECT * FROM {which_database}
+        WHERE id = {id};
+        """)
     record = cursor.fetchall()
     return record
 
@@ -83,32 +83,32 @@ def get_record_by_id(cursor, which_database, id):
 def update_question(cursor, updated_data, question_id):
     new_data = list(updated_data.values())
     cursor.execute(f"""
-                    UPDATE question
-                    SET title = %s,
-                        message = %s,
-                        image = %s
-                    WHERE id = {question_id};
-                    """, new_data)
+        UPDATE question
+        SET title = %s,
+            message = %s,
+            image = %s
+        WHERE id = {question_id};
+        """, new_data)
 
 
 @connection_handler
 def update_answer(cursor, updated_data, answer_id):
     new_data = list(updated_data.values())
     cursor.execute(f"""
-                    UPDATE answer
-                    SET message = %s,
-                        image = %s
-                    WHERE id = {answer_id};
-                    """, new_data)
+        UPDATE answer
+        SET message = %s,
+            image = %s
+        WHERE id = {answer_id};
+        """, new_data)
 
 
 @connection_handler
 def get_answers_by_question_id(cursor, question_id):
     cursor.execute(f"""
-                        SELECT * FROM answer
-                        WHERE question_id = {question_id}
-                        ORDER BY submission_time;
-                       """)
+        SELECT * FROM answer
+        WHERE question_id = {question_id}
+        ORDER BY submission_time;
+        """)
     current_answers = cursor.fetchall()
     return current_answers
 
@@ -122,53 +122,53 @@ def delete_every_answer_by_question_id(cursor, question_id):
 
     for answer_id in list_of_answer_ids:
         cursor.execute(f"""
-                        DELETE FROM answer
-                        WHERE id = {answer_id};
-                        """)
+            DELETE FROM answer
+            WHERE id = {answer_id};
+            """)
 
 
 @connection_handler
 def delete_question_and_answers(cursor, question_id):
     cursor.execute(f"""
-                                        DELETE FROM comment
-                                        WHERE question_id = {question_id};
-                                        """)
+        DELETE FROM comment
+        WHERE question_id = {question_id};
+    """)
 
     delete_every_answer_by_question_id(question_id)
 
     cursor.execute(f"""
-                    DELETE FROM question
-                    WHERE id = {question_id};
-                    """)
+        DELETE FROM question
+        WHERE id = {question_id};
+        """)
 
 
 @connection_handler
 def delete_single_answer_by_id(cursor, answer_id):
     cursor.execute(f"""
-                                DELETE FROM comment
-                                WHERE answer_id = {answer_id};
-                                """)
+        DELETE FROM comment
+        WHERE answer_id = {answer_id};
+        """)
 
     cursor.execute(f"""
-                        DELETE FROM answer
-                        WHERE id = {answer_id};
-                        """)
+        DELETE FROM answer
+        WHERE id = {answer_id};
+        """)
 
 
 @connection_handler
 def delete_single_comment_by_id(cursor, comment_id):
     cursor.execute(f"""
-                                DELETE FROM comment
-                                WHERE id = {comment_id};
-                                """)
+        DELETE FROM comment
+        WHERE id = {comment_id};
+        """)
 
 
 @connection_handler
 def sort_data(cursor, key, table, order):
     cursor.execute(f"""
-                    SELECT * FROM {table}
-                    ORDER BY {key} {order}
-                    """)
+        SELECT * FROM {table}
+        ORDER BY {key} {order}
+        """)
     result = cursor.fetchall()
     return result
 
@@ -181,18 +181,18 @@ def vote_counter(cursor, table, id, up_or_down):
         vote_change = -1
 
     cursor.execute(f"""
-                    UPDATE {table}
-                    SET vote_number = vote_number + {vote_change}
-                    WHERE id = {id}
-                    """)
+        UPDATE {table}
+        SET vote_number = vote_number + {vote_change}
+        WHERE id = {id}
+        """)
 
 
 @connection_handler
 def get_question_id_by_answer_id(cursor, answer_id, table='answer'):
     cursor.execute(f"""
-                    SELECT question_id from {table}
-                    WHERE id = {answer_id}
-                    """)
+        SELECT question_id from {table}
+        WHERE id = {answer_id}
+        """)
     question_id = cursor.fetchall()
     return question_id[0]['question_id']
 
@@ -200,9 +200,9 @@ def get_question_id_by_answer_id(cursor, answer_id, table='answer'):
 @connection_handler
 def get_question_id_by_comment_id(cursor, comment_id):
     cursor.execute(f"""
-                    SELECT question_id from comment
-                    WHERE id = {comment_id}
-                    """)
+        SELECT question_id from comment
+        WHERE id = {comment_id}
+        """)
     question_id = cursor.fetchall()
     return question_id[0]['question_id']
 
@@ -210,9 +210,9 @@ def get_question_id_by_comment_id(cursor, comment_id):
 @connection_handler
 def get_search_results_from_database(cursor, which_database, id, column, search_data):
     cursor.execute(f"""
-                    SELECT {id} from {which_database}
-                    WHERE {column} ILIKE '%{search_data}%'
-                    """)
+        SELECT {id} from {which_database}
+        WHERE {column} ILIKE '%{search_data}%'
+        """)
     ids = cursor.fetchall()
 
     list_of_ids = []
@@ -237,22 +237,22 @@ def get_search_results(cursor, search_data, key):
     if len(unique_question_ids) == 1:
         unique_question_id = list(unique_question_ids)[0]
         cursor.execute(f"""
-                        SELECT * from question
-                        WHERE id = {unique_question_id}
-                        ORDER BY {key} DESC;
-                        """)
+            SELECT * from question
+            WHERE id = {unique_question_id}
+            ORDER BY {key} DESC;
+            """)
     elif len(unique_question_ids) == 0:
         cursor.execute(f"""
-                        SELECT * from question
-                        WHERE id = -1
-                        ORDER BY {key} DESC;
-                        """)
+            SELECT * from question
+            WHERE id = -1
+            ORDER BY {key} DESC;
+            """)
     else:
         cursor.execute(f"""
-                        SELECT * from question
-                        WHERE id IN {unique_question_ids}
-                        ORDER BY {key} DESC;
-                        """)
+            SELECT * from question
+            WHERE id IN {unique_question_ids}
+            ORDER BY {key} DESC;
+            """)
 
     search_results = cursor.fetchall()
     number_of_results = len(search_results)
@@ -266,10 +266,10 @@ def insert_new_question_comment_to_database(cursor, new_comment_data):
 
     data_to_insert = list(new_comment_data.values())
     cursor.execute("""
-                    INSERT INTO comment
-                    (question_id, message, submission_time, edited_count)
-                    VALUES (%s, %s, %s, %s)
-                    """, data_to_insert)
+        INSERT INTO comment
+        (question_id, message, submission_time, edited_count)
+        VALUES (%s, %s, %s, %s)
+        """, data_to_insert)
 
 
 @connection_handler
@@ -279,19 +279,19 @@ def insert_new_answer_comment_to_database(cursor, new_comment_data):
 
     data_to_insert = list(new_comment_data.values())
     cursor.execute("""
-                    INSERT INTO comment
-                    (question_id, answer_id, message, submission_time, edited_count)
-                    VALUES (%s, %s, %s, %s, %s)
-                    """, data_to_insert)
+        INSERT INTO comment
+        (question_id, answer_id, message, submission_time, edited_count)
+        VALUES (%s, %s, %s, %s, %s)
+        """, data_to_insert)
 
 
 @connection_handler
 def get_comments_by_question_id(cursor, which_database, question_id):
     cursor.execute(f"""
-                        SELECT * FROM {which_database}
-                        WHERE question_id = {question_id} AND answer_id IS NULL
-                        ORDER BY submission_time;
-                       """)
+        SELECT * FROM {which_database}
+        WHERE question_id = {question_id} AND answer_id IS NULL
+        ORDER BY submission_time;
+        """)
     comments = cursor.fetchall()
     return comments
 
@@ -299,10 +299,10 @@ def get_comments_by_question_id(cursor, which_database, question_id):
 @connection_handler
 def get_answer_comments(cursor, which_database):
     cursor.execute(f"""
-                        SELECT * FROM {which_database}
-                        WHERE answer_id IS NOT NULL 
-                        ORDER BY submission_time;
-                       """)
+        SELECT * FROM {which_database}
+        WHERE answer_id IS NOT NULL 
+        ORDER BY submission_time;
+        """)
     comments = cursor.fetchall()
     return comments
 
@@ -310,9 +310,9 @@ def get_answer_comments(cursor, which_database):
 @connection_handler
 def get_comment_by_comment_id(cursor, which_database, comment_id):
     cursor.execute(f"""
-                        SELECT * FROM {which_database}
-                        WHERE id = {comment_id};
-                       """)
+        SELECT * FROM {which_database}
+        WHERE id = {comment_id};
+        """)
     comment = cursor.fetchall()
     return comment[0]
 

@@ -1,28 +1,29 @@
 {% extends "layout.html" %}
 {% block title %}
-    <title>Edit answer</title>
+<title>Edit answer</title>
 {% endblock %}
 {% block content %}
-
 <div class="form-container">
     <form action="/answer/{{ answer.id }}/edit" method="POST" enctype=multipart/form-data>
         <input type="number" id="id" name="id" value="{{ answer.id }}" hidden>
         <input type="number" id="question_id" name="question_id" value="{{ answer.question_id }}" hidden>
         <p><label style="font-weight: bold">Your answer</label></p>
         <textarea class="textbox_gen" id="message" name="message" cols="50" rows="20"
-                  placeholder="Write your answer here" required>{{ answer.message }}</textarea>
-        <p><div class="image-upload">
-                <label for="image"><img src="/static/image/imgupl.png"/></label>
-                <input id="image" type="file" name="image">
-            </div></p>
+            placeholder="Write your answer here" required>{{ answer.message }}</textarea>
+        <p>
+        <div class="image-upload">
+            <label for="image"><img src="/static/image/imgupl.png"/></label>
+            <input id="image" type="file" name="image">
+        </div>
+        </p>
         <p>Click the icon to upload a new image</p>
         <button type="submit" class="bigger_button">Edit Answer</button>
     </form>
     <br>
     <br>
     <p><a href="/list">
-        <input type="button" id="back" class="bigger_button" value="Back to the Main Page"></a></p>
-    </div>
+        <input type="button" id="back" class="bigger_button" value="Back to the Main Page"></a>
+    </p>
+</div>
 <br>
-
 {% endblock %}
