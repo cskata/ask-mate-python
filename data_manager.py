@@ -109,12 +109,11 @@ def insert_new_question_to_database(cursor, new_data):
     dt = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     new_data['submission_time'] = str(dt)
 
-    data_to_insert = list(new_data.values())
-    cursor.execute(f"""
+    cursor.execute("""
         INSERT INTO question
-        (submission_time, view_number, vote_number, title, message, image)
-        VALUES (%s, %s, %s, %s, %s, %s);
-        """, data_to_insert)
+        (submission_time, view_number, vote_number, title, message, image, user_id)
+        VALUES (%(submission_time)s, %(view_number)s, %(vote_number)s, %(title)s, %(message)s, %(image)s, %(user_id)s);
+        """, new_data)
 
 
 @connection_handler
@@ -133,8 +132,10 @@ def insert_new_answer_to_database(cursor, new_data):
 @connection_handler
 def get_record_by_id(cursor, which_database, id):
     cursor.execute(f"""
-        SELECT * FROM {which_database}
-        WHERE id = {id};
+        SELECT q.*, r.username
+        FROM {which_database} q
+        LEFT JOIN registered_users r ON q.user_id = r.id
+        WHERE q.id = {id};
         """)
     record = cursor.fetchall()
     return record
@@ -390,3 +391,15 @@ def update_data_by_id(cursor, which_database, new_data, id):
                     SET message = %s , edited_count = {new_edited_count}
                     WHERE id = {id}
                     """, data_to_update)
+
+
+@connection_handler
+def get_user_id_by_username(cursor, username):
+    user = dict()
+    user['username'] = username
+    cursor.execute("""
+        SELECT id FROM registered_users
+        WHERE username = %(username)s;
+        """, user)
+    user_id = cursor.fetchall()
+    return user_id[0]['id']
