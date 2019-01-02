@@ -15,7 +15,7 @@
             <th>Views</th>
             {% for question in questions %}
         <tr>
-            <td style="padding: 4px"><a href="/question/{{ question.id }}">{{ question.title }}</a></td>
+            <td style="padding: 4px; text-align: left"><a href="/question/{{ question.id }}">{{ question.title }}</a></td>
             <td style="width: 20%; text-align: center">{{ question.submission_time }}</td>
             <td style="width: 9%; text-align: center">{{ question.vote_number }}</td>
             <td style="width: 8%; text-align: center">{{ question.view_number }}</td>
@@ -65,7 +65,7 @@
 </div>
 {% if limit == true %}
 <div id="back-button">
-    <a href="/list">
+    <a href="{{ url_for('route_list') }}">
     <input type="button" id="back" class="bigger_button" value="Show all">
     </a>
 </div>

@@ -395,15 +395,6 @@ def log_user_out():
     return redirect(url_for('index'))
 
 
-@app.route('/list')
-def cookie_insertion():
-    redirect_to_index = redirect('/')
-    response = make_response(redirect_to_index)
-    response.set_cookie('cookie-name', value='values')
-    return response
-
-
-
 if __name__ == '__main__':
     app.static_folder = 'static'
     app.run(
