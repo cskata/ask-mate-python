@@ -31,13 +31,13 @@
                 <a class="account_btn_text" href="{{ url_for ('log_in_user') }}">Login</a>
             </button>
         {% else %}
-            <span class="welcome">Welcome <span class="username">{{ username }}</span>!</span>
             <button class="account_btn">
                 <a class="account_btn_text" href="{{ url_for ('log_user_out') }}">Logout</a>
             </button>
-            <button>
-                <a href="{{ url_for ('list_registered_users') }}">List all user</a>
+            <button class="account_btn">
+                <a class="account_btn_text" href="{{ url_for ('list_registered_users') }}">List all user</a>
             </button>
+            <span class="welcome">Welcome <span class="username">{{ username }}</span>!</span>
         {% endif %}
         </header>
         {% block content %} {% endblock %}
