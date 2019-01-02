@@ -1,6 +1,5 @@
 import bcrypt
 from connection import connection_handler
-import os
 from datetime import datetime
 
 
