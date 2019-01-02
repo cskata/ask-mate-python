@@ -31,7 +31,7 @@ body {
     border-radius: 5px 5px 5px 5px;
     background-color:white;
     margin: 0 auto;
-    width: 60%;
+    width: 80%;
     box-shadow: 0 1px 1px 0 rgba(0,0,0,0.24), 0 15px 31px 0 rgba(0,0,0,0.19);
 }
 
@@ -70,7 +70,7 @@ background-color: #ddd;
     border-radius: 5px 5px 5px 5px;
     background-color:white;
     margin: 0 auto;
-    width: 60%;
+    width: 80%;
     box-shadow: 0 1px 1px 0 rgba(0,0,0,0.24), 0 15px 31px 0 rgba(0,0,0,0.19);
 }
 
@@ -272,13 +272,13 @@ background-color: #ddd;
 }
 
 #back-button {
-    width: 60%;
+    width: 80%;
     margin:auto;
     margin-top:20px;
 }
 
 #container-2{
-    width: 60%;
+    width: 80%;
     margin: auto;
 }
 
