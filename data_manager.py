@@ -326,12 +326,11 @@ def insert_new_question_comment_to_database(cursor, new_comment_data):
     dt = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     new_comment_data['submission_time'] = str(dt)
 
-    data_to_insert = list(new_comment_data.values())
     cursor.execute("""
         INSERT INTO comment
         (question_id, message, submission_time, edited_count)
-        VALUES (%s, %s, %s, %s)
-        """, data_to_insert)
+        VALUES (%(question_id)s, %(message)s, %(submission_time)s, %(edited_count)s, %(user_id)s)
+        """, new_comment_data)
 
 
 @connection_handler
@@ -339,12 +338,11 @@ def insert_new_answer_comment_to_database(cursor, new_comment_data):
     dt = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     new_comment_data['submission_time'] = str(dt)
 
-    data_to_insert = list(new_comment_data.values())
     cursor.execute("""
         INSERT INTO comment
         (question_id, answer_id, message, submission_time, edited_count)
-        VALUES (%s, %s, %s, %s, %s)
-        """, data_to_insert)
+        VALUES (%(question_id)s, %(answer_id)s, %(message)s, %(submission_time)s, %(edited_count)s, %(user_id)s)
+        """, new_comment_data)
 
 
 @connection_handler
@@ -403,3 +401,13 @@ def get_user_id_by_username(cursor, username):
         """, user)
     user_id = cursor.fetchall()
     return user_id[0]['id']
+
+
+@connection_handler
+def get_all_user_data(cursor):
+    cursor.execute("""
+            SELECT id, username, reg_date FROM registered_users;
+            """)
+    user_table = cursor.fetchall()
+    return user_table
+

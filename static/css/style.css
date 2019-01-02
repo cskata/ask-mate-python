@@ -42,6 +42,10 @@ body {
     padding: 15px;
 }
 
+#index_table td {
+    text-align: center;
+}
+
 #index_table th {
     border-collapse: collapse;
     background-color: #85a3a5cc;
@@ -309,26 +313,34 @@ background-color: #ddd;
 }
 
 #background {
-    background-color: #3B666B;
+    height: 100%;
 }
 
 #form-wrapper {
-    width: 70%;
-    margin: 0 auto;
+    width: 80%;
+    margin: 100px auto;
     text-align: center;
 }
 
 #reg-form {
-    width: 60%;
+    width: 40%;
     display: inline-block;
-    min-width:200px;
-    background-color: #ffffff;
+    background-color: #3B666B;
     height: 400px;
     margin: 20px;
     box-shadow: 0 1px 5px rgba(0, 0, 0, .9);
     border-radius: 4px;
 }
 
+.label {
+    font-size: 90%;
+    font-weight: bold;
+}
+
+.title {
+    font-weight: bold;
+    font-size: 105%;
+}
 #navbar_form{
     float:left;
 }

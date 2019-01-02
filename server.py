@@ -100,6 +100,7 @@ def route_show_question(question_id):
 
         current_question_comments = data_manager.get_comments_by_question_id('comment', question_id)
         current_answer_comments = data_manager.get_answer_comments('comment')
+
         if 'username' in session:
             username = session['username']
             return render_template('show_question.html', question_id=question_id,
@@ -107,6 +108,7 @@ def route_show_question(question_id):
                                    question_comments=current_question_comments,
                                    answer_comments=current_answer_comments,
                                    number_of_answers=number_of_answers, username=username)
+
         return render_template('show_question.html', question_id=question_id,
                                question=current_question, answers=current_answers,
                                question_comments=current_question_comments,
@@ -268,11 +270,14 @@ def add_new_comment_to_question(question_id):
         return render_template('new_comment.html', question_id=question_id, username=username)
 
     else:
+        username = session['username']
+        user_id = data_manager.get_user_id_by_username(username)
         new_comment = {
             'question_id': question_id,
             'message': request.form['comment_message'].replace('\n', '<br/>'),
             'submission_time': "",
-            'edited_count': 0
+            'edited_count': 0,
+            'user_id': user_id
         }
 
         data_manager.insert_new_question_comment_to_database(new_comment)
@@ -377,10 +382,26 @@ def log_in_user():
     return render_template('reg-login.html')
 
 
+@app.route('/list_users', methods=['GET', 'POST'])
+def list_registered_users():
+    users_data = data_manager.get_all_user_data()
+    username = session['username']
+    return render_template('list_users.html', users_data=users_data, username=username )
+
+
 @app.route('/logout')
 def log_user_out():
     session.pop('username', None)
     return redirect(url_for('index'))
+
+
+@app.route('/list')
+def cookie_insertion():
+    redirect_to_index = redirect('/')
+    response = make_response(redirect_to_index)
+    response.set_cookie('cookie-name', value='values')
+    return response
+
 
 
 if __name__ == '__main__':
