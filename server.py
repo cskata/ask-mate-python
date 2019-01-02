@@ -16,7 +16,6 @@ app.secret_key = "titkoskulcs"
 def index():
     limit = 5
     questions = data_manager.get_limited_database("question", limit)
-    print(questions)
     key = 'submission_time'
     limit_questions = True
     if 'order_by' in request.args:
@@ -85,8 +84,9 @@ def route_add_question():
 
 @app.route('/question/<question_id>/new-answer')
 def route_new_answer(question_id):
+    username = session['username']
     data_manager.update_view_counter(question_id, -2)
-    return render_template('new_answer.html', question_id=question_id)
+    return render_template('new_answer.html', question_id=question_id, username=username)
 
 
 @app.route("/question/<question_id>", methods=['GET', 'POST'])
@@ -100,6 +100,7 @@ def route_show_question(question_id):
 
         current_question_comments = data_manager.get_comments_by_question_id('comment', question_id)
         current_answer_comments = data_manager.get_answer_comments('comment')
+
         if 'username' in session:
             username = session['username']
             return render_template('show_question.html', question_id=question_id,
@@ -107,6 +108,7 @@ def route_show_question(question_id):
                                    question_comments=current_question_comments,
                                    answer_comments=current_answer_comments,
                                    number_of_answers=number_of_answers, username=username)
+
         return render_template('show_question.html', question_id=question_id,
                                question=current_question, answers=current_answers,
                                question_comments=current_question_comments,
@@ -114,12 +116,15 @@ def route_show_question(question_id):
                                number_of_answers=number_of_answers)
 
     else:
+        username = session['username']
+        user_id = data_manager.get_user_id_by_username(username)
         new_answer = {
             'submission_time': "",
             'vote_number': 0,
             'question_id': question_id,
             'message': request.form['message'].replace('\n', '<br/>'),
-            'image': ""
+            'image': "",
+            'user_id': user_id
         }
 
         if len(request.files) > 0:
@@ -147,7 +152,8 @@ def route_edit_question(question_id):
     current_question['message'] = current_question['message'].replace('<br/>', "")
 
     if request.method == 'GET':
-        return render_template('edit_question.html', question=current_question)
+        username = session['username']
+        return render_template('edit_question.html', question=current_question, username=username)
 
     else:
         edited_question = {
@@ -183,7 +189,8 @@ def route_edit_answer(answer_id):
     current_answer['message'] = current_answer['message'].replace('<br/>', "")
 
     if request.method == 'GET':
-        return render_template('edit_answer.html', answer=current_answer)
+        username = session['username']
+        return render_template('edit_answer.html', answer=current_answer, username=username)
     else:
         edited_answer = {
             'message': request.form['message'].replace('\n', '<br/>'),
@@ -259,14 +266,18 @@ def route_vote_answer_down(answer_id):
 @app.route('/question/<question_id>/new-comment', methods=['GET', 'POST'])
 def add_new_comment_to_question(question_id):
     if request.method == 'GET':
-        return render_template('new_question_comment.html', question_id=question_id)
+        username = session['username']
+        return render_template('new_comment.html', question_id=question_id, username=username)
 
     else:
+        username = session['username']
+        user_id = data_manager.get_user_id_by_username(username)
         new_comment = {
             'question_id': question_id,
             'message': request.form['comment_message'].replace('\n', '<br/>'),
             'submission_time': "",
-            'edited_count': 0
+            'edited_count': 0,
+            'user_id': user_id
         }
 
         data_manager.insert_new_question_comment_to_database(new_comment)
@@ -299,8 +310,8 @@ def update_comment(comment_id):
     if request.method == 'GET':
         comment = data_manager.get_comment_by_comment_id('comment', comment_id)
         comment['message'] = comment['message'].replace("<br/>", "")
-
-        return render_template('edit_comment.html', comment_id=comment_id, comment=comment)
+        username = session['username']
+        return render_template('edit_comment.html', comment_id=comment_id, comment=comment, username=username)
 
     else:
         edited_comment = {
@@ -319,14 +330,14 @@ def update_comment(comment_id):
 @app.route('/search')
 def search():
     key = 'submission_time'
-
+    username = session['username']
     if 'q' in request.args:
         search_data = request.args.get('q')
         questions = data_manager.get_search_results(search_data, key)[0]
         number_of_results = data_manager.get_search_results(search_data, key)[1]
 
     return render_template('index.html', questions=questions, header=key,
-                           search_data=search_data, results_num=number_of_results)
+                           search_data=search_data, results_num=number_of_results, username=username)
 
 
 @app.route('/registration', methods=['GET', 'POST'])

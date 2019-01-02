@@ -121,12 +121,11 @@ def insert_new_answer_to_database(cursor, new_data):
     dt = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     new_data['submission_time'] = str(dt)
 
-    data_to_insert = list(new_data.values())
-    cursor.execute(f"""
+    cursor.execute("""
         INSERT INTO answer
-        (submission_time, vote_number, question_id, message, image)
-        VALUES (%s, %s, %s, %s, %s);
-        """, data_to_insert)
+        (submission_time, vote_number, question_id, message, image, user_id)
+        VALUES (%(submission_time)s, %(vote_number)s, %(question_id)s, %(message)s, %(image)s, %(user_id)s);
+        """, new_data)
 
 
 @connection_handler
@@ -167,7 +166,8 @@ def update_answer(cursor, updated_data, answer_id):
 @connection_handler
 def get_answers_by_question_id(cursor, question_id):
     cursor.execute(f"""
-        SELECT * FROM answer
+        SELECT answer.*, r.username FROM answer
+        LEFT JOIN registered_users r ON answer.user_id = r.id
         WHERE question_id = {question_id}
         ORDER BY submission_time;
         """)
@@ -326,12 +326,11 @@ def insert_new_question_comment_to_database(cursor, new_comment_data):
     dt = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     new_comment_data['submission_time'] = str(dt)
 
-    data_to_insert = list(new_comment_data.values())
     cursor.execute("""
         INSERT INTO comment
         (question_id, message, submission_time, edited_count)
-        VALUES (%s, %s, %s, %s)
-        """, data_to_insert)
+        VALUES (%(question_id)s, %(message)s, %(submission_time)s, %(edited_count)s, %(user_id)s)
+        """, new_comment_data)
 
 
 @connection_handler
@@ -339,12 +338,11 @@ def insert_new_answer_comment_to_database(cursor, new_comment_data):
     dt = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     new_comment_data['submission_time'] = str(dt)
 
-    data_to_insert = list(new_comment_data.values())
     cursor.execute("""
         INSERT INTO comment
         (question_id, answer_id, message, submission_time, edited_count)
-        VALUES (%s, %s, %s, %s, %s)
-        """, data_to_insert)
+        VALUES (%(question_id)s, %(answer_id)s, %(message)s, %(submission_time)s, %(edited_count)s, %(user_id)s)
+        """, new_comment_data)
 
 
 @connection_handler

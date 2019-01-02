@@ -4,7 +4,7 @@
 {% endblock %}
 {% block content %}
 <div class="form-container">
-    <form action="/add-question" method="POST" enctype=multipart/form-data>
+    <form action="{{ url_for('route_add_question') }}" method="POST" enctype=multipart/form-data>
         <p><label style="font-weight: bold">Title</label></p>
         <input id="title" name="title" type="text" placeholder="Add title to your question" required>
         <p><label style="font-weight: bold">Question</label></p>
@@ -18,7 +18,7 @@
         <br>
         <button type="submit" class="bigger_button">Save new question</button>
     </form>
-    <p><a href="/list">
+    <p><a href="{{ url_for('route_list') }}">
         <input type="button" id="back" class="bigger_button" value="Back to the Main Page"></a>
     </p>
 </div>

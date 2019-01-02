@@ -26,8 +26,10 @@
 </div>
 <div id="container-2">
     <div id="question-button">
-        <a href="/add-question">
-        <input type="button" id="new_question" class="bigger_button" value="Ask a new question"></a>
+        {% if username %}
+            <a href="{{ url_for('route_add_question') }}">
+            <input type="button" id="new_question" class="bigger_button" value="Ask a new question"></a>
+        {% endif %}
         {% if search_data %}
         {% if results_num > 0 %}
         <p>AskMate found <span style="font-weight: bold">{{ results_num }}</span>
