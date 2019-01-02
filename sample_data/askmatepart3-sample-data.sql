@@ -5,7 +5,6 @@ CREATE TABLE registered_users (
     id integer NOT NULL,
     username character varying(255) NOT NULL,
     hashed_pw character varying(255) NOT NULL,
-    salt character varying(255) NOT NULL,
     reg_date timestamp without time zone
 );
 
