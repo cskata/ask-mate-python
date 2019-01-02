@@ -16,7 +16,7 @@
             <p class="snowflake">*</p>
         </div>
         <header class="mainhead">
-            <form action="/search" method="get">
+            <form id="navbar_form" action="/search" method="get">
                 <p class="headtitle">
                     <a href="/">ask<strong>mate</strong></a>
                 </p>
@@ -28,12 +28,25 @@
             <input type="button" value="Register"></a>
             <a href="{{ url_for('log_in_user') }}">
             <input type="button" value="Login"></a>
+            <button class="account_btn">
+                <a class="account_btn_text" href="{{ url_for ('new_user_registration') }}">Register</a>
+            </button>
+            <button class="account_btn">
+                <a class="account_btn_text" href="{{ url_for ('log_in_user') }}">Login</a>
+            </button>
         {% else %}
             <span class="welcome">Welcome <span class="username">{{ username }}</span>!</span>
             <a href="{{ url_for('list_registered_users') }}">
             <input type="button" value="List all user"></a>
             <a href="{{ url_for('log_user_out') }}">
             <input type="button" value="Logout"></a>
+            {{ username }}
+            <button class="account_btn">
+                <a class="account_btn_text" href="{{ url_for ('log_user_out') }}">Logout</a>
+            </button>
+            <button>
+                <a href="{{ url_for ('list_registered_users') }}">List all user</a>
+            </button>
         {% endif %}
         </header>
         {% block content %} {% endblock %}
