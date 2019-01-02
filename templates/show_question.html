@@ -64,7 +64,8 @@
                 <p style="text-align: center">Seen: {{ question.view_number}}</p>
             </td>
             <td class="date">
-                <p>Posted: {{ question.submission_time }}</p>
+                <p>Posted by: {{ question.username }}</p>
+                <p>Date: {{ question.submission_time }}</p>
             </td>
             <td class="opts">
                 <a href="/question/{{ question.id }}/new-answer">

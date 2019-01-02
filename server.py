@@ -16,6 +16,7 @@ app.secret_key = "titkoskulcs"
 def index():
     limit = 5
     questions = data_manager.get_limited_database("question", limit)
+    print(questions)
     key = 'submission_time'
     limit_questions = True
     if 'order_by' in request.args:
@@ -50,17 +51,20 @@ def route_list():
 
 @app.route('/add-question', methods=['GET', 'POST'])
 def route_add_question():
+    username = session['username']
     if request.method == 'GET':
-        return render_template('new_question.html')
+        return render_template('new_question.html', username=username)
 
     else:
+        user_id = data_manager.get_user_id_by_username(username)
         new_question = {
             'submission_time': "",
             'view_number': 0,
             'vote_number': 0,
             'title': request.form['title'],
             'message': request.form['message'].replace('\n', '<br/>'),
-            'image': ""
+            'image': "",
+            'user_id': user_id
         }
 
         if len(request.files) > 0:
