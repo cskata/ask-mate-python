@@ -150,7 +150,8 @@ def route_edit_question(question_id):
     current_question['message'] = current_question['message'].replace('<br/>', "")
 
     if request.method == 'GET':
-        return render_template('edit_question.html', question=current_question)
+        username = session['username']
+        return render_template('edit_question.html', question=current_question, username=username)
 
     else:
         edited_question = {
@@ -186,7 +187,8 @@ def route_edit_answer(answer_id):
     current_answer['message'] = current_answer['message'].replace('<br/>', "")
 
     if request.method == 'GET':
-        return render_template('edit_answer.html', answer=current_answer)
+        username = session['username']
+        return render_template('edit_answer.html', answer=current_answer, username=username)
     else:
         edited_answer = {
             'message': request.form['message'].replace('\n', '<br/>'),
@@ -262,7 +264,8 @@ def route_vote_answer_down(answer_id):
 @app.route('/question/<question_id>/new-comment', methods=['GET', 'POST'])
 def add_new_comment_to_question(question_id):
     if request.method == 'GET':
-        return render_template('new_comment.html', question_id=question_id)
+        username = session['username']
+        return render_template('new_comment.html', question_id=question_id, username=username)
 
     else:
         new_comment = {
@@ -302,8 +305,8 @@ def update_comment(comment_id):
     if request.method == 'GET':
         comment = data_manager.get_comment_by_comment_id('comment', comment_id)
         comment['message'] = comment['message'].replace("<br/>", "")
-
-        return render_template('edit_comment.html', comment_id=comment_id, comment=comment)
+        username = session['username']
+        return render_template('edit_comment.html', comment_id=comment_id, comment=comment, username=username)
 
     else:
         edited_comment = {
@@ -322,14 +325,14 @@ def update_comment(comment_id):
 @app.route('/search')
 def search():
     key = 'submission_time'
-
+    username = session['username']
     if 'q' in request.args:
         search_data = request.args.get('q')
         questions = data_manager.get_search_results(search_data, key)[0]
         number_of_results = data_manager.get_search_results(search_data, key)[1]
 
     return render_template('index.html', questions=questions, header=key,
-                           search_data=search_data, results_num=number_of_results)
+                           search_data=search_data, results_num=number_of_results, username=username)
 
 
 @app.route('/registration', methods=['GET', 'POST'])
