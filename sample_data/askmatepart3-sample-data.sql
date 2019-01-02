@@ -1,9 +1,3 @@
---
--- PostgreSQL database dump
---
-
--- Dumped from database version 9.5.6
--- Dumped by pg_dump version 9.5.6
 DROP TABLE IF EXISTS registered_users;
 DROP SEQUENCE IF EXISTS registered_users_id_seq;
 
@@ -106,9 +100,6 @@ ALTER TABLE ONLY question_tag
 ALTER TABLE ONLY tag
     ADD CONSTRAINT pk_tag_id PRIMARY KEY (id);
 
-ALTER TABLE ONLY question
-    ADD CONSTRAINT fk_user_id FOREIGN KEY (user_id) REFERENCES registered_users(id);
-
 ALTER TABLE ONLY comment
     ADD CONSTRAINT fk_answer_id FOREIGN KEY (answer_id) REFERENCES answer(id);
 
@@ -140,6 +131,7 @@ BUT in my theme i also using jquery via webpack so the loading order is now foll
 jquery
 booklet
 app.js (bundled file with webpack, including jquery)', 'images/image1.png', 1);
+
 INSERT INTO question VALUES (2, '2017-05-01 10:41:00', 1364, 57, 'Drawing canvas with an image picked with Cordova Camera Plugin', 'I''m getting an image from device and drawing a canvas with filters using Pixi JS. It works all well using computer to get an image. But when I''m on IOS, it throws errors such as cross origin issue, or that I''m trying to use an unknown format.
 ', NULL, 1);
 SELECT pg_catalog.setval('question_id_seq', 2, true);
