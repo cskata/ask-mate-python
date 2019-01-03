@@ -15,7 +15,7 @@ app.secret_key = "titkoskulcs"
 @app.route('/')
 def index():
     limit = 5
-    questions = data_manager.get_limited_database("question", limit)
+    questions = data_manager.get_limited_database('question', limit)
     key = 'submission_time'
     limit_questions = True
 
@@ -30,15 +30,17 @@ def index():
         return render_template('index.html', questions=questions, header=key,
                                limit=limit_questions, username=username)
 
-    return render_template('index.html', questions=questions, header=key, limit=limit_questions)
+    return render_template('index.html', questions=questions, header=key,
+                           limit=limit_questions)
 
 
 @app.route('/question')
 @app.route('/list')
 def route_list():
-    questions = data_manager.get_database("question")
+    questions = data_manager.get_database('question')
     key = 'submission_time'
     limit_questions = False
+
     if 'order_by' in request.args:
         key = request.args.get('order_by')
         direction = request.args.get('order_direction')
@@ -46,9 +48,11 @@ def route_list():
 
     if 'username' in session:
         username = session['username']
-        return render_template('index.html', questions=questions, header=key, limit=limit_questions, username=username)
+        return render_template('index.html', questions=questions, header=key,
+                               limit=limit_questions, username=username)
 
-    return render_template('index.html', questions=questions, header=key, limit=limit_questions)
+    return render_template('index.html', questions=questions, header=key,
+                           limit=limit_questions)
 
 
 @app.route('/add-question', methods=['GET', 'POST'])
@@ -113,7 +117,7 @@ def route_new_answer(question_id):
                 file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 
         data_manager.insert_new_answer_to_database(new_answer)
-        return redirect(url_for("route_show_question", question_id=question_id))
+        return redirect(url_for('route_show_question', question_id=question_id))
 
     return render_template('new_answer.html', question_id=question_id, username=username)
 
@@ -172,7 +176,7 @@ def route_edit_question(question_id):
 
         data_manager.update_question(edited_question, question_id)
         data_manager.update_view_counter(question_id, -1)
-        return redirect(url_for("route_show_question", question_id=question_id))
+        return redirect(url_for('route_show_question', question_id=question_id))
 
     return render_template('edit_question.html', question=current_question, username=username)
 
@@ -210,19 +214,19 @@ def route_edit_answer(answer_id):
 
         data_manager.update_answer(edited_answer, answer_id)
         data_manager.update_view_counter(question_id, -1)
-        return redirect(url_for("route_show_question", question_id=question_id))
+        return redirect(url_for('route_show_question', question_id=question_id))
 
     return render_template('edit_answer.html', answer=current_answer, username=username)
 
 
 @app.route('/answer/<answer_id>/delete')
 def route_delete_answer(answer_id):
-    current_answer = data_manager.get_record_by_id("answer", answer_id)[0]
+    current_answer = data_manager.get_record_by_id('answer', answer_id)[0]
     question_id = current_answer['question_id']
 
     data_manager.delete_single_answer_by_id(answer_id)
     data_manager.update_view_counter(question_id, -1)
-    return redirect(url_for("route_show_question", question_id=question_id))
+    return redirect(url_for('route_show_question', question_id=question_id))
 
 
 @app.route('/comments/<comment_id>/delete')
@@ -230,21 +234,21 @@ def route_delete_comment(comment_id):
     question_id = data_manager.get_question_id_by_comment_id(comment_id)
     data_manager.delete_single_comment_by_id(comment_id)
     data_manager.update_view_counter(question_id, -1)
-    return redirect(url_for("route_show_question", question_id=question_id))
+    return redirect(url_for('route_show_question', question_id=question_id))
 
 
 @app.route('/question/<question_id>/vote-up')
 def route_vote_question_up(question_id):
     data_manager.vote_counter("question", question_id, 'up')
     data_manager.update_view_counter(question_id, -1)
-    return redirect(url_for("route_show_question", question_id=question_id))
+    return redirect(url_for('route_show_question', question_id=question_id))
 
 
 @app.route('/question/<question_id>/vote-down')
 def route_vote_question_down(question_id):
     data_manager.vote_counter("question", question_id, 'down')
     data_manager.update_view_counter(question_id, -1)
-    return redirect(url_for("route_show_question", question_id=question_id))
+    return redirect(url_for('route_show_question', question_id=question_id))
 
 
 @app.route('/answer/<answer_id>/vote-up')
@@ -252,7 +256,7 @@ def route_vote_answer_up(answer_id):
     data_manager.vote_counter('answer', answer_id, 'up')
     question_id = data_manager.get_question_id_by_answer_id(answer_id)
     data_manager.update_view_counter(question_id, -1)
-    return redirect(url_for("route_show_question", question_id=question_id))
+    return redirect(url_for('route_show_question', question_id=question_id))
 
 
 @app.route('/answer/<answer_id>/vote-down')
@@ -260,7 +264,7 @@ def route_vote_answer_down(answer_id):
     data_manager.vote_counter('answer', answer_id, 'down')
     question_id = data_manager.get_question_id_by_answer_id(answer_id)
     data_manager.update_view_counter(question_id, -1)
-    return redirect(url_for("route_show_question", question_id=question_id))
+    return redirect(url_for('route_show_question', question_id=question_id))
 
 
 @app.route('/question/<question_id>/new-comment', methods=['GET', 'POST'])
@@ -278,7 +282,7 @@ def add_new_comment_to_question(question_id):
         }
 
         data_manager.insert_new_question_comment_to_database(new_comment)
-        return redirect(url_for("route_show_question", question_id=question_id))
+        return redirect(url_for('route_show_question', question_id=question_id))
 
     return render_template('new_question_comment.html', question_id=question_id, username=username)
 
@@ -300,7 +304,7 @@ def add_new_comment_to_answer(answer_id):
 
         data_manager.insert_new_answer_comment_to_database(new_comment)
         data_manager.update_view_counter(question_id, -1)
-        return redirect(url_for("route_show_question", question_id=question_id))
+        return redirect(url_for('route_show_question', question_id=question_id))
 
     return render_template('new_answer_comment.html', answer_id=answer_id)
 
@@ -321,7 +325,7 @@ def update_comment(comment_id):
         current_comment = data_manager.get_comment_by_comment_id('comment', comment_id)
         question_id = current_comment['question_id']
         data_manager.update_view_counter(question_id, -1)
-        return redirect(url_for("route_show_question", question_id=question_id))
+        return redirect(url_for('route_show_question', question_id=question_id))
 
     return render_template('edit_comment.html', comment_id=comment_id, comment=comment, username=username)
 
@@ -376,7 +380,7 @@ def log_in_user():
     return redirect(url_for('index'))
 
 
-@app.route('/list_users', methods=['GET', 'POST'])
+@app.route('/list_users')
 def list_registered_users():
     users_data = data_manager.get_all_user_data()
     username = session['username']
