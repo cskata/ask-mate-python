@@ -374,7 +374,6 @@ def log_in_user():
 
         if login_check:
             session['username'] = login_data['username']
-            session['user_id'] = ''
             return redirect(url_for('index'))
         else:
             message = "Incorrect username or password"
