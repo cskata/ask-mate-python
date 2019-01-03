@@ -25,10 +25,10 @@
             </form>
         {% if not username %}
             <button class="account_btn">
-                <a class="account_btn_text" href="{{ url_for ('new_user_registration') }}">Register</a>
+                <a class="account_btn_text" href="{{ url_for ('log_in_user') }}">Login</a>
             </button>
             <button class="account_btn">
-                <a class="account_btn_text" href="{{ url_for ('log_in_user') }}">Login</a>
+                <a class="account_btn_text" href="{{ url_for ('new_user_registration') }}">Register</a>
             </button>
         {% else %}
             <button class="account_btn">
