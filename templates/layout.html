@@ -45,7 +45,7 @@
         <!-- LOGIN MODAL -->
         <div id="id01" class="modal">
             <span onclick="document.getElementById('id01').style.display='none'"
-                class="close" title="Close Modal">&times;</span>
+                class="close" title="Close">&times;</span>
                 <div id="reg-form" class="animate">
                 <form action="{{url_for('log_in_user') }}"
                       method=POST>
@@ -66,7 +66,7 @@
         <!-- REGISTER MODAL -->
         <div id="id02" class="modal">
             <span onclick="document.getElementById('id02').style.display='none'"
-                class="close" title="Close Modal">&times;</span>
+                class="close" title="Close">&times;</span>
                 <div id="reg-form" class="animate">
                 <form action="{{url_for('new_user_registration') }}"
                       method=POST>
@@ -91,9 +91,7 @@
         {% block content %} {% endblock %}
         <script src="/static/scripts/lightbox.js"></script>
         <script type="text/javascript" src="/static/scripts/snowfall.js"></script>
-    </body>
-    {% include 'footer.html' %}
-<script type="text/javascript">
+    <script type="text/javascript">
     {% with messages = get_flashed_messages() %}
           {% if messages %}
             {% for message in messages %}
@@ -102,4 +100,6 @@
           {% endif %}
     {% endwith %}
     </script>
+    </body>
+    {% include 'footer.html' %}
 </html>
