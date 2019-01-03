@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, session
+from flask import Flask, render_template, request, redirect, url_for, session, flash
 from werkzeug.utils import secure_filename
 import data_manager
 import os
@@ -352,16 +352,15 @@ def new_user_registration():
         is_username_taken = data_manager.check_username_in_database(new_user)
 
         if is_username_taken:
-            message = "That username is already taken, please choose something else."
-            return render_template('reg-login.html', message=message, new_user=new_user)
+            flash("Username is already taken!")
+            return redirect(url_for('index'))
         else:
             data_manager.register_new_user(new_user)
             return redirect(url_for('index'))
 
-    return render_template('reg-login.html', new_user=new_user)
 
 
-@app.route('/login', methods=['GET', 'POST'])
+@app.route('/login', methods=['POST'])
 def log_in_user():
     if request.method == 'POST':
         login_data = {
@@ -376,10 +375,9 @@ def log_in_user():
             session['user_id'] = ''
             return redirect(url_for('index'))
         else:
-            message = "Incorrect username or password"
-            return render_template('reg-login.html', message=message)
+            flash("Invalid username or password!")
+            return redirect(url_for('index'))
 
-    return render_template('reg-login.html')
 
 
 @app.route('/list_users', methods=['GET', 'POST'])
