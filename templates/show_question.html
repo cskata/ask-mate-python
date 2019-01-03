@@ -56,6 +56,9 @@
                 <p class="smol answer-comment-smol">
                     Posted: {{ comment.submission_time }}
                 </p>
+                <p class="smol answer-comment-smol">
+                    Posted by: {{ comment.username }}
+                </p>
             </td>
         </tr>
         {%  endfor  %}
@@ -72,14 +75,14 @@
                     <a href="/question/{{ question.id }}/new-answer">
                     <i class="fa fa-lg fa-plus-circle" title="Add new answer"></i></a> |
                     <a href="/question/{{ question.id }}/new-comment">
-                    <i class="fa fa-lg fa-comment" title="Add new comment"></i></a>
+                    <i class="fa fa-lg fa-comment" title="Add new comment"></i></a> |
                     {% if username == question.username or username  == 'admin' %}
                         <a href="/question/{{ question.id }}/edit">
                         <i class="fa fa-lg fa-pencil" title="Edit question"></i></a> |
                         <a href="/question/{{ question.id }}/delete"
                             onclick="return confirm('Are you sure you want to delete this item?')">
                         <i class="fa fa-lg fa-trash-o" title="Delete question"></i></a>
-                    {% endif %}|
+                    {% endif %}
                 {% endif %}
             </td>
         </tr>
@@ -162,6 +165,7 @@
                             </a>
                             <p class="smol answer-comment-smol">Edited {{ comment.edited_count }} times.</p>
                             <p class="smol answer-comment-smol">Posted: {{ comment.submission_time }}</p>
+                            <p class="smol answer-comment-smol">Posted by: {{ comment.username}}</p>
                         </td>
                     </tr>
                 {% endif %}
