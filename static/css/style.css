@@ -432,3 +432,7 @@ background-color: #ddd;
   from {transform: scale(0)}
   to {transform: scale(1)}
 }
+
+.input{
+    padding:6px;
+}

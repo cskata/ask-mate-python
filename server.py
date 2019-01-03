@@ -347,10 +347,13 @@ def new_user_registration():
             'username': request.form['username'],
             'password': request.form['password']
         }
-
         is_username_taken = data_manager.check_username_in_database(new_user)
+        password = request.form['password']
+        password_confirm = request.form['confirm_password']
 
-        if is_username_taken:
+        if password != password_confirm:
+            flash("Password does not match!")
+        elif is_username_taken:
             flash("Username is already taken!")
         else:
             data_manager.register_new_user(new_user)
