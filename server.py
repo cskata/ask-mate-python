@@ -356,6 +356,7 @@ def new_user_registration():
         elif is_username_taken:
             flash("Username is already taken!")
         else:
+            flash("Registration was successful")
             data_manager.register_new_user(new_user)
         return redirect(url_for('index'))
 
