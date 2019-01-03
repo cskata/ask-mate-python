@@ -14,13 +14,12 @@
         <tr>
             <td width="5%" style="text-align: center">
                 <p>
-                    <a href="/question/{{ question.id }}/vote-up">
-                    <i class="fa fa-arrow-up" style="font-size: 16px"></i>
-                    </a>
+                    <a href="{{ url_for('route_vote_question_up', question_id=question_id) }}">
+                    <i class="fa fa-arrow-up" style="font-size: 16px"></i></a>
                 </p>
                 <p>{{ question.vote_number}}</p>
                 <p>
-                    <a href="/question/{{ question.id }}/vote-down">
+                    <a href="{{ url_for('route_vote_question_down', question_id=question_id) }}">
                     <i class="fa fa-arrow-down" style="font-size: 16px; text-align: center"></i>
                     </a>
                 </p>
@@ -28,46 +27,46 @@
             <td colspan="2" class="title">
                 <p style="text-align: justify; padding: 4px">{{ question.message | safe }}</p>
                 {% if question.image %}
-                <p>
-                    <a href="{{ url_for('static', filename='image/'+question.image) }}" data-lightbox="q_img">
-                    See attached image
-                    </a>
-                </p>
+                    <p>
+                        <a href="{{ url_for('static', filename='image/'+question.image) }}" data-lightbox="q_img">
+                        See attached image
+                        </a>
+                    </p>
                 {% endif %}
             </td>
         </tr>
         {% for comment in question_comments %}
-        <tr>
-            <td></td>
-            <td>
-                <p id="comment_message">{{ comment.message | safe }}</p>
-            </td>
-            <td style="text-align:right; width: 20%" class="opts">
-                {% if username == comment.username or username  == 'admin' %}
-                    <a href="/comments/{{ comment.id }}/edit">
-                    <i class="fa fa fa-pencil" title="Edit comment"></i>
-                    </a> |
-                    <a href="/comments/{{ comment.id }}/delete"
-                        onclick="return confirm('Are you sure you want to delete this item?');">
-                    <i class="fa fa fa-trash-o" title="Delete comment"></i>
-                    </a>
-                {% endif %}
-                <p class="smol answer-comment-smol">
-                    Edited
-                    {% if comment.edited_count == 1  %}
-                        once
-                    {% else %}
-                        {{ comment.edited_count }} times.
+            <tr>
+                <td></td>
+                <td>
+                    <p id="comment_message">{{ comment.message | safe }}</p>
+                </td>
+                <td style="text-align:right; width: 20%" class="opts">
+                    {% if username == comment.username or username  == 'admin' %}
+                        <a href="{{ url_for('update_comment', comment_id=comment.id) }}">
+                        <i class="fa fa fa-pencil" title="Edit comment"></i>
+                        </a> |
+                        <a href="{{ url_for('route_delete_comment', comment_id=comment.id) }}"
+                            onclick="return confirm('Are you sure you want to delete this item?');">
+                        <i class="fa fa fa-trash-o" title="Delete comment"></i>
+                        </a>
                     {% endif %}
-                </p>
-                <p class="smol answer-comment-smol">
-                    Posted by: {{ comment.username }}
-                </p>
-                <p class="smol answer-comment-smol">
-                    Posted: {{ comment.submission_time }}
-                </p>
-            </td>
-        </tr>
+                    <p class="smol answer-comment-smol">
+                        Edited
+                        {% if comment.edited_count == 1  %}
+                            once
+                        {% else %}
+                            {{ comment.edited_count }} times.
+                        {% endif %}
+                    </p>
+                    <p class="smol answer-comment-smol">
+                        Posted by: {{ comment.username }}
+                    </p>
+                    <p class="smol answer-comment-smol">
+                        Posted: {{ comment.submission_time }}
+                    </p>
+                </td>
+            </tr>
         {%  endfor  %}
         <tr>
             <td class="smol">
@@ -79,14 +78,15 @@
             </td>
             <td class="opts">
                 {% if username %}
-                    <a href="/question/{{ question.id }}/new-answer">
+                    <a href="{{ url_for('route_new_answer', question_id=question_id) }}">
                     <i class="fa fa-lg fa-plus-circle" title="Add new answer"></i></a> |
-                    <a href="/question/{{ question.id }}/new-comment">
+                    <a href="{{ url_for('add_new_comment_to_question', question_id=question_id) }}">
                     <i class="fa fa-lg fa-comment" title="Add new comment"></i></a>
+
                     {% if username == question.username or username  == 'admin' %}
-                        | <a href="/question/{{ question.id }}/edit">
+                        | <a href="{{ url_for('route_edit_question', question_id=question_id) }}">
                             <i class="fa fa-lg fa-pencil" title="Edit question"></i></a> |
-                        <a href="/question/{{ question.id }}/delete"
+                        <a href="{{ url_for('route_delete_question', question_id=question_id) }}"
                             onclick="return confirm('Are you sure you want to delete this item?')">
                         <i class="fa fa-lg fa-trash-o" title="Delete question"></i></a>
                     {% endif %}
@@ -95,33 +95,33 @@
         </tr>
     </table>
 </div>
-<p>
+    <p>
     {% if number_of_answers > 1 %}
-<p class="date">
-    {{ number_of_answers }} Answers
-</p>
-{% elif number_of_answers == 1 %}
-<p class="date">
-    {{ number_of_answers }} Answer
-</p>
-{% endif %}
-</p>
+        <p class="date">
+            {{ number_of_answers }} Answers
+        </p>
+    {% elif number_of_answers == 1 %}
+        <p class="date">
+            {{ number_of_answers }} Answer
+        </p>
+    {% endif %}
+    </p>
 {#  ANSWERS   #}
 <table id="answer">
     {% for answer in answers %}
         <tr>
             <td style="text-align: center; width: 5%">
                 <p>
-                    <a href="/answer/{{ answer.id }}/vote-up">
-                    <i class="fa fa-arrow-up" style="font-size: 16px"></i>
+                    <a href="{{ url_for('route_vote_answer_up', answer_id=answer.id) }}">
+                        <i class="fa fa-arrow-up" style="font-size: 16px"></i>
                     </a>
                 </p>
                 <p>
                     {{ answer.vote_number}}
                 </p>
                 <p>
-                    <a href="/answer/{{ answer.id }}/vote-down">
-                    <i class="fa fa-arrow-down" style="font-size: 16px; text-align: center"></i>
+                    <a href="{{ url_for('route_vote_answer_down', answer_id=answer.id) }}">
+                        <i class="fa fa-arrow-down" style="font-size: 16px; text-align: center"></i>
                     </a>
                 </p>
             </td>
@@ -139,14 +139,14 @@
             </td>
             <td class="opts">
                 {% if username %}
-                    <a href="/answer/{{ answer.id }}/new-comment">
+                    <a href="{{ url_for('add_new_comment_to_answer', answer_id=answer.id) }}">
                     <i class="fa fa-lg fa-comment" title="Add new comment"></i>
                     </a>
                     {% if username == question.username or username  == 'admin' %}
-                    | <a href="/answer/{{ answer.id }}/edit">
+                    | <a href="{{ url_for('route_edit_answer', answer_id=answer.id) }}">
                         <i class="fa fa-lg fa-pencil" title="Edit answer"></i>
                         </a> |
-                        <a href="/answer/{{ answer.id }}/delete"
+                        <a href="{{ url_for('route_delete_answer', answer_id=answer.id) }}"
                             onclick="return confirm('Are you sure you want to delete this item?');">
                         <i class="fa fa-lg fa-trash-o" title="Delete answer"></i></a>
                     {% endif %}
@@ -167,10 +167,10 @@
                         </td>
                         <td class="opts">
                             {% if username == comment.username or username  == 'admin' %}
-                                <a href="/comments/{{ comment.id }}/edit">
+                                <a href="{{ url_for('update_comment', comment_id=comment.id) }}">
                                 <i class="fa fa fa-pencil" title="Edit question"></i>
                                 </a> |
-                                <a href="/comments/{{ comment.id }}/delete"
+                                <a href="{{ url_for('route_delete_comment', comment_id=comment.id) }}"
                                     onclick="return confirm('Are you sure you want to delete this item?');">
                                 <i class="fa fa fa-trash-o" title="Delete comment"></i>
                                 </a>
@@ -183,7 +183,7 @@
                                     {{ comment.edited_count }} times.
                                 {% endif %}
                             </p>
-                            <p class="smol answer-comment-smol">Posted by: {{ comment.username}}</p>
+                            <p class="smol answer-comment-smol">Posted by: {{ comment.username }}</p>
                             <p class="smol answer-comment-smol">Posted: {{ comment.submission_time }}</p>
                         </td>
                     </tr>
@@ -193,13 +193,13 @@
     {% endfor %}
 </table>
 {% if number_of_answers == 0 %}
-<p class="date">
-    No one has answered yet.
-</p>
+    <p class="date">
+        No one has answered yet.
+    </p>
 {% endif %}
 <div style="text-align: center">
     <p>
-        <a href="/list">
+        <a href="{{ url_for('index') }}">
         <input type="button" id="back" class="bigger_button" value="Back to the Main Page">
         </a>
     </p>
