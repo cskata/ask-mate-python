@@ -85,38 +85,12 @@ def route_add_question():
     return render_template('new_question.html', username=username)
 
 
-@app.route('/question/<question_id>/new-answer')
+@app.route('/question/<question_id>/new-answer', methods=['GET', 'POST'])
 def route_new_answer(question_id):
     username = session['username']
     data_manager.update_view_counter(question_id, -2)
-    return render_template('new_answer.html', question_id=question_id, username=username)
 
-
-@app.route("/question/<question_id>", methods=['GET', 'POST'])
-def route_show_question(question_id):
-    data_manager.update_view_counter(question_id, 1)
-
-    if request.method == 'GET':
-        current_question = data_manager.get_record_by_id('question', question_id)[0]
-        current_answers = data_manager.get_answers_by_question_id(question_id)
-        number_of_answers = len(current_answers)
-        current_question_comments = data_manager.get_comments_by_question_id( question_id)
-        current_answer_comments = data_manager.get_answer_comments()
-        if 'username' in session:
-            username = session['username']
-            return render_template('show_question.html', question_id=question_id,
-                                   question=current_question, answers=current_answers,
-                                   question_comments=current_question_comments,
-                                   answer_comments=current_answer_comments,
-                                   number_of_answers=number_of_answers, username=username)
-
-        return render_template('show_question.html', question_id=question_id,
-                               question=current_question, answers=current_answers,
-                               question_comments=current_question_comments,
-                               answer_comments=current_answer_comments,
-                               number_of_answers=number_of_answers)
-
-    else:
+    if request.method == 'POST':
         username = session['username']
         user_id = data_manager.get_user_id_by_username(username)
         new_answer = {
@@ -141,6 +115,32 @@ def route_show_question(question_id):
         data_manager.insert_new_answer_to_database(new_answer)
         return redirect(url_for("route_show_question", question_id=question_id))
 
+    return render_template('new_answer.html', question_id=question_id, username=username)
+
+
+@app.route("/question/<question_id>")
+def route_show_question(question_id):
+    data_manager.update_view_counter(question_id, 1)
+    current_question = data_manager.get_record_by_id('question', question_id)[0]
+    current_answers = data_manager.get_answers_by_question_id(question_id)
+    number_of_answers = len(current_answers)
+    current_question_comments = data_manager.get_comments_by_question_id( question_id)
+    current_answer_comments = data_manager.get_answer_comments()
+
+    if 'username' in session:
+        username = session['username']
+        return render_template('show_question.html', question_id=question_id,
+                               question=current_question, answers=current_answers,
+                               question_comments=current_question_comments,
+                               answer_comments=current_answer_comments,
+                               number_of_answers=number_of_answers, username=username)
+
+    return render_template('show_question.html', question_id=question_id,
+                           question=current_question, answers=current_answers,
+                           question_comments=current_question_comments,
+                           answer_comments=current_answer_comments,
+                           number_of_answers=number_of_answers)
+
 
 @app.route('/image/<image_filename>')
 def route_open_image(image_filename):
@@ -151,12 +151,9 @@ def route_open_image(image_filename):
 def route_edit_question(question_id):
     current_question = data_manager.get_record_by_id('question', question_id)[0]
     current_question['message'] = current_question['message'].replace('<br/>', "")
+    username = session['username']
 
-    if request.method == 'GET':
-        username = session['username']
-        return render_template('edit_question.html', question=current_question, username=username)
-
-    else:
+    if request.method == 'POST':
         edited_question = {
             'title': request.form['title'],
             'message': request.form['message'].replace('\n', '<br/>'),
@@ -176,6 +173,8 @@ def route_edit_question(question_id):
         data_manager.update_question(edited_question, question_id)
         data_manager.update_view_counter(question_id, -1)
         return redirect(url_for("route_show_question", question_id=question_id))
+
+    return render_template('edit_question.html', question=current_question, username=username)
 
 
 @app.route('/question/<question_id>/delete')
@@ -342,40 +341,39 @@ def search():
 
 @app.route('/registration', methods=['POST'])
 def new_user_registration():
-    if request.method == 'POST':
-        new_user = {
-            'username': request.form['username'],
-            'password': request.form['password']
-        }
-        is_username_taken = data_manager.check_username_in_database(new_user)
-        password = request.form['password']
-        password_confirm = request.form['confirm_password']
+    new_user = {
+        'username': request.form['username'],
+        'password': request.form['password']
+    }
 
-        if password != password_confirm:
-            flash("Password does not match!")
-        elif is_username_taken:
-            flash("Username is already taken!")
-        else:
-            flash("Registration was successful")
-            data_manager.register_new_user(new_user)
-        return redirect(url_for('index'))
+    is_username_taken = data_manager.check_username_in_database(new_user)
+    password = request.form['password']
+    password_confirm = request.form['confirm_password']
+
+    if password != password_confirm:
+        flash("Password does not match!")
+    elif is_username_taken:
+        flash("Username is already taken!")
+    else:
+        flash("Registration was successful!")
+        data_manager.register_new_user(new_user)
+    return redirect(url_for('index'))
 
 
 @app.route('/login', methods=['POST'])
 def log_in_user():
-    if request.method == 'POST':
-        login_data = {
-            'username': request.form['username'],
-            'password': request.form['password']
-        }
+    login_data = {
+        'username': request.form['username'],
+        'password': request.form['password']
+    }
 
-        login_check = data_manager.verify_user(login_data)
+    login_check = data_manager.verify_user(login_data)
 
-        if login_check:
-            session['username'] = login_data['username']
-        else:
-            flash("Invalid username or password!")
-        return redirect(url_for('index'))
+    if login_check:
+        session['username'] = login_data['username']
+    else:
+        flash("Invalid username or password!")
+    return redirect(url_for('index'))
 
 
 @app.route('/list_users', methods=['GET', 'POST'])
