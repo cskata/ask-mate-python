@@ -402,8 +402,8 @@ background-color: #ddd;
 /* The Close Button */
 .close {
     position: absolute;
-    right: 800px;
-    top: 54px;
+    right: 20px;
+    top: 0px;
     color: #000;
     font-size: 35px;
     font-weight: bold;
