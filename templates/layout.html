@@ -14,9 +14,9 @@
         <p class="snowflake">*</p>
     </div>
     <header class="mainhead">
-        <form id="navbar_form" action="/search" method="get">
+        <form id="navbar_form" action="{{ url_for('search') }}" method="GET">
             <p class="headtitle">
-                <a href="/">ask<strong>mate</strong></a>
+                <a href="{{ url_for('index') }}">ask<strong>mate</strong></a>
             </p>
             <input type="text" id="q" name="q" placeholder="search">
             <button id="submit_button" type="submit" title="Search"><i class="fa fa-search"></i></button>
@@ -44,7 +44,7 @@
             <div id="reg-form" class="animate">
                 <span onclick="document.getElementById('id01').style.display='none'"
                       class="close" title="Close">&times;</span>
-                <form action="{{url_for('log_in_user') }}" method=POST>
+                <form action="{{ url_for('log_in_user') }}" method="POST">
                     <div class="modal-container">
                         <p class="title">Login</p>
                         <p><input id="username" name="username" type="text"
@@ -61,7 +61,7 @@
             <div id="reg-form" class="animate">
                 <span onclick="document.getElementById('id02').style.display='none'"
                       class="close" title="Close">&times;</span>
-                <form action="{{url_for('new_user_registration') }}" method=POST>
+                <form action="{{ url_for('new_user_registration') }}" method=POST>
                     <div class="modal-container">
                         <p class="title">Register</p>
                         <p><input id="username" name="username" type="text"
