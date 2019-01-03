@@ -23,12 +23,15 @@
                 <input type="text" id="q" name="q" placeholder="Search">
                 <button id="submit_button" type="submit" title="Search"><i class="fa fa-search"></i></button>
             </form>
+
         {% if not username %}
-            <button class="account_btn">
-                <a class="account_btn_text" href="{{ url_for ('log_in_user') }}">Login</a>
+            <button onclick="document.getElementById('id02').style.display='block'" class="account_btn" >
+                <!--<a class="account_btn_text" href="{{ url_for ('log_in_user') }}"></a> -->
+                Register
             </button>
-            <button class="account_btn">
-                <a class="account_btn_text" href="{{ url_for ('new_user_registration') }}">Register</a>
+            <button onclick="document.getElementById('id01').style.display='block'" class="account_btn" >
+                <!--<a class="account_btn_text" href="{{ url_for ('log_in_user') }}"></a> -->
+                Login
             </button>
         {% else %}
             <button class="account_btn">
@@ -39,10 +42,64 @@
             </button>
             <span class="welcome">Welcome <span class="username">{{ username }}</span>!</span>
         {% endif %}
+        <!-- LOGIN MODAL -->
+        <div id="id01" class="modal">
+            <span onclick="document.getElementById('id01').style.display='none'"
+                class="close" title="Close">&times;</span>
+                <div id="reg-form" class="animate">
+                <form action="{{url_for('log_in_user') }}"
+                      method=POST>
+                    <div class="modal-container">
+                        <p class="title">Login</p>
+                        <label id="new_user_reg" class="label">Username</label>
+                        <p><input id="username" name="username" type="text"
+                               class="input" placeholder="username" required></p>
+
+                        <label id="new_user_reg" class="label">Password</label>
+                        <p><input id="password" name="password" type="password"
+                               class="input" placeholder="password" required></p>
+                        <p><button type="submit" class="button">Login</button></p>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <!-- REGISTER MODAL -->
+        <div id="id02" class="modal">
+            <span onclick="document.getElementById('id02').style.display='none'"
+                class="close" title="Close">&times;</span>
+                <div id="reg-form" class="animate">
+                <form action="{{url_for('new_user_registration') }}"
+                      method=POST>
+                    <div class="modal-container">
+                    <p class="title">Register</p>
+                    <label id="new_user_reg" class="label">Username</label>
+                    <p><input id="username" name="username" type="text"
+                           class="input" placeholder="username" required></p>
+
+                    <label id="new_user_reg" class="label">Password</label>
+                    <p><input id="password" name="password" type="password"
+                           class="input" placeholder="password" required></p>
+                    <br>
+                    <p><button type="submit" class="button">Register
+
+                    </button></p>
+                        </div>
+                </form>
+            </div>
+            </div>
         </header>
         {% block content %} {% endblock %}
         <script src="/static/scripts/lightbox.js"></script>
         <script type="text/javascript" src="/static/scripts/snowfall.js"></script>
+    <script type="text/javascript">
+    {% with messages = get_flashed_messages() %}
+          {% if messages %}
+            {% for message in messages %}
+              alert("{{ message }}");
+            {% endfor %}
+          {% endif %}
+    {% endwith %}
+    </script>
     </body>
     {% include 'footer.html' %}
 </html>
