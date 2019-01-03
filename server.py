@@ -97,10 +97,8 @@ def route_show_question(question_id):
         current_question = data_manager.get_record_by_id('question', question_id)[0]
         current_answers = data_manager.get_answers_by_question_id(question_id)
         number_of_answers = len(current_answers)
-
-        current_question_comments = data_manager.get_comments_by_question_id('comment', question_id)
-        current_answer_comments = data_manager.get_answer_comments('comment')
-
+        current_question_comments = data_manager.get_comments_by_question_id( question_id)
+        current_answer_comments = data_manager.get_answer_comments()
         if 'username' in session:
             username = session['username']
             return render_template('show_question.html', question_id=question_id,
@@ -267,7 +265,7 @@ def route_vote_answer_down(answer_id):
 def add_new_comment_to_question(question_id):
     if request.method == 'GET':
         username = session['username']
-        return render_template('new_comment.html', question_id=question_id, username=username)
+        return render_template('new_question_comment.html', question_id=question_id, username=username)
 
     else:
         username = session['username']
@@ -292,12 +290,15 @@ def add_new_comment_to_answer(answer_id):
         return render_template('new_answer_comment.html', answer_id=answer_id)
 
     else:
+        username = session['username']
+        user_id = data_manager.get_user_id_by_username(username)
         new_comment = {
             'question_id': question_id,
             'answer_id': answer_id,
             'message': request.form['comment_message'].replace('\n', '<br/>'),
             'submission_time': "",
-            'edited_count': 0
+            'edited_count': 0,
+            'user_id': user_id
         }
 
         data_manager.insert_new_answer_comment_to_database(new_comment)

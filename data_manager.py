@@ -327,7 +327,7 @@ def insert_new_question_comment_to_database(cursor, new_comment_data):
 
     cursor.execute("""
         INSERT INTO comment
-        (question_id, message, submission_time, edited_count)
+        (question_id, message, submission_time, edited_count, user_id)
         VALUES (%(question_id)s, %(message)s, %(submission_time)s, %(edited_count)s, %(user_id)s)
         """, new_comment_data)
 
@@ -339,15 +339,16 @@ def insert_new_answer_comment_to_database(cursor, new_comment_data):
 
     cursor.execute("""
         INSERT INTO comment
-        (question_id, answer_id, message, submission_time, edited_count)
+        (question_id, answer_id, message, submission_time, edited_count, user_id)
         VALUES (%(question_id)s, %(answer_id)s, %(message)s, %(submission_time)s, %(edited_count)s, %(user_id)s)
         """, new_comment_data)
 
 
 @connection_handler
-def get_comments_by_question_id(cursor, which_database, question_id):
+def get_comments_by_question_id(cursor, question_id):
     cursor.execute(f"""
-        SELECT * FROM {which_database}
+        SELECT comment.*, r,username FROM comment
+        LEFT JOIN registered_users r on comment.user_id = r.id
         WHERE question_id = {question_id} AND answer_id IS NULL
         ORDER BY submission_time;
         """)
@@ -356,10 +357,10 @@ def get_comments_by_question_id(cursor, which_database, question_id):
 
 
 @connection_handler
-def get_answer_comments(cursor, which_database):
+def get_answer_comments(cursor):
     cursor.execute(f"""
-        SELECT * FROM {which_database}
-        WHERE answer_id IS NOT NULL 
+        SELECT comment.*, r.username FROM comment
+        LEFT JOIN registered_users r on comment.user_id = r.id
         ORDER BY submission_time;
         """)
     comments = cursor.fetchall()
