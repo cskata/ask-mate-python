@@ -18,6 +18,7 @@ def index():
     questions = data_manager.get_limited_database("question", limit)
     key = 'submission_time'
     limit_questions = True
+
     if 'order_by' in request.args:
         key = request.args.get('order_by')
         direction = request.args.get('order_direction')
@@ -26,7 +27,9 @@ def index():
 
     if 'username' in session:
         username = session['username']
-        return render_template('index.html', questions=questions, header=key, limit=limit_questions, username=username)
+        return render_template('index.html', questions=questions, header=key,
+                               limit=limit_questions, username=username)
+
     return render_template('index.html', questions=questions, header=key, limit=limit_questions)
 
 
@@ -51,10 +54,8 @@ def route_list():
 @app.route('/add-question', methods=['GET', 'POST'])
 def route_add_question():
     username = session['username']
-    if request.method == 'GET':
-        return render_template('new_question.html', username=username)
 
-    else:
+    if request.method == 'POST':
         user_id = data_manager.get_user_id_by_username(username)
         new_question = {
             'submission_time': "",
@@ -80,6 +81,8 @@ def route_add_question():
 
         data_manager.insert_new_question_to_database(new_question)
         return redirect(url_for('index', filename=filename))
+
+    return render_template('new_question.html', username=username)
 
 
 @app.route('/question/<question_id>/new-answer')
@@ -185,11 +188,9 @@ def route_delete_question(question_id):
 def route_edit_answer(answer_id):
     current_answer = data_manager.get_record_by_id('answer', answer_id)[0]
     current_answer['message'] = current_answer['message'].replace('<br/>', "")
+    username = session['username']
 
-    if request.method == 'GET':
-        username = session['username']
-        return render_template('edit_answer.html', answer=current_answer, username=username)
-    else:
+    if request.method == 'POST':
         edited_answer = {
             'message': request.form['message'].replace('\n', '<br/>'),
             'image': current_answer['image']
@@ -211,6 +212,8 @@ def route_edit_answer(answer_id):
         data_manager.update_answer(edited_answer, answer_id)
         data_manager.update_view_counter(question_id, -1)
         return redirect(url_for("route_show_question", question_id=question_id))
+
+    return render_template('edit_answer.html', answer=current_answer, username=username)
 
 
 @app.route('/answer/<answer_id>/delete')
@@ -263,12 +266,9 @@ def route_vote_answer_down(answer_id):
 
 @app.route('/question/<question_id>/new-comment', methods=['GET', 'POST'])
 def add_new_comment_to_question(question_id):
-    if request.method == 'GET':
-        username = session['username']
-        return render_template('new_question_comment.html', question_id=question_id, username=username)
+    username = session['username']
 
-    else:
-        username = session['username']
+    if request.method == 'POST':
         user_id = data_manager.get_user_id_by_username(username)
         new_comment = {
             'question_id': question_id,
@@ -281,15 +281,13 @@ def add_new_comment_to_question(question_id):
         data_manager.insert_new_question_comment_to_database(new_comment)
         return redirect(url_for("route_show_question", question_id=question_id))
 
+    return render_template('new_question_comment.html', question_id=question_id, username=username)
+
 
 @app.route('/answer/<answer_id>/new-comment', methods=['GET', 'POST'])
 def add_new_comment_to_answer(answer_id):
-    question_id = data_manager.get_question_id_by_answer_id(answer_id)
-
-    if request.method == 'GET':
-        return render_template('new_answer_comment.html', answer_id=answer_id)
-
-    else:
+    if request.method == 'POST':
+        question_id = data_manager.get_question_id_by_answer_id(answer_id)
         username = session['username']
         user_id = data_manager.get_user_id_by_username(username)
         new_comment = {
@@ -305,16 +303,16 @@ def add_new_comment_to_answer(answer_id):
         data_manager.update_view_counter(question_id, -1)
         return redirect(url_for("route_show_question", question_id=question_id))
 
+    return render_template('new_answer_comment.html', answer_id=answer_id)
+
 
 @app.route('/comments/<comment_id>/edit', methods=['GET', 'POST'])
 def update_comment(comment_id):
-    if request.method == 'GET':
-        comment = data_manager.get_comment_by_comment_id('comment', comment_id)
-        comment['message'] = comment['message'].replace("<br/>", "")
-        username = session['username']
-        return render_template('edit_comment.html', comment_id=comment_id, comment=comment, username=username)
+    comment = data_manager.get_comment_by_comment_id('comment', comment_id)
+    comment['message'] = comment['message'].replace("<br/>", "")
+    username = session['username']
 
-    else:
+    if request.method == 'POST':
         edited_comment = {
             'message': request.form['comment_message'].replace('\n', '<br/>')
         }
@@ -324,8 +322,9 @@ def update_comment(comment_id):
         current_comment = data_manager.get_comment_by_comment_id('comment', comment_id)
         question_id = current_comment['question_id']
         data_manager.update_view_counter(question_id, -1)
-
         return redirect(url_for("route_show_question", question_id=question_id))
+
+    return render_template('edit_comment.html', comment_id=comment_id, comment=comment, username=username)
 
 
 @app.route('/search')
@@ -337,13 +336,12 @@ def search():
         questions = data_manager.get_search_results(search_data, key)[0]
         number_of_results = data_manager.get_search_results(search_data, key)[1]
 
-    return render_template('index.html', questions=questions, header=key,
-                           search_data=search_data, results_num=number_of_results, username=username)
+    return render_template('index.html', questions=questions, header=key, search_data=search_data,
+                           results_num=number_of_results, username=username)
 
 
-@app.route('/registration', methods=['GET', 'POST'])
+@app.route('/registration', methods=['POST'])
 def new_user_registration():
-    new_user = True
     if request.method == 'POST':
         new_user = {
             'username': request.form['username'],
@@ -354,11 +352,9 @@ def new_user_registration():
 
         if is_username_taken:
             flash("Username is already taken!")
-            return redirect(url_for('index'))
         else:
             data_manager.register_new_user(new_user)
-            return redirect(url_for('index'))
-
+        return redirect(url_for('index'))
 
 
 @app.route('/login', methods=['POST'])
@@ -373,19 +369,16 @@ def log_in_user():
 
         if login_check:
             session['username'] = login_data['username']
-            session['user_id'] = ''
-            return redirect(url_for('index'))
         else:
             flash("Invalid username or password!")
-            return redirect(url_for('index'))
-
+        return redirect(url_for('index'))
 
 
 @app.route('/list_users', methods=['GET', 'POST'])
 def list_registered_users():
     users_data = data_manager.get_all_user_data()
     username = session['username']
-    return render_template('list_users.html', users_data=users_data, username=username )
+    return render_template('list_users.html', users_data=users_data, username=username)
 
 
 @app.route('/logout')
