@@ -142,7 +142,7 @@
                     <a href="{{ url_for('add_new_comment_to_answer', answer_id=answer.id) }}">
                     <i class="fa fa-lg fa-comment" title="Add new comment"></i>
                     </a>
-                    {% if username == question.username or username  == 'admin' %}
+                    {% if username == answer.username or username  == 'admin' %}
                     | <a href="{{ url_for('route_edit_answer', answer_id=answer.id) }}">
                         <i class="fa fa-lg fa-pencil" title="Edit answer"></i>
                         </a> |
